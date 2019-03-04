@@ -9,6 +9,7 @@ namespace ImsGlobal.Caliper {
 		public static readonly CaliperContext Context = new CaliperContext( "http://purl.imsglobal.org/ctx/caliper/v1p1" );
         public static readonly CaliperContext SearchProfileExtension = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1/SearchProfile-extension");
         public static readonly CaliperContext ToolLaunchProfileExtension = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1/ToolLaunchProfile-extension");
+        public static readonly CaliperContext ToolUseProfileExtension = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1/ToolUseProfile-extension");
 
         public CaliperContext() {}
 

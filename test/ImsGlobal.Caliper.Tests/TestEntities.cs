@@ -14,6 +14,7 @@ using ImsGlobal.Caliper.Events.Outcome;
 using Newtonsoft.Json;
 using NodaTime;
 using ImsGlobal.Caliper.Entities.Search;
+using ImsGlobal.Caliper.Entities.AggregateMeasure;
 
 namespace ImsGlobal.Caliper.Tests {
 
@@ -646,6 +647,32 @@ namespace ImsGlobal.Caliper.Tests {
                 new DigitalResource("https://example.edu/catalog/record/01234?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29"),
                 new DigitalResource("https://example.edu/catalog/record/09876?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29"),
                 new DigitalResource("https://example.edu/catalog/record/05432?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29")
+            },
+            HideCaliperContext = true
+        };
+
+        public static AggregateMeasureCollection AggregateMeasureCollection2019 = new AggregateMeasureCollection("urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d912")
+        {
+            Items = new AggregateMeasure[] {
+                new AggregateMeasure("urn:uuid:21c3f9f2-a9ef-4f65-bf9a-0699ed85e2c7")
+                {
+                    Metric = MetricUnitType.MinutesOnTask,
+                    Name = "Minutes On Task",
+                    Value = 873.0,
+                    StartedAtTime = Instant.FromUtc(2019, 08, 15, 10, 15, 00),
+                    EndedAtTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00),
+                    HideCaliperContext = true
+                },
+                new AggregateMeasure("urn:uuid:c3ba4c01-1f17-46e0-85dd-1e366e6ebb81")
+                {
+                    Metric = MetricUnitType.UnitsCompleted,
+                    Name = "Units Completed",
+                    Value = 12.0,
+                    ValueMax = 25.0,
+                    StartedAtTime = Instant.FromUtc(2019, 08, 15, 10, 15, 00),
+                    EndedAtTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00),
+                    HideCaliperContext = true
+                }
             },
             HideCaliperContext = true
         };
