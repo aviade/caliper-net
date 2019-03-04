@@ -9,7 +9,9 @@ namespace ImsGlobal.Caliper.Entities
 	{
 
 		public static readonly EntityType Agent = new EntityType("Agent");
-		public static readonly EntityType Annotation = new EntityType("Annotation");
+        public static readonly EntityType AggregateMeasure = new EntityType("AggregateMeasure");
+        public static readonly EntityType AggregateMeasureCollection = new EntityType("AggregateMeasureCollection");
+        public static readonly EntityType Annotation = new EntityType("Annotation");
 		public static readonly EntityType Assessment = new EntityType("Assessment");
 		public static readonly EntityType AssessmentItem = new EntityType("AssessmentItem");
 		public static readonly EntityType AssignableDigitalResource = new EntityType("AssignableDigitalResource");

@@ -1830,9 +1830,64 @@ namespace ImsGlobal.Caliper.Tests {
 				new string[] { "..membership.member", "..membership.organization", "..edApp" });
 
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventToolUseUsed");
-		}
+        }
 
-		[Test]
+        [Test]
+        public void EventToolUseUsedWithProgress_MatchesReferenceJson()
+        {
+            var person = new Person("https://example.edu/users/554433") { HideCaliperContext = true };
+
+            var toolUseEvent = new ToolUseEvent("urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d916", Action.Used)
+            {
+                Context = CaliperContext.ToolUseProfileExtension,
+
+                Actor = person,
+                Action = Action.Used,
+                Object = new SoftwareApplication("https://example.edu") { HideCaliperContext = true},
+                EventTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00),
+                EdApp = Caliper11TestEntities.SoftwareAppV2,
+                Generated = Caliper11TestEntities.AggregateMeasureCollection2019,
+                Group = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1")
+                {
+                    CourseNumber = "CPS 435-01",
+                    Name = "CPS 435 Learning Analytics, Section 01",
+                    AcademicSession = "Fall 2016",
+                    Category = "seminar",
+                    SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7")
+                    {
+                        CourseNumber = "CPS 435",
+                        HideCaliperContext = true
+                    },
+                    DateCreated = Caliper11TestEntities.Instant20160801060000,
+                    HideCaliperContext = true
+                },
+                Membership = new Membership("https://example.edu/terms/201601/courses/7/sections/1/rosters/1/members/554433")
+                {
+                    Member = person,
+                    Organization = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1")
+                    {
+                        SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7") { HideCaliperContext = true },
+                        HideCaliperContext = true
+                    },
+                    Roles = new[] { Role.Learner },
+                    Status = Status.Active,
+                    DateCreated = Caliper11TestEntities.Instant20161101060000,
+                    HideCaliperContext = true
+                },
+                Session = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259")
+                {
+                    User = person,
+                    StartedAt = Instant.FromUtc(2016, 09, 15, 10, 00, 00),
+                    HideCaliperContext = true
+                }
+            };
+
+            var coerced = JsonAssertions.coerce(toolUseEvent, new string[] { "..edApp" });
+
+            JsonAssertions.AssertSameObjectJson(coerced, "caliperEventToolUseUsedWithProgress");
+        }
+
+        [Test]
 		public void EventViewViewed_MatchesReferenceJson() {
 			var viewEvent = new ViewEvent(
 				"urn:uuid:cd088ca7-c044-405c-bb41-0b2a8506f907") {

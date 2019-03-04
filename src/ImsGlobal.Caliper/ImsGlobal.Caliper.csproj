@@ -56,9 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Agent\Agent.cs" />
+    <Compile Include="Entities\AggregateMeasure\AggregateMeasure.cs" />
+    <Compile Include="Entities\AggregateMeasure\AggregateMeasureCollection.cs" />
     <Compile Include="Entities\Collection\DigitalResourceCollection.cs" />
     <Compile Include="Entities\Collection\ICollection.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\MetricUnitType.cs" />
     <Compile Include="Entities\EntityType.cs" />
     <Compile Include="Entities\Forum\Forum.cs" />
     <Compile Include="Entities\Forum\Thread.cs" />
@@ -83,7 +86,6 @@
     <Compile Include="Entities\Session\LTISession.cs" />
     <Compile Include="Entities\ToolLaunch\Link.cs" />
     <Compile Include="Entities\ToolLaunch\LtiLink.cs" />
-    <Compile Include="Entities\ToolLaunch\ToolLaunchEvent.cs" />
     <Compile Include="Entities\W3c\IStatus.cs" />
     <Compile Include="Entities\W3c\IRole.cs" />
     <Compile Include="Entities\W3c\IMembership.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Events\Media\MediaEvent.cs" />
     <Compile Include="Events\Outcome\GradeEvent.cs" />
     <Compile Include="Events\Reading\ViewEvent.cs" />
+    <Compile Include="Events\Tool\ToolLaunchEvent.cs" />
     <Compile Include="Properties\FriendAssemblies.cs" />
     <Compile Include="Util\IJsonId.cs" />
     <Compile Include="Util\IJsonValue.cs" />
