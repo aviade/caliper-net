@@ -658,7 +658,7 @@ namespace ImsGlobal.Caliper.Tests {
                 {
                     Metric = MetricUnitType.MinutesOnTask,
                     Name = "Minutes On Task",
-                    Value = 873.0,
+                    MetricValue = 873.0,
                     StartedAtTime = Instant.FromUtc(2019, 08, 15, 10, 15, 00),
                     EndedAtTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00),
                     HideCaliperContext = true
@@ -667,8 +667,8 @@ namespace ImsGlobal.Caliper.Tests {
                 {
                     Metric = MetricUnitType.UnitsCompleted,
                     Name = "Units Completed",
-                    Value = 12.0,
-                    ValueMax = 25.0,
+                    MetricValue = 12.0,
+                    MetricValueMax = 25.0,
                     StartedAtTime = Instant.FromUtc(2019, 08, 15, 10, 15, 00),
                     EndedAtTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00),
                     HideCaliperContext = true
