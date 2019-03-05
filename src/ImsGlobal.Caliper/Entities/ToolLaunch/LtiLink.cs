@@ -7,6 +7,7 @@ namespace ImsGlobal.Caliper.Entities.ToolLaunch
         public LtiLink(string id)
             : base(id)
         {
+            this.Context = CaliperContext.ToolLaunchProfileExtension.Value;
             this.Type = EntityType.LtiLink;
         }
 
