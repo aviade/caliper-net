@@ -1,5 +1,4 @@
-﻿using System;
-using ImsGlobal.Caliper.Util;
+﻿using ImsGlobal.Caliper.Util;
 using NUnit.Framework;
 
 namespace ImsGlobal.Caliper.Tests {
@@ -34,8 +33,9 @@ namespace ImsGlobal.Caliper.Tests {
 	using NodaTime;
 	using static JsonSerializeUtils;
 	using System.Collections;
-	using NodaTime.Text;
-    using ImsGlobal.Caliper.Entities.ToolLaunch;
+	    using ImsGlobal.Caliper.Entities.ToolLaunch;
+    using ImsGlobal.Caliper.Entities.AggregateMeasure;
+    using ImsGlobal.Caliper.Entities.Search;
 
     [TestFixture]
 	public class Caliper11Tests {
@@ -2043,6 +2043,78 @@ namespace ImsGlobal.Caliper.Tests {
             var coerced = JsonAssertions.coerce(toolLaunchEvent, new[] { "..membership.member", "..membership.organization" });
 
             JsonAssertions.AssertSameObjectJson(coerced, "caliperEventToolLaunchReturned");
+        }
+
+        [Test]
+        public void EntityAggregateMeasure_MatchesReferenceJson()
+        {
+            var aggregateMeasure = new AggregateMeasure("urn:uuid:c3ba4c01-1f17-46e0-85dd-1e366e6ebb81")
+            {
+                Metric = MetricUnitType.UnitsCompleted,
+                Name = "Units Completed",
+                Value = 12.0,
+                ValueMax = 25.0,
+                StartedAtTime = Instant.FromUtc(2019, 08, 15, 10, 15, 00),
+                EndedAtTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00)
+            };
+
+            JsonAssertions.AssertSameObjectJson(aggregateMeasure, "caliperEntityAggregateMeasure");
+        }
+
+        [Test]
+        public void EntityAggregateMeasureCollection_MatchesReferenceJson()
+        {
+            var aggregateMeasureCollection = new AggregateMeasureCollection("urn:uuid:60b4db01-f1e5-4a7f-add9-6a8f761625b1")
+            {
+                Items = new[] {
+                    new AggregateMeasure("urn:uuid:21c3f9f2-a9ef-4f65-bf9a-0699ed85e2c7")
+                    {
+                        Metric = MetricUnitType.MinutesOnTask,
+                        Name = "Minutes On Task",
+                        Value = 873.0,
+                        StartedAtTime = Instant.FromUtc(2019, 08, 15, 10, 15, 00),
+                        EndedAtTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00),
+                        HideCaliperContext = true
+                    },
+                    new AggregateMeasure("urn:uuid:c3ba4c01-1f17-46e0-85dd-1e366e6ebb81")
+                    {
+                        Metric = MetricUnitType.UnitsCompleted,
+                        Name = "Units Completed",
+                        Value = 12.0,
+                        ValueMax = 25.0,
+                        StartedAtTime = Instant.FromUtc(2019, 08, 15, 10, 15, 00),
+                        EndedAtTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00),
+                        HideCaliperContext = true
+                    }
+                }
+            };
+
+            JsonAssertions.AssertSameObjectJson(aggregateMeasureCollection, "caliperEntityAggregateMeasureCollection");
+        }
+
+        [Test]
+        public void EntityLtiLink_MatchesReferenceJson()
+        {
+            var ltiLink = new LtiLink("https://tool.com/link/123")
+            {
+                MessageType = EntityType.LtiResourceLinkRequest
+            };
+
+            JsonAssertions.AssertSameObjectJson(ltiLink, "caliperEntityLtiLink");
+        }
+
+        [Test]
+        public void EntityQuery_MatchesReferenceJson()
+        {
+            var ltiLink = new Query("https://example.edu/users/554433/search?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29")
+            {
+                Creator = new Person("https://example.edu/users/554433") { HideCaliperContext = true },
+                SearchTarget = new SoftwareApplication("https://example.edu/catalog") { HideCaliperContext = true },
+                SearchTerms = "IMS AND (Caliper OR Analytics)",
+                DateCreated = Caliper11TestEntities.Instant20181115100500
+            };
+
+            JsonAssertions.AssertSameObjectJson(ltiLink, "caliperEntityQuery");
         }
     }
 }
