@@ -66,397 +66,581 @@ namespace ImsGlobal.Caliper.Tests {
         public static Instant Instant20181115100500 = Instant.FromUtc(2018, 11, 15, 10, 05, 00);
         public static Instant Instant20181115101500 = Instant.FromUtc(2018, 11, 15, 10, 15, 00);
 
-        public static Person Person778899 = new Person("https://example.edu/users/778899");
-        public static Person Person554433 = new Person("https://example.edu/users/554433");
-        public static Person Person112233 = new Person("https://example.edu/users/112233");
-        public static Person Person554433dates = new Person("https://example.edu/users/554433") {
-            DateCreated = Instant20160801060000,
-            DateModified = Instant20160902113000
-        };
-
-
-        public static Membership EntityMembership554433Learner = new Membership
-            ("https://example.edu/terms/201601/courses/7/sections/1/rosters/1") {
-            Member = new Person("https://example.edu/users/554433"),
-            Organization = new Organization("https://example.edu/terms/201601/courses/7/sections/1"),
-            Roles = new[] { Role.Learner },
-            Status = Status.Active,
-            DateCreated = Instant20160801060000
-        };
-
-        public static Membership EntityMembership554433Learner_2018 = new Membership
-             ("https://example.edu/terms/201801/courses/7/sections/1/rosters/1")
+        public static Person Person778899(ICaliperContext caliperContext = null)
         {
-            Member = new Person("https://example.edu/users/554433"),
-            Organization = new Organization("https://example.edu/terms/201801/courses/7/sections/1"),
-            Roles = new[] { Role.Learner },
-            Status = Status.Active,
-            DateCreated = Instant20180801060000,
-            HideCaliperContext = true
-        };
+            return new Person("https://example.edu/users/778899", caliperContext);
+        }
 
-        public static Membership EntityMembership778899Learner = new Membership
-            ("https://example.edu/terms/201601/courses/7/sections/1/rosters/1") {
-            Member = new Person("https://example.edu/users/778899"),
-            Organization = new Organization("https://example.edu/terms/201601/courses/7/sections/1"),
-            Roles = new[] { Role.Learner },
-            Status = Status.Active,
-            DateCreated = Instant20160801060000
-        };
-
-        public static Membership EntityMembership112233Instructor = new Membership
-            ("https://example.edu/terms/201601/courses/7/sections/1/rosters/1") {
-            Member = new Person("https://example.edu/users/112233"),
-            Organization = new Organization("https://example.edu/terms/201601/courses/7/sections/1"),
-            Roles = new[] { Role.Instructor },
-            Status = Status.Active,
-            DateCreated = Instant20160801060000
-        };
-
-        public static CourseSection CourseSectionCPS43501Fall16 = new CourseSection
-            ("https://example.edu/terms/201601/courses/7/sections/1") {
-            CourseNumber = "CPS 435-01",
-            AcademicSession = "Fall 2016"
-        };
-
-        public static CourseSection CourseSectionCPS43501Fall16b = new CourseSection
-            ("https://example.edu/terms/201601/courses/7/sections/1") {
-            Extensions = new {
-                edu_example_course_section_instructor = "https://example.edu/faculty/1234"
-            }
-        };
-
-        public static CourseSection CourseSectionCPS43501Fall18 = new CourseSection
-              ("https://example.edu/terms/201801/courses/7/sections/1")
+        public static Person Person554433(ICaliperContext caliperContext = null)
         {
-            CourseNumber = "CPS 435-01",
-            AcademicSession = "Fall 2018",
-            HideCaliperContext = true
-        };
+            return new Person("https://example.edu/users/554433", caliperContext) { HideCaliperContext = true };
+        }
 
-        public static Session Session6259 = new Session("https://example.com/sessions/1f6442a482de72ea6ad134943812bff564a76259") {
-            StartedAt = Instant20161115100000
-        };
-
-        public static Session Session6259b = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259") {
-            StartedAt = Instant20161115100000,
-            DateCreated = Instant20161115100000,
-            User = Person554433
-        };
-
-        public static Session Session6259c = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259") {
-            StartedAt = Instant20161115201115,
-            DateCreated = Instant20161115201115,
-            User = Person554433
-        };
-
-        public static Session Session6259d = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259") {
-            StartedAt = Instant20161115100000,
-            DateCreated = Instant20161115100000,
-            EndedAt = Instant20161115110500,
-            User = Person554433,
-            Duration = Period.FromSeconds(3000)
-        };
-
-
-        public static Session Session6259edu = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259") {
-            StartedAt = Instant20161115100000
-        };
-
-        public static Session Session6259edu2 = new Session("https://example.edu/sessions/f095bbd391ea4a5dd639724a40b606e98a631823") {
-            StartedAt = Instant20161112100000
-        };
-
-        public static Session Session6259_2018 = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259")
+        public static Person Person112233(ICaliperContext caliperContext = null)
         {
-            StartedAt = Instant20181115100000,
-            HideCaliperContext = true
-        };
+            return new Person("https://example.edu/users/112233", caliperContext);
+        }
 
-        public static Session SessionCd50 = new Session("https://example.edu/sessions/1d6fa9adf16f4892650e4305f6cf16610905cd50") {
-            StartedAt = Instant20161115101200
-        };
+        public static Person Person554433dates(ICaliperContext caliperContext = null)
+        {
+            return new Person("https://example.edu/users/554433", caliperContext) {
+                DateCreated = Instant20160801060000,
+                DateModified = Instant20160902113000
+            };
+        }
 
-        public static Session Session1241 = new Session("https://example.com/sessions/c25fd3da-87fa-45f5-8875-b682113fa5ee") {
-            StartedAt = Instant20161115102000,
-            DateCreated = Instant20161115102000
-        };
+        public static Membership EntityMembership554433Learner(ICaliperContext caliperContext = null)
+        {
+            return new Membership
+            ("https://example.edu/terms/201601/courses/7/sections/1/rosters/1", caliperContext) {
+                Member = new Person("https://example.edu/users/554433", caliperContext),
+                Organization = new Organization("https://example.edu/terms/201601/courses/7/sections/1", caliperContext),
+                Roles = new[] { Role.Learner },
+                Status = Status.Active,
+                DateCreated = Instant20160801060000
+            };
+        }
 
+        public static Membership EntityMembership554433Learner_2018(ICaliperContext caliperContext = null)
+        {
+            return new Membership
+             ("https://example.edu/terms/201801/courses/7/sections/1/rosters/1", caliperContext)
+            {
+                Member = new Person("https://example.edu/users/554433", caliperContext),
+                Organization = new Organization("https://example.edu/terms/201801/courses/7/sections/1", caliperContext),
+                Roles = new[] { Role.Learner },
+                Status = Status.Active,
+                DateCreated = Instant20180801060000,
+                HideCaliperContext = true
+            };
+        }
 
-        public static SoftwareApplication EpubReader123 = new SoftwareApplication("https://example.com/reader") {
-            Name = "ePub Reader",
-            Version = "1.2.3"
-        };
+        public static Membership EntityMembership778899Learner(ICaliperContext caliperContext = null)
+        {
+            return new Membership
+            ("https://example.edu/terms/201601/courses/7/sections/1/rosters/1", caliperContext) {
+                Member = new Person("https://example.edu/users/778899", caliperContext),
+                Organization = new Organization("https://example.edu/terms/201601/courses/7/sections/1", caliperContext),
+                Roles = new[] { Role.Learner },
+                Status = Status.Active,
+                DateCreated = Instant20160801060000
+            };
+        }
 
-        public static SoftwareApplication SoftwareAppV2 = new SoftwareApplication("https://example.edu") {
-            Version = "v2"
-        };
+        public static Membership EntityMembership112233Instructor(ICaliperContext caliperContext = null)
+        {
+            return new Membership
+            ("https://example.edu/terms/201601/courses/7/sections/1/rosters/1", caliperContext) {
+                Member = new Person("https://example.edu/users/112233", caliperContext),
+                Organization = new Organization("https://example.edu/terms/201601/courses/7/sections/1", caliperContext),
+                Roles = new[] { Role.Instructor },
+                Status = Status.Active,
+                DateCreated = Instant20160801060000
+            };
+        }
 
-        public static SoftwareApplication ForumAppV2 = new SoftwareApplication("https://example.edu/forums") {
-            Version = "v2"
-        };
+        public static CourseSection CourseSectionCPS43501Fall16(ICaliperContext caliperContext = null)
+        {
+            return new CourseSection
+            ("https://example.edu/terms/201601/courses/7/sections/1", caliperContext) {
+                CourseNumber = "CPS 435-01",
+                AcademicSession = "Fall 2016"
+            };
+        }
 
-        public static SoftwareApplication CatalogApp = new SoftwareApplication("https://example.edu/catalog") { HideCaliperContext = true };
-
-        public static AssessmentItem AssessmentItem2 = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/2") {
-            Name = "Assessment Item 2",
-            IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1"),
-            DateToStartOn = Instant20161114050000,
-            DateToSubmit = Instant20161118115959,
-            MaxAttempts = 2,
-            MaxSubmits = 2,
-            MaxScore = 1.0,
-            IsTimeDependent = false,
-            Version = "1.0"
-        };
-
-        public static AssessmentItem AssessmentItem3 = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3") {
-            Name = "Assessment Item 3",
-            IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1")
-        };
-
-        public static AssessmentItem AssessmentItem6 = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/6") {
-            IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1"),
-            DateCreated = Caliper11TestEntities.Instant20160801060000,
-            DatePublished = Caliper11TestEntities.Instant20160815093000,
-            IsTimeDependent = false,
-            MaxAttempts = 2,
-            MaxScore = 5.0,
-            MaxSubmits = 2,
-            Extensions = new { questionType = "Short Answer", questionText = "Define a Caliper Event and provide examples." }
-        };
-
-        public static AssessmentItem AssessmentItem3b = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3") {
-            Name = "Assessment Item 3",
-            IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1"),
-            DateToStartOn = Instant20161114050000,
-            DateToSubmit = Instant20161118115959,
-            MaxAttempts = 2,
-            MaxSubmits = 2,
-            MaxScore = 1.0,
-            IsTimeDependent = false,
-            Version = "1.0"
-        };
-
-        public static Assessment AssessmentQuizOne = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1") {
-            Name = "Quiz One",
-            DateToStartOn = Instant20161114050000,
-            DateToSubmit = Instant20161118115959,
-            MaxAttempts = 2,
-            MaxSubmits = 2,
-            MaxScore = 25.0,
-            Version = "1.0"
-        };
-
-        public static Assessment AssessmentQuizOneB = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1") {
-            Name = "Quiz One",
-            DateCreated = Instant20160801060000,
-            DateToStartOn = Instant20161114050000,
-            DateToSubmit = Instant20161118115959,
-            DateModified = Instant20160902113000,
-            DatePublished = Instant20161112101000,
-            DateToActivate = Instant20161112101500,
-            MaxAttempts = 2,
-            MaxSubmits = 2,
-            MaxScore = 25.0,
-            Version = "1.0"
-        };
-
-        public static Attempt Attempt1 = new Attempt(
-            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/attempts/1") {
-            Assignee = Person554433,
-            Assignable = AssessmentItem3,
-            IsPartOf = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"),
-            Count = 1,
-            DateCreated = Instant20161115101502,
-            StartedAtTime = Instant20161115101502,
-            EndedAtTime = Instant20161115101512
-        };
-
-        public static Attempt Attempt2 = new Attempt(
-            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1") {
-            Assignee = Person554433,
-            Assignable = AssessmentQuizOne,
-            Count = 1,
-            DateCreated = Instant20161115101500,
-            StartedAtTime = Instant20161115101500,
-            EndedAtTime = Instant20161115102530,
-            Duration = Period.FromMinutes(10) + Period.FromSeconds(30)
-        };
-
-        public static Attempt Attempt1b = new Attempt(
-            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/attempts/1") {
-            Assignee = Person554433,
-            Assignable = AssessmentItem3,
-            IsPartOf = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"),
-            Count = 1,
-            DateCreated = Instant20161115101500,
-            StartedAtTime = Instant20161115101500
-        };
-
-        public static Attempt Attempt1c = new Attempt(
-            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1") {
-            Assignee = Person554433,
-            Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1"),
-            Count = 1,
-            DateCreated = Instant20161115101500,
-            StartedAtTime = Instant20161115101500
-        };
-
-        public static Attempt Attempt1d = new Attempt(
-            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1") {
-            Assignee = Person554433,
-            Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1"),
-            Count = 1,
-            DateCreated = Instant20161115100500,
-            StartedAtTime = Instant20161115100500,
-            EndedAtTime = Instant20161115105512,
-            Duration = Period.FromMinutes(50) + Period.FromSeconds(12)
-
-        };
-
-        public static SoftwareApplication AutoGraderV2 = new SoftwareApplication(
-            "https://example.edu/autograder") {
-            Version = "v2"
-        };
-
-        public static Result Result1 = new Result(
-            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/results/1") {
-            Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"),
-            MaxResultScore = 15.0,
-            ResultScore = 10.0,
-            ScoredBy = AutoGraderV2,
-            Comment = "Consider retaking the assessment.",
-            DateCreated = Instant20161115105505
-        };
-
-        public static Score Score1 = new Score(
-            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1/scores/1") {
-            Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"),
-            MaxScore = 15.0,
-            ScoreGiven = 10.0,
-            ScoredBy = AutoGraderV2,
-            Comment = "auto-graded exam",
-            DateCreated = Instant20161115105600
-        };
-
-        public readonly static GradeEvent GradeEvent1 = new GradeEvent(
-                        "urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d", Events.Action.Graded) {
-            Actor = AutoGraderV2,
-            Object = Attempt1d,
-            Generated = Score1,
-            EventTime = Instant20161115105706,
-            EdApp = new SoftwareApplication("https://example.edu"),
-            Group = CourseSectionCPS43501Fall16
-        };
-
-        public static Forum Forum1Caliper = new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/1") {
-            Name = "Caliper Forum",
-            IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1"),
-            DateCreated = Instant20160914110000
-        };
-
-        public static VideoObject VideoObject1 = new VideoObject("https://example.edu/UQVK-dsU7-Y") {
-            Name = "Information and Welcome",
-            MediaType = "video/ogg",
-            Duration = Period.FromMinutes(20) + Period.FromSeconds(20)
-        };
-        /*
-				public static MediaLocation MediaLocation1 = new MediaLocation("https://example.edu/UQVK-dsU7-Y?t=321") {
-					CurrentTime = Period.FromMinutes(5) + Period.FromSeconds(21),						                    
-				};
-		*/
-        public static Message Message2 = new Message("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1/messages/2") {
-            Creators = new[] { Person554433 },
-            Body = "Are the Caliper Sensor reference implementations production-ready?",
-            IsPartOf = new Thread("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1") {
-                Name = "Caliper Adoption",
-                IsPartOf = new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/2") {
-                    Name = "Caliper Forum"
+        public static CourseSection CourseSectionCPS43501Fall16b(ICaliperContext caliperContext = null)
+        {
+            return new CourseSection
+            ("https://example.edu/terms/201601/courses/7/sections/1", caliperContext) {
+                Extensions = new {
+                    edu_example_course_section_instructor = "https://example.edu/faculty/1234"
                 }
-            },
-            DateCreated = Instant20161115101500
+            };
+        }
 
-        };
+        public static CourseSection CourseSectionCPS43501Fall18(ICaliperContext caliperContext = null)
+        {
+            return new CourseSection
+              ("https://example.edu/terms/201801/courses/7/sections/1", caliperContext)
+            {
+                CourseNumber = "CPS 435-01",
+                AcademicSession = "Fall 2018",
+                HideCaliperContext = true
+            };
+        }
 
-        public static Message Message3 = new Message("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1/messages/3") {
-            Creators = new[] { new Person("https://example.edu/users/778899") },
-            ReplyTo = new Message("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1/messages/2"),
-            IsPartOf = new Thread("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1") {
-                IsPartOf = new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/2")
-            },
-            DateCreated = Instant20161115101530
-        };
+        public static Session Session6259(ICaliperContext caliperContext = null)
+        {
+            return new Session("https://example.com/sessions/1f6442a482de72ea6ad134943812bff564a76259", caliperContext) {
+                StartedAt = Instant20161115100000
+            };
+        }
 
-        public static WebPage WebPage2 = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/2") {
-            Name = "Learning Analytics Specifications",
-            Description = "Overview of Learning Analytics Specifications with particular emphasis on IMS Caliper.",
-            DateCreated = Instant20160801090000
-        };
+        public static Session Session6259b(ICaliperContext caliperContext = null)
+        {
+            return new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259", caliperContext) {
+                StartedAt = Instant20161115100000,
+                DateCreated = Instant20161115100000,
+                User = Person554433(caliperContext)
+            };
+        }
 
-        public static Document Epub202 = new Document("https://example.com/lti/reader/202.epub") {
-            Name = "Caliper Case Studies",
-            MediaType = "application/epub+zip",
-            DateCreated = Instant20160801090000
-        };
+        public static Session Session6259c(ICaliperContext caliperContext = null)
+        {
+            return new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259", caliperContext) {
+                StartedAt = Instant20161115201115,
+                DateCreated = Instant20161115201115,
+                User = Person554433(caliperContext)
+            };
+        }
 
-        public static Document Epub201 = new Document("https://example.edu/etexts/201.epub") {
-            Name = "IMS Caliper Implementation Guide",
-            DateCreated = Instant20160801060000,
-            DatePublished = Instant20161001060000,
-            Version = "1.1"
-        };
+        public static Session Session6259d(ICaliperContext caliperContext = null)
+        {
+            return new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259", caliperContext) {
+                StartedAt = Instant20161115100000,
+                DateCreated = Instant20161115100000,
+                EndedAt = Instant20161115110500,
+                User = Person554433(caliperContext),
+                Duration = Period.FromSeconds(3000)
+            };
+        }
 
-        public static Document Epub200 = new Document("https://example.edu/etexts/200.epub") {
-            Name = "IMS Caliper Specification",
-            Version = "1.1"
-        };
 
-        public static Result Result1b = new Result(
-            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/results/1") {
-            Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/attempts/1"),
-            ResultScore = 1.0,
-            MaxResultScore = 1.0,
-            ScoredBy = new SoftwareApplication("https://example.edu/autograder"),
-            DateCreated = Instant20161115105505
-        };
+        public static Session Session6259edu(ICaliperContext caliperContext = null)
+        {
+            return new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259", caliperContext) {
+                StartedAt = Instant20161115100000
+            };
+        }
 
-        public static Score Score1b = new Score(
-            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/attempts/1/scores/1") {
-            Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"),
-            MaxScore = 5.0,
-            ScoreGiven = 5.0,
-            ScoredBy = new SoftwareApplication("https://example.edu/autograder"),
-            Comment = "auto-graded exam",
-            DateCreated = Instant20161115105505
-        };
+        public static Session Session6259edu2(ICaliperContext caliperContext = null)
+        {
+            return new Session("https://example.edu/sessions/f095bbd391ea4a5dd639724a40b606e98a631823", caliperContext) {
+                StartedAt = Instant20161112100000
+            };
+        }
 
-        public static Thread Thread1 = new Thread(
-            "https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1") {
-            Name = "Caliper Information Model",
-            IsPartOf = new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/1") {
+        public static Session Session6259_2018(ICaliperContext caliperContext = null)
+        {
+            return new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259", caliperContext)
+            {
+                StartedAt = Instant20181115100000,
+                HideCaliperContext = true
+            };
+        }
+
+        public static Session SessionCd50(ICaliperContext caliperContext = null)
+        {
+            return new Session("https://example.edu/sessions/1d6fa9adf16f4892650e4305f6cf16610905cd50", caliperContext) {
+                StartedAt = Instant20161115101200
+            };
+        }
+
+        public static Session Session1241(ICaliperContext caliperContext = null)
+        {
+            return new Session("https://example.com/sessions/c25fd3da-87fa-45f5-8875-b682113fa5ee", caliperContext) {
+                StartedAt = Instant20161115102000,
+                DateCreated = Instant20161115102000
+            };
+        }
+
+
+        public static SoftwareApplication EpubReader123(ICaliperContext caliperContext = null)
+        {
+            return new SoftwareApplication("https://example.com/reader", caliperContext) {
+                Name = "ePub Reader",
+                Version = "1.2.3"
+            };
+        }
+
+        public static SoftwareApplication SoftwareAppV2(ICaliperContext caliperContext = null)
+        {
+            return new SoftwareApplication("https://example.edu", caliperContext) {
+                Version = "v2"
+            };
+        }
+
+        public static SoftwareApplication ForumAppV2(ICaliperContext caliperContext = null)
+        {
+            return new SoftwareApplication("https://example.edu/forums", caliperContext)
+            {
+                Version = "v2"
+            };
+        }
+
+        public static SoftwareApplication CatalogApp(ICaliperContext caliperContext = null)
+        {
+            return new SoftwareApplication("https://example.edu/catalog", caliperContext) { HideCaliperContext = true };
+        }
+
+        public static AssessmentItem AssessmentItem2(ICaliperContext caliperContext = null)
+        {
+            return new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/2", caliperContext)
+            {
+                Name = "Assessment Item 2",
+                IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", caliperContext),
+                DateToStartOn = Instant20161114050000,
+                DateToSubmit = Instant20161118115959,
+                MaxAttempts = 2,
+                MaxSubmits = 2,
+                MaxScore = 1.0,
+                IsTimeDependent = false,
+                Version = "1.0"
+            };
+        }
+
+        public static AssessmentItem AssessmentItem3(ICaliperContext caliperContext = null)
+        {
+            return new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3", caliperContext)
+            {
+                Name = "Assessment Item 3",
+                IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", caliperContext)
+            };
+        }
+
+        public static AssessmentItem AssessmentItem6(ICaliperContext caliperContext = null)
+        {
+            return new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/6", caliperContext)
+            {
+                IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", caliperContext),
+                DateCreated = Caliper11TestEntities.Instant20160801060000,
+                DatePublished = Caliper11TestEntities.Instant20160815093000,
+                IsTimeDependent = false,
+                MaxAttempts = 2,
+                MaxScore = 5.0,
+                MaxSubmits = 2,
+                Extensions = new { questionType = "Short Answer", questionText = "Define a Caliper Event and provide examples." }
+            };
+        }
+
+        public static AssessmentItem AssessmentItem3b(ICaliperContext caliperContext = null)
+        {
+            return new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3", caliperContext)
+            {
+                Name = "Assessment Item 3",
+                IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", caliperContext),
+                DateToStartOn = Instant20161114050000,
+                DateToSubmit = Instant20161118115959,
+                MaxAttempts = 2,
+                MaxSubmits = 2,
+                MaxScore = 1.0,
+                IsTimeDependent = false,
+                Version = "1.0"
+            };
+        }
+
+        public static Assessment AssessmentQuizOne(ICaliperContext caliperContext = null)
+        {
+            return new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", caliperContext)
+            {
+                Name = "Quiz One",
+                DateToStartOn = Instant20161114050000,
+                DateToSubmit = Instant20161118115959,
+                MaxAttempts = 2,
+                MaxSubmits = 2,
+                MaxScore = 25.0,
+                Version = "1.0"
+            };
+        }
+
+        public static Assessment AssessmentQuizOneB(ICaliperContext caliperContext = null)
+        {
+            return new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", caliperContext)
+            {
+                Name = "Quiz One",
+                DateCreated = Instant20160801060000,
+                DateToStartOn = Instant20161114050000,
+                DateToSubmit = Instant20161118115959,
+                DateModified = Instant20160902113000,
+                DatePublished = Instant20161112101000,
+                DateToActivate = Instant20161112101500,
+                MaxAttempts = 2,
+                MaxSubmits = 2,
+                MaxScore = 25.0,
+                Version = "1.0"
+            };
+        }
+
+        public static Attempt Attempt1(ICaliperContext caliperContext = null)
+        {
+            return new Attempt(
+            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/attempts/1", caliperContext)
+            {
+                Assignee = Person554433(caliperContext),
+                Assignable = AssessmentItem3(caliperContext),
+                IsPartOf = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", caliperContext),
+                Count = 1,
+                DateCreated = Instant20161115101502,
+                StartedAtTime = Instant20161115101502,
+                EndedAtTime = Instant20161115101512
+            };
+        }
+
+        public static Attempt Attempt2(ICaliperContext caliperContext = null)
+        {
+            return new Attempt(
+            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", caliperContext)
+            {
+                Assignee = Person554433(caliperContext),
+                Assignable = AssessmentQuizOne(caliperContext),
+                Count = 1,
+                DateCreated = Instant20161115101500,
+                StartedAtTime = Instant20161115101500,
+                EndedAtTime = Instant20161115102530,
+                Duration = Period.FromMinutes(10) + Period.FromSeconds(30)
+            };
+        }
+
+        public static Attempt Attempt1b(ICaliperContext caliperContext = null)
+        {
+            return new Attempt(
+            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/attempts/1", caliperContext)
+            {
+                Assignee = Person554433(caliperContext),
+                Assignable = AssessmentItem3(caliperContext),
+                IsPartOf = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", caliperContext),
+                Count = 1,
+                DateCreated = Instant20161115101500,
+                StartedAtTime = Instant20161115101500
+            };
+        }
+
+        public static Attempt Attempt1c(ICaliperContext caliperContext = null)
+        {
+            return new Attempt(
+            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", caliperContext)
+            {
+                Assignee = Person554433(caliperContext),
+                Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", caliperContext),
+                Count = 1,
+                DateCreated = Instant20161115101500,
+                StartedAtTime = Instant20161115101500
+            };
+        }
+
+        public static Attempt Attempt1d(ICaliperContext caliperContext = null)
+        {
+            return new Attempt(
+            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", caliperContext)
+            {
+                Assignee = Person554433(caliperContext),
+                Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", caliperContext),
+                Count = 1,
+                DateCreated = Instant20161115100500,
+                StartedAtTime = Instant20161115100500,
+                EndedAtTime = Instant20161115105512,
+                Duration = Period.FromMinutes(50) + Period.FromSeconds(12)
+            };
+        }
+
+        public static SoftwareApplication AutoGraderV2(ICaliperContext caliperContext = null)
+        {
+            return new SoftwareApplication(
+            "https://example.edu/autograder", caliperContext)
+            {
+                Version = "v2"
+            };
+        }
+
+        public static Result Result1(ICaliperContext caliperContext = null)
+        {
+            return new Result(
+            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/results/1", caliperContext)
+            {
+                Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", caliperContext),
+                MaxResultScore = 15.0,
+                ResultScore = 10.0,
+                ScoredBy = AutoGraderV2(caliperContext),
+                Comment = "Consider retaking the assessment.",
+                DateCreated = Instant20161115105505
+            };
+        }
+
+        public static Score Score1(ICaliperContext caliperContext = null)
+        {
+            return new Score(
+            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1/scores/1", caliperContext)
+            {
+                Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", caliperContext),
+                MaxScore = 15.0,
+                ScoreGiven = 10.0,
+                ScoredBy = AutoGraderV2(caliperContext),
+                Comment = "auto-graded exam",
+                DateCreated = Instant20161115105600
+            };
+        }
+
+        public static GradeEvent GradeEvent1(ICaliperContext caliperContext = null)
+        {
+            return new GradeEvent(
+                        "urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d", Events.Action.Graded, caliperContext)
+            {
+                Actor = AutoGraderV2(caliperContext),
+                Object = Attempt1d(caliperContext),
+                Generated = Score1(caliperContext),
+                EventTime = Instant20161115105706,
+                EdApp = new SoftwareApplication("https://example.edu", caliperContext),
+                Group = CourseSectionCPS43501Fall16(caliperContext)
+            };
+        }
+
+        public static Forum Forum1Caliper(ICaliperContext caliperContext = null)
+        {
+            return new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/1", caliperContext)
+            {
                 Name = "Caliper Forum",
+                IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", caliperContext),
+                DateCreated = Instant20160914110000
+            };
+        }
+
+        public static VideoObject VideoObject1(ICaliperContext caliperContext = null)
+        {
+            return new VideoObject("https://example.edu/UQVK-dsU7-Y", caliperContext)
+            {
+                Name = "Information and Welcome",
+                MediaType = "video/ogg",
+                Duration = Period.FromMinutes(20) + Period.FromSeconds(20)
+            };
+        }
+
+        public static Message Message2(ICaliperContext caliperContext = null)
+        {
+            return new Message("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1/messages/2", caliperContext)
+            {
+                Creators = new[] { Person554433(caliperContext) },
+                Body = "Are the Caliper Sensor reference implementations production-ready?",
+                IsPartOf = new Thread("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1", caliperContext)
+                {
+                    Name = "Caliper Adoption",
+                    IsPartOf = new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/2", caliperContext)
+                    {
+                        Name = "Caliper Forum"
+                    }
+                },
                 DateCreated = Instant20161115101500
-            },
-            DateCreated = Instant20161115101600
-        };
+            };
+        }
 
-        public static VideoObject VideoObject_1 = new VideoObject("https://example.edu/videos/1225") {
-            MediaType = "video/ogg",
-            Name = "Introduction to IMS Caliper",
-            DateCreated = Instant20160801060000,
-            Duration = Period.FromHours(1) + Period.FromMinutes(12) + Period.FromSeconds(27),
-            Version = "1.1"
-        };
+        public static Message Message3(ICaliperContext caliperContext = null)
+        {
+            return new Message("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1/messages/3", caliperContext)
+            {
+                Creators = new[] { new Person("https://example.edu/users/778899", caliperContext) },
+                ReplyTo = new Message("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1/messages/2", caliperContext),
+                IsPartOf = new Thread("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1", caliperContext)
+                {
+                    IsPartOf = new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/2", caliperContext)
+                },
+                DateCreated = Instant20161115101530
+            };
+        }
 
+        public static WebPage WebPage2(ICaliperContext caliperContext = null)
+        {
+            return new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/2", caliperContext)
+            {
+                Name = "Learning Analytics Specifications",
+                Description = "Overview of Learning Analytics Specifications with particular emphasis on IMS Caliper.",
+                DateCreated = Instant20160801090000
+            };
+        }
 
-        public static VideoObject VideoObject_2 = new VideoObject("https://example.edu/videos/5629") {
-            MediaType = "video/ogg",
-            Name = "IMS Caliper Activity Profiles",
-            DateCreated = Instant20160801060000,
-            Duration = Period.FromMinutes(55) + Period.FromSeconds(13),
-            Version = "1.1.1"
-        };
+        public static Document Epub202(ICaliperContext caliperContext = null)
+        {
+            return new Document("https://example.com/lti/reader/202.epub", caliperContext)
+            {
+                Name = "Caliper Case Studies",
+                MediaType = "application/epub+zip",
+                DateCreated = Instant20160801090000
+            };
+        }
+
+        public static Document Epub201(ICaliperContext caliperContext = null)
+        {
+            return new Document("https://example.edu/etexts/201.epub", caliperContext)
+            {
+                Name = "IMS Caliper Implementation Guide",
+                DateCreated = Instant20160801060000,
+                DatePublished = Instant20161001060000,
+                Version = "1.1"
+            };
+        }
+
+        public static Document Epub200(ICaliperContext caliperContext = null)
+        {
+            return new Document("https://example.edu/etexts/200.epub", caliperContext)
+            {
+                Name = "IMS Caliper Specification",
+                Version = "1.1"
+            };
+        }
+
+        public static Result Result1b(ICaliperContext caliperContext = null)
+        {
+            return new Result(
+            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/results/1", caliperContext)
+            {
+                Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/attempts/1", caliperContext),
+                ResultScore = 1.0,
+                MaxResultScore = 1.0,
+                ScoredBy = new SoftwareApplication("https://example.edu/autograder", caliperContext),
+                DateCreated = Instant20161115105505
+            };
+        }
+
+        public static Score Score1b(ICaliperContext caliperContext = null)
+        {
+            return new Score(
+            "https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/attempts/1/scores/1", caliperContext)
+            {
+                Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", caliperContext),
+                MaxScore = 5.0,
+                ScoreGiven = 5.0,
+                ScoredBy = new SoftwareApplication("https://example.edu/autograder", caliperContext),
+                Comment = "auto-graded exam",
+                DateCreated = Instant20161115105505
+            };
+        }
+
+        public static Thread Thread1(ICaliperContext caliperContext = null)
+        {
+            return new Thread(
+            "https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1", caliperContext)
+            {
+                Name = "Caliper Information Model",
+                IsPartOf = new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/1", caliperContext)
+                {
+                    Name = "Caliper Forum",
+                    DateCreated = Instant20161115101500
+                },
+                DateCreated = Instant20161115101600
+            };
+        }
+
+        public static VideoObject VideoObject_1(ICaliperContext caliperContext = null)
+        {
+            return new VideoObject("https://example.edu/videos/1225", caliperContext)
+            {
+                MediaType = "video/ogg",
+                Name = "Introduction to IMS Caliper",
+                DateCreated = Instant20160801060000,
+                Duration = Period.FromHours(1) + Period.FromMinutes(12) + Period.FromSeconds(27),
+                Version = "1.1"
+            };
+        }
+
+        public static VideoObject VideoObject_2(ICaliperContext caliperContext = null)
+        {
+            return new VideoObject("https://example.edu/videos/5629", caliperContext)
+            {
+                MediaType = "video/ogg",
+                Name = "IMS Caliper Activity Profiles",
+                DateCreated = Instant20160801060000,
+                Duration = Period.FromMinutes(55) + Period.FromSeconds(13),
+                Version = "1.1.1"
+            };
+        }
 
         public class LtiParams {
 
@@ -614,47 +798,56 @@ namespace ImsGlobal.Caliper.Tests {
 
 
 
-        public static DigitalResource DigitalResourceSyllabusPDF = new DigitalResource(
-			"https://example.edu/terms/201601/courses/7/sections/1/resources/1/syllabus.pdf") {
-			Name = "Course Syllabus",
-			MediaType = "application/pdf",
-			Creators = new[] { new Person("https://example.edu/users/223344") },
-			IsPartOf = new DigitalResourceCollection(
-					"https://example.edu/terms/201601/courses/7/sections/1/resources/1") {
-				Name = "Course Assets",
-				IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1")
-			},
-			DateCreated = Instant.FromUtc(2016, 08, 02, 11, 32, 00)
-
-		};
-
-        public static SearchResponse SearchIMSCaliperAnalytics = new SearchResponse(
-            "https://example.edu/users/554433/response?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29")
+        public static DigitalResource DigitalResourceSyllabusPDF(ICaliperContext caliperContext = null)
         {
-            SearchProvider = SoftwareAppV2,
-            SearchTarget = new Entity("https://example.edu/catalog"),
-            Query = new Query(
-                "https://example.edu/users/554433/search?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29")
+            return new DigitalResource(
+            "https://example.edu/terms/201601/courses/7/sections/1/resources/1/syllabus.pdf", caliperContext)
             {
-                Creator = Person554433,
-                SearchTarget = new Entity("https://example.edu/catalog"),
-                SearchTerms = "IMS AND (Caliper OR Analytics)",
-                DateCreated = Instant20181115100500,
-                HideCaliperContext = true
-            },
-            SearchResultsItemCount = 3,
-            SearchResults = new[] {
-                new DigitalResource("https://example.edu/catalog/record/01234?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29"),
-                new DigitalResource("https://example.edu/catalog/record/09876?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29"),
-                new DigitalResource("https://example.edu/catalog/record/05432?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29")
-            },
-            HideCaliperContext = true
-        };
+                Name = "Course Syllabus",
+                MediaType = "application/pdf",
+                Creators = new[] { new Person("https://example.edu/users/223344", caliperContext) },
+                IsPartOf = new DigitalResourceCollection(
+                    "https://example.edu/terms/201601/courses/7/sections/1/resources/1", caliperContext)
+                {
+                    Name = "Course Assets",
+                    IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", caliperContext)
+                },
+                DateCreated = Instant.FromUtc(2016, 08, 02, 11, 32, 00)
+            };
+        }
 
-        public static AggregateMeasureCollection AggregateMeasureCollection2019 = new AggregateMeasureCollection("urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d912")
+        public static SearchResponse SearchIMSCaliperAnalytics(ICaliperContext caliperContext = null)
         {
-            Items = new AggregateMeasure[] {
-                new AggregateMeasure("urn:uuid:21c3f9f2-a9ef-4f65-bf9a-0699ed85e2c7")
+            return new SearchResponse(
+            "https://example.edu/users/554433/response?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29", caliperContext)
+            {
+                SearchProvider = SoftwareAppV2(caliperContext),
+                SearchTarget = new Entity("https://example.edu/catalog"),
+                Query = new Query(
+                "https://example.edu/users/554433/search?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29", caliperContext)
+                {
+                    Creator = Person554433(caliperContext),
+                    SearchTarget = new Entity("https://example.edu/catalog"),
+                    SearchTerms = "IMS AND (Caliper OR Analytics)",
+                    DateCreated = Instant20181115100500,
+                    HideCaliperContext = true
+                },
+                SearchResultsItemCount = 3,
+                SearchResults = new[] {
+                new DigitalResource("https://example.edu/catalog/record/01234?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29", caliperContext),
+                new DigitalResource("https://example.edu/catalog/record/09876?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29", caliperContext),
+                new DigitalResource("https://example.edu/catalog/record/05432?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29", caliperContext)
+            },
+                HideCaliperContext = true
+            };
+        }
+
+        public static AggregateMeasureCollection AggregateMeasureCollection2019(ICaliperContext caliperContext = null)
+        {
+            return new AggregateMeasureCollection("urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d912", caliperContext)
+            {
+                Items = new AggregateMeasure[] {
+                new AggregateMeasure("urn:uuid:21c3f9f2-a9ef-4f65-bf9a-0699ed85e2c7", caliperContext)
                 {
                     Metric = MetricUnitType.MinutesOnTask,
                     Name = "Minutes On Task",
@@ -663,7 +856,7 @@ namespace ImsGlobal.Caliper.Tests {
                     EndedAtTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00),
                     HideCaliperContext = true
                 },
-                new AggregateMeasure("urn:uuid:c3ba4c01-1f17-46e0-85dd-1e366e6ebb81")
+                new AggregateMeasure("urn:uuid:c3ba4c01-1f17-46e0-85dd-1e366e6ebb81", caliperContext)
                 {
                     Metric = MetricUnitType.UnitsCompleted,
                     Name = "Units Completed",
@@ -674,7 +867,8 @@ namespace ImsGlobal.Caliper.Tests {
                     HideCaliperContext = true
                 }
             },
-            HideCaliperContext = true
-        };
+                HideCaliperContext = true
+            };
+        }
     }
 }

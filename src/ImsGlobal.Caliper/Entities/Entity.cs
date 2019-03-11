@@ -9,15 +9,14 @@ namespace ImsGlobal.Caliper.Entities {
 	/// Default base class for Caliper entities.
 	/// </summary>
 	public class Entity : IEntity {
-
-		public Entity( string id )
-		{
+        public Entity(string id, ICaliperContext context = null)
+        {
             this.Id = id;
             this.Type = EntityType.Entity;
-            this.Context = CaliperContext.Context.Value;
-		}
+            this.Context = (context == null ? CaliperContext.Context.Value : context.Value);
+        }
 
-		[JsonProperty( "@context", Order = 0 )]
+        [JsonProperty( "@context", Order = 0 )]
 		public string Context { get; set; }
 
         [JsonProperty("id", Order = 1)]

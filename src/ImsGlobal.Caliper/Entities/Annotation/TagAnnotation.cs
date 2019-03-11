@@ -6,8 +6,8 @@ namespace ImsGlobal.Caliper.Entities.Annotation {
 
 	public class TagAnnotation : Annotation {
 
-		public TagAnnotation( string id )
-			: base( id ) {
+		public TagAnnotation(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Tag;
 			this.Tags = new List<string>();
 		}

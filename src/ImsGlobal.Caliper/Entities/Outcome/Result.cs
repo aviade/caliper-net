@@ -7,8 +7,8 @@ namespace ImsGlobal.Caliper.Entities.Outcome {
 
 	public class Result : Entity {
 
-		public Result( string id )
-			: base( id ) {
+		public Result(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Result;
 		}
 
@@ -20,30 +20,6 @@ namespace ImsGlobal.Caliper.Entities.Outcome {
 
 		[JsonProperty("resultScore", Order = 13)]
 		public double ResultScore { get; set; } 
-
-		/* deprecated
-		[JsonProperty( "normalScore", Order = 12 )]
-		public double NormalScore { get; set; } */
-
-		/* deprecated
-		[JsonProperty("penaltyScore", Order = 13 )]
-		public double PenaltyScore { get; set; } */
-
-		/* deprecated
-		[JsonProperty( "extraCreditScore", Order = 14 )]
-		public int ExtraCreditScore { get; set; } */
-
-		/* deprecated
-		[JsonProperty( "totalScore", Order = 15 )]
-		public double TotalScore { get; set; } */
-
-		/* deprecated
-		[JsonProperty( "curvedTotalScore", Order = 16 )]
-		public int CurvedTotalScore { get; set; } */
-
-		/* deprecated
-		[JsonProperty( "curveFactor", Order = 17 )]
-		public int CurveFactor { get; set; } */
 
 		[JsonProperty( "comment", Order = 18 )]
 		public string Comment { get; set; }

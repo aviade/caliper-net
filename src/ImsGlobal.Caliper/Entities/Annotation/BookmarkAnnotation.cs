@@ -4,8 +4,8 @@ namespace ImsGlobal.Caliper.Entities.Annotation {
 
 	public class BookmarkAnnotation : Annotation {
 
-		public BookmarkAnnotation( string id )
-			: base( id ) {
+		public BookmarkAnnotation(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Bookmark;
 		}
 

@@ -3,10 +3,9 @@
     public class ToolLaunchEvent : Event
     {
 
-        public ToolLaunchEvent(string id, Action action)
-            : base(id)
+        public ToolLaunchEvent(string id, Action action, ICaliperContext caliperContext = null)
+            : base(id, caliperContext)
         {
-            this.Context = CaliperContext.ToolLaunchProfileExtension;
             this.Type = EventType.ToolLaunch;
             this.Action = action;
         }

@@ -5,8 +5,8 @@
 	/// </summary>
 	public class MediaEvent : Event {
 
-		public MediaEvent( string id, Action action ) 
-			:base( id ) {
+		public MediaEvent(string id, Action action, ICaliperContext caliperContext = null) 
+			:base(id, caliperContext) {
 			this.Type = EventType.Media;
 			this.Action = action;
 		}

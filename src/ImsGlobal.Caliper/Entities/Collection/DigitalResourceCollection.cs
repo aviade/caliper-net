@@ -9,13 +9,10 @@ namespace ImsGlobal.Caliper.Entities.Collection {
 	/// </summary>
 	public class DigitalResourceCollection : DigitalResource, IDigitalResourceCollection {
 
-		public DigitalResourceCollection(string id) 
-			: base(id) {            
+		public DigitalResourceCollection(string id, ICaliperContext caliperContext = null) 
+			: base(id, caliperContext) {            
 			this.Type = EntityType.DigitalResourceCollection;
         }
-
-//        [JsonProperty("isPartOf", Order = 61)]
-//        public Entity IsPartOf { get; set; }
 
         [JsonProperty("items", Order = 62)]
         public IList<DigitalResource> Items { get; set; }

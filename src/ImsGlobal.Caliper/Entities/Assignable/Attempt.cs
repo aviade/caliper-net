@@ -11,8 +11,8 @@ namespace ImsGlobal.Caliper.Entities.Assignable {
 	/// </summary>
 	public class Attempt : Entity {
 
-		public Attempt( string id )
-			: base( id ) {
+		public Attempt(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Attempt;
 		}
 

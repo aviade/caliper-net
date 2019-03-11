@@ -6,8 +6,8 @@ namespace ImsGlobal.Caliper.Entities.Response {
 
 	public class MultipleResponseResponse : Response {
 
-		public MultipleResponseResponse( string id )
-			: base( id ) {
+		public MultipleResponseResponse(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.MultipleResponse;
 		}
 

@@ -4,12 +4,9 @@ namespace ImsGlobal.Caliper {
 	using ImsGlobal.Caliper.Util;
 
 	[JsonConverter( typeof( JsonValueConverter<CaliperContext> ) )]
-	public sealed class CaliperContext : IJsonValue {
-
-		public static readonly CaliperContext Context = new CaliperContext( "http://purl.imsglobal.org/ctx/caliper/v1p1" );
-        public static readonly CaliperContext SearchProfileExtension = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1/SearchProfile-extension");
-        public static readonly CaliperContext ToolLaunchProfileExtension = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1/ToolLaunchProfile-extension");
-        public static readonly CaliperContext ToolUseProfileExtension = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1/ToolUseProfile-extension");
+	public class CaliperContext : IJsonValue, ICaliperContext
+    {
+		public static CaliperContext Context = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p2");
 
         public CaliperContext() {}
 

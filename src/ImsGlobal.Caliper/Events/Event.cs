@@ -16,9 +16,9 @@ namespace ImsGlobal.Caliper.Events {
 	/// </summary>
 	public class Event {
 
-        public Event( string id ) {
+        public Event(string id, ICaliperContext caliperContext = null) {
 			this.Id = id;
-            this.Context = CaliperContext.Context;
+            this.Context = caliperContext ?? CaliperContext.Context;
             this.Type = EventType.Event;
         }
 
@@ -26,7 +26,7 @@ namespace ImsGlobal.Caliper.Events {
 		/// Required - JSON-LD context for the CaliperEvent
 		/// </summary>
 		[JsonProperty("@context", Order = 1)]
-        public CaliperContext Context { get; set; }
+        public ICaliperContext Context { get; set; }
 
 		/// <summary>
 		/// Required - id of the CaliperEvent

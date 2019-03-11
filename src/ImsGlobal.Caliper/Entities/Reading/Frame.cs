@@ -5,8 +5,8 @@ namespace ImsGlobal.Caliper.Entities.Reading {
 
 	public class Frame : DigitalResource {
 
-		public Frame( string id )
-			: base( id ) {
+		public Frame(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Frame;
 		}
 

@@ -5,8 +5,8 @@
 	/// </summary>
 	public class GradeEvent : Event {
 
-		public GradeEvent( string id, Action action ) 
-			:base( id ) {
+		public GradeEvent(string id, Action action, ICaliperContext caliperContext = null) 
+			:base(id, caliperContext) {
 			this.Type = EventType.Outcome;
 			this.Action = action;
 		}

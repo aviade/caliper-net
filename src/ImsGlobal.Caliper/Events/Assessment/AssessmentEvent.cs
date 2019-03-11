@@ -5,8 +5,8 @@
 	/// </summary>
 	public class AssessmentEvent : Event {
 
-		public AssessmentEvent(string id,  Action action ) 
-			: base( id ) {
+		public AssessmentEvent(string id,  Action action, ICaliperContext caliperContext = null) 
+			: base(id, caliperContext) {
 			this.Type = EventType.Assessment;
 			this.Action = action;
 		}

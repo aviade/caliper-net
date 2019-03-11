@@ -4,8 +4,8 @@ using Newtonsoft.Json;
 namespace ImsGlobal.Caliper.Entities.Session {
 	public class LtiSession : Session {
 
-		public LtiSession(string id)
-			: base(id) {
+		public LtiSession(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.LtiSession;
 		}
 

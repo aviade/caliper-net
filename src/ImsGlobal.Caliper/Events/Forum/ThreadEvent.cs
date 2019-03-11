@@ -9,8 +9,8 @@ namespace ImsGlobal.Caliper.Events.Forum {
 	/// </summary>
 	public class ThreadEvent : Event {
 
-		public ThreadEvent( string id, Action action ) 
-			:base( id ) {
+		public ThreadEvent(string id, Action action, ICaliperContext caliperContext = null) 
+			:base(id, caliperContext) {
 			this.Type = EventType.Thread;
 			this.Action = action;
 		}

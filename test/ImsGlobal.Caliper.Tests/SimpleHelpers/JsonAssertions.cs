@@ -10,6 +10,8 @@ namespace ImsGlobal.Caliper.Tests.SimpleHelpers {
 
 	internal static class JsonAssertions {
 
+        public static string CaliperVersion = "v1p2";
+
 		static JsonAssertions() {
 		}
 
@@ -18,7 +20,7 @@ namespace ImsGlobal.Caliper.Tests.SimpleHelpers {
 			var eventJObject = JsonSerializeUtils.toJobject( obj );
 			if (clean) eventJObject = JsonSerializeUtils.clean( eventJObject );
 
-			var refJsonString = TestUtils.LoadReferenceJsonFixture( eventReferenceFile );
+			var refJsonString = TestUtils.LoadReferenceJsonFixture(CaliperVersion, eventReferenceFile);
 			var refJObject = JObject.Parse(refJsonString);
 
 			bool equals = JToken.DeepEquals( refJObject, eventJObject );

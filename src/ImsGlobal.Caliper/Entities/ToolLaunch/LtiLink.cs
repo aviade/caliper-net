@@ -4,10 +4,9 @@ namespace ImsGlobal.Caliper.Entities.ToolLaunch
 {
     public class LtiLink : Entity
     {
-        public LtiLink(string id)
-            : base(id)
+        public LtiLink(string id, ICaliperContext caliperContext = null)
+            : base(id, caliperContext)
         {
-            this.Context = CaliperContext.ToolLaunchProfileExtension.Value;
             this.Type = EntityType.LtiLink;
         }
 

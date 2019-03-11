@@ -2,8 +2,8 @@
 {
     public class Link : Entity
     {
-        public Link(string id)
-            : base(id)
+        public Link(string id, ICaliperContext caliperContext = null)
+            : base(id, caliperContext)
         {
             this.Type = EntityType.Link;
         }

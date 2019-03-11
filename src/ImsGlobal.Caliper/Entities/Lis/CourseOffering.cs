@@ -12,8 +12,8 @@ namespace ImsGlobal.Caliper.Entities.Lis {
 	/// </summary>
 	public class CourseOffering : Entity, ICourse {
 
-		public CourseOffering( string id )
-			: base( id ) {
+		public CourseOffering(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.CourseOffering;
 		}
 

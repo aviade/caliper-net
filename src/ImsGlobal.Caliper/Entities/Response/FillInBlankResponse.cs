@@ -6,8 +6,8 @@ namespace ImsGlobal.Caliper.Entities.Response {
 
 	public class FillInBlankResponse : Response {
 
-		public FillInBlankResponse( string id )
-			: base( id ) {
+		public FillInBlankResponse(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.FillInBlank;
 		}
 

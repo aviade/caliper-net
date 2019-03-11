@@ -7,8 +7,8 @@ namespace ImsGlobal.Caliper.Entities.Annotation {
 
 	public class ShareAnnotation : Annotation {
 
-		public ShareAnnotation(string id)
-			: base( id ) {
+		public ShareAnnotation(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Share;
 			this.WithAgents = new List<IAgent>();
 		}

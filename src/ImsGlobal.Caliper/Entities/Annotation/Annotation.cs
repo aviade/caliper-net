@@ -12,8 +12,8 @@ namespace ImsGlobal.Caliper.Entities.Annotation {
 	/// Annotation Metric Profile.
 	/// </summary>
 	public class Annotation : Entity, IThing {
-		public Annotation( string id )
-			: base( id ) {
+		public Annotation(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Annotation;
 		}
 

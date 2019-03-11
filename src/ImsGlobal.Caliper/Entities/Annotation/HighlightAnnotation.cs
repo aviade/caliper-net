@@ -1,12 +1,11 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace ImsGlobal.Caliper.Entities.Annotation {
 
 	public class HighlightAnnotation : Annotation {
 
-		public HighlightAnnotation( string id )
-			: base( id ) {
+		public HighlightAnnotation(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Highlight;
 			this.Selection = new TextPositionSelector();
 		}

@@ -7,8 +7,8 @@ namespace ImsGlobal.Caliper.Entities.Search
 
     public class SearchResponse : Entity
     {
-        public SearchResponse(string id)
-            : base(id)
+        public SearchResponse(string id, ICaliperContext caliperContext = null)
+            : base(id, caliperContext)
         {
             this.Type = EntityType.SearchResponse;
         }

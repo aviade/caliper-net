@@ -9,8 +9,8 @@ namespace ImsGlobal.Caliper.Entities.Media {
 	/// </summary>
 	public class AudioObject : MediaObject, IAudioObject {
 
-		public AudioObject( string id )
-			: base( id, EntityType.AudioObject ) {
+		public AudioObject(string id, ICaliperContext caliperContext = null)
+			: base(id, EntityType.AudioObject, caliperContext) {
 		}
 
 		[JsonProperty( "volumeMin", Order = 81 )]

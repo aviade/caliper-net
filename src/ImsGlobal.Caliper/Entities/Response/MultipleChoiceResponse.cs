@@ -4,8 +4,8 @@ namespace ImsGlobal.Caliper.Entities.Response {
 
 	public class MultipleChoiceResponse : Response {
 
-		public MultipleChoiceResponse( string id )
-			: base( id ) {
+		public MultipleChoiceResponse(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.MultipleChoice;
 		}
 

@@ -12,8 +12,8 @@ namespace ImsGlobal.Caliper.Entities.Lis {
 	/// </summary>
 	public class Group : Entity, IOrganization {
 
-		public Group( string id )
-			: base( id ) {
+		public Group(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Group;
 		}
 

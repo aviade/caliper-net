@@ -2,8 +2,8 @@
 
 	public class Chapter : DigitalResource {
 
-		public Chapter ( string id )
-			: base( id ) {
+		public Chapter (string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Chapter;
 		}
 

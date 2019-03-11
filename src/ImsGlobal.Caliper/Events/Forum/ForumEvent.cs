@@ -8,8 +8,8 @@ namespace ImsGlobal.Caliper.Events.Forum {
 	/// </summary>
 	public class ForumEvent : Event {
 
-		public ForumEvent( string id, Action action ) 
-			:base( id ){
+		public ForumEvent(string id, Action action, ICaliperContext caliperContext = null) 
+			:base(id, caliperContext){
 			this.Type = EventType.Forum;
 			this.Action = action;
 		}

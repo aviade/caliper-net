@@ -6,8 +6,8 @@
 	/// </summary>
 	public class NavigationEvent : Event {
 
-		public NavigationEvent(string id) 
-			:base( id ) {
+		public NavigationEvent(string id, ICaliperContext caliperContext = null) 
+			:base(id, caliperContext) {
 			this.Type = EventType.Navigation;
 			this.Action = Action.NavigatedTo;
 		}

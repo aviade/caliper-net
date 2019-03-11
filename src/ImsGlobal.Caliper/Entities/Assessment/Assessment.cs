@@ -8,8 +8,8 @@ namespace ImsGlobal.Caliper.Entities.Assessment {
 
 	public class Assessment : AssignableDigitalResource, IDigitalResourceCollection, IAssessment {
 
-		public Assessment(string id)
-			: base(id) {
+		public Assessment(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Assessment;
 		}
 

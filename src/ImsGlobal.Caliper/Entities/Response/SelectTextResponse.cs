@@ -6,8 +6,8 @@ namespace ImsGlobal.Caliper.Entities.Response {
 
 	public class SelectTextResponse : Response {
 
-		public SelectTextResponse( string id )
-			: base( id ) {
+		public SelectTextResponse(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.SelectText;
 		}
 

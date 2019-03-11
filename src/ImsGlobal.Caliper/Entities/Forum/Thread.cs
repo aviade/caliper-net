@@ -9,7 +9,7 @@ namespace ImsGlobal.Caliper.Entities.Forum {
 	/// </summary>
 	public class Thread : DigitalResourceCollection {
 
-		public Thread( string id ) : base( id ) {
+		public Thread(string id, ICaliperContext caliperContext = null) : base(id, caliperContext) {
 			this.Id = id;
 			this.Type = EntityType.Thread;
 		}
