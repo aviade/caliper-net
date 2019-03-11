@@ -37,6 +37,10 @@ namespace ImsGlobal.Caliper {
 		/// </summary>
 		public int Timeout { get; set; }
 
+        /// <summary>
+        /// Reference to a Caliper JSON-LD context. If not supplied, the most recent version of the Caliper context will be used.
+        /// </summary>
+        public ICaliperContext CaliperContext { get; set; }
 	}
 
 }

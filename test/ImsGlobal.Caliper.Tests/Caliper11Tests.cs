@@ -33,14 +33,19 @@ namespace ImsGlobal.Caliper.Tests {
 	using NodaTime;
 	using static JsonSerializeUtils;
 	using System.Collections;
-	    using ImsGlobal.Caliper.Entities.ToolLaunch;
+	using ImsGlobal.Caliper.Entities.ToolLaunch;
     using ImsGlobal.Caliper.Entities.AggregateMeasure;
     using ImsGlobal.Caliper.Entities.Search;
+    using System.Linq;
 
     [TestFixture]
 	public class Caliper11Tests {
+        private static readonly ICaliperContext defaultContextV1p1 = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1");
+        private static readonly ICaliperContext searchProfileExtensionV1p1 = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1/SearchProfile-extension");
+        private static readonly ICaliperContext toolLaunchProfileExtensionV1p1 = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1/ToolLaunchProfile-extension");
+        private static readonly ICaliperContext toolUseProfileExtensionV1p1 = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1/ToolUseProfile-extension");
 
-		[OneTimeSetUp]
+        [OneTimeSetUp]
 		public void Init() {
 			FixtureCoverageChecker.Initialize();
 		}
@@ -50,9 +55,15 @@ namespace ImsGlobal.Caliper.Tests {
 			bool covered = FixtureCoverageChecker.Compare();
 		}
 
+        [SetUp]
+        public void TestSetUp()
+        {
+            JsonAssertions.CaliperVersion = "v1p1";
+        }
+
 		[Test]
 		public void EntityAgent_MatchesReferenceJson() {
-			var entity = new Agent("https://example.edu/agents/99999") {
+			var entity = new Agent("https://example.edu/agents/99999", defaultContextV1p1) {
 				DateCreated = Caliper11TestEntities.Instant20160801060000,
 				DateModified = Caliper11TestEntities.Instant20160902113000
 			};
@@ -62,9 +73,9 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EntityAnnotation_MatchesReferenceJson() {
-			var entity = new Annotation("https://example.com/users/554433/texts/imscaliperimplguide/annotations/1") {
-				Annotator = Caliper11TestEntities.Person554433,
-				Annotated = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0"),
+			var entity = new Annotation("https://example.com/users/554433/texts/imscaliperimplguide/annotations/1", defaultContextV1p1) {
+				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Annotated = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0", defaultContextV1p1) { HideCaliperContext = true },
 				DateCreated = Caliper11TestEntities.Instant20160801060000,
 			};
 
@@ -77,13 +88,13 @@ namespace ImsGlobal.Caliper.Tests {
 			string itemUrlBase = "https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/";
 
 			var entity = new Assessment(
-				"https://example.edu/terms/201601/courses/7/sections/1/assess/1") {
+				"https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1) {
 				Name = "Quiz One",
 				Items = new[] {
-					new AssessmentItem( itemUrlBase + "1" ),
-					new AssessmentItem( itemUrlBase + "2" ),
-					new AssessmentItem( itemUrlBase + "3" )
-				},
+					new AssessmentItem(itemUrlBase + "1", defaultContextV1p1) { HideCaliperContext = true },
+					new AssessmentItem(itemUrlBase + "2", defaultContextV1p1) { HideCaliperContext = true },
+					new AssessmentItem(itemUrlBase + "3", defaultContextV1p1) { HideCaliperContext = true }
+                },
 				DateCreated = Instant.FromUtc(2016, 8, 1, 6, 0, 0),
 				DateModified = Instant.FromUtc(2016, 9, 2, 11, 30, 0),
 				DatePublished = Instant.FromUtc(2016, 8, 15, 9, 30, 0),
@@ -104,9 +115,9 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityAssessmentItemExtended_MatchesReferenceJson() {
 
 			var entity = new AssessmentItem(
-				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3") {
+				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3", defaultContextV1p1) {
 
-				IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1"),
+				IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1) { HideCaliperContext = true },
 				DateCreated = Instant.FromUtc(2016, 8, 1, 6, 0, 0),
 				DatePublished = Instant.FromUtc(2016, 8, 15, 9, 30, 0),
 				IsTimeDependent = false,
@@ -133,7 +144,7 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityAssignableDigitalResource_MatchesReferenceJson() {
 
 			var entity = new AssignableDigitalResource(
-				"https://example.edu/terms/201601/courses/7/sections/1/assign/2") {
+				"https://example.edu/terms/201601/courses/7/sections/1/assign/2", defaultContextV1p1) {
 
 				Name = "Week 9 Reflection",
 				Description = "3-5 page reflection on this week's assigned readings.",
@@ -154,10 +165,10 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityAttempt_MatchesReferenceJson() {
 
 			var entity = new Attempt(
-				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1") {
+				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", defaultContextV1p1) {
 
-				Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1"),
-				Assignee = new Person("https://example.edu/users/554433"),
+				Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1) { HideCaliperContext = true },
+				Assignee = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
 				Count = 1,
 				DateCreated = Instant.FromUtc(2016, 11, 15, 10, 05, 00),
 				StartedAtTime = Instant.FromUtc(2016, 11, 15, 10, 05, 00),
@@ -172,7 +183,7 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityAudioObject_MatchesReferenceJson() {
 
 			var entity = new AudioObject(
-				"https://example.edu/audio/765") {
+				"https://example.edu/audio/765", defaultContextV1p1) {
 				Name = "Audio Recording: IMS Caliper Sensor API Q&A.",
 				MediaType = "audio/ogg",
 				DatePublished = Instant.FromUtc(2016, 12, 01, 06, 00, 00),
@@ -186,9 +197,9 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityBookmarkAnnotation_MatchesReferenceJson() {
 
 			var entity = new BookmarkAnnotation(
-				"https://example.com/users/554433/texts/imscaliperimplguide/bookmarks/1") {
-				Annotator = new Person("https://example.edu/users/554433"),
-				Annotated = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0"),
+				"https://example.com/users/554433/texts/imscaliperimplguide/bookmarks/1", defaultContextV1p1) {
+				Annotator = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+				Annotated = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0", defaultContextV1p1) { HideCaliperContext = true },
 				BookmarkNotes = "Caliper profiles model discrete learning activities or supporting activities that facilitate learning.",
 				DateCreated = Instant.FromUtc(2016, 8, 1, 6, 0, 0)
 			};
@@ -200,12 +211,13 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityChapter_MatchesReferenceJson() {
 
 			var entity = new Chapter(
-				"https://example.com/#/texts/imscaliperimplguide/cfi/6/10") {
+				"https://example.com/#/texts/imscaliperimplguide/cfi/6/10", defaultContextV1p1) {
 				Name = "The Caliper Information Model",
-				IsPartOf = new Document("https://example.com/#/texts/imscaliperimplguide") {
+				IsPartOf = new Document("https://example.com/#/texts/imscaliperimplguide", defaultContextV1p1) {
 					DateCreated = Instant.FromUtc(2016, 10, 01, 6, 00, 00),
 					Name = "IMS Caliper Implementation Guide",
-					Version = "1.1"
+					Version = "1.1",
+                    HideCaliperContext = true
 				}
 			};
 			JsonAssertions.AssertSameObjectJson(entity, "caliperEntityChapter");
@@ -216,7 +228,7 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityCourseOffering_MatchesReferenceJson() {
 
 			var entity = new CourseOffering(
-					"https://example.edu/terms/201601/courses/7") {
+					"https://example.edu/terms/201601/courses/7", defaultContextV1p1) {
 				CourseNumber = "CPS 435",
 				AcademicSession = "Fall 2016",
 				Name = "CPS 435 Learning Analytics",
@@ -231,13 +243,14 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityCourseSection_MatchesReferenceJson() {
 
 			var entity = new CourseSection(
-					"https://example.edu/terms/201601/courses/7/sections/1") {
+					"https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1) {
 				AcademicSession = "Fall 2016",
 				CourseNumber = "CPS 435-01",
 				Name = "CPS 435 Learning Analytics, Section 01",
 				Category = "seminar",
-				SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7") {
-					CourseNumber = "CPS 435"
+				SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7", defaultContextV1p1) {
+					CourseNumber = "CPS 435",
+                    HideCaliperContext = true
 				},
 				DateCreated = Caliper11TestEntities.Instant20160801060000
 			};
@@ -245,24 +258,16 @@ namespace ImsGlobal.Caliper.Tests {
 			JsonAssertions.AssertSameObjectJson(entity, "caliperEntityCourseSection");
 		}
 
-		[Test]
-		public void EntityDigitalResource_MatchesReferenceJson() {
-
-			var entity = DigitalResourceSyllabusPDF;
-
-			JsonAssertions.AssertSameObjectJson(entity, "caliperEntityDigitalResource");
-		}
-
 
 		public static DigitalResource DigitalResourceSyllabusPDF = new DigitalResource(
-					"https://example.edu/terms/201601/courses/7/sections/1/resources/1/syllabus.pdf") {
+					"https://example.edu/terms/201601/courses/7/sections/1/resources/1/syllabus.pdf", defaultContextV1p1) {
 			Name = "Course Syllabus",
 			MediaType = "application/pdf",
-			Creators = new[] { new Person("https://example.edu/users/223344") },
+			Creators = new[] { new Person("https://example.edu/users/223344", defaultContextV1p1) },
 			IsPartOf = new DigitalResourceCollection(
-					"https://example.edu/terms/201601/courses/7/sections/1/resources/1") {
+					"https://example.edu/terms/201601/courses/7/sections/1/resources/1", defaultContextV1p1) {
 				Name = "Course Assets",
-				IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1")
+				IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1)
 			},
 			DateCreated = Instant.FromUtc(2016, 08, 02, 11, 32, 00)
 		};
@@ -271,27 +276,30 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityDigitalResourceCollection_MatchesReferenceJson() {
 
 			var entity = new DigitalResourceCollection(
-					"https://example.edu/terms/201601/courses/7/sections/1/resources/2") {
+					"https://example.edu/terms/201601/courses/7/sections/1/resources/2", defaultContextV1p1) {
 				Name = "Video Collection",
 				Keywords = new[] { "collection", "videos" },
 				Items = new[] {
-					new VideoObject("https://example.edu/videos/1225"){
+					new VideoObject("https://example.edu/videos/1225", defaultContextV1p1){
 						MediaType = "video/ogg",
 						Name = "Introduction to IMS Caliper",
 						DateCreated = Instant.FromUtc(2016,08,01,06,00,00),
 						Duration = Period.FromHours(1) + Period.FromMinutes(12) + Period.FromSeconds(27),
-						Version = "1.1"
-					},
-					new VideoObject("https://example.edu/videos/5629"){
+						Version = "1.1",
+                        HideCaliperContext = true
+                    },
+					new VideoObject("https://example.edu/videos/5629", defaultContextV1p1){
 						MediaType = "video/ogg",
 						Name = "IMS Caliper Activity Profiles",
 						DateCreated = Instant.FromUtc(2016,08,01,06,00,00),
 						Duration = Period.FromMinutes(55) + Period.FromSeconds(13),
-						Version = "1.1.1"
-					}
+						Version = "1.1.1",
+                        HideCaliperContext = true
+                    }
 				},
-				IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1") {
-					SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7")
+				IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1) {
+					SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7", defaultContextV1p1) { HideCaliperContext = true },
+                    HideCaliperContext = true
 				},
 				DateCreated = Caliper11TestEntities.Instant20160801060000,
 				DateModified = Instant.FromUtc(2016, 09, 02, 11, 30, 00)
@@ -304,13 +312,13 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityDocument_MatchesReferenceJson() {
 
 			var entity = new Document(
-					"https://example.edu/etexts/201.epub") {
+					"https://example.edu/etexts/201.epub", defaultContextV1p1) {
 				Name = "IMS Caliper Implementation Guide",
 				MediaType = "application/epub+zip",
 				Creators = new[] {
-					new Person("https://example.edu/people/12345"),
-					new Person("https://example.com/staff/56789")
-				},
+					new Person("https://example.edu/people/12345", defaultContextV1p1) { HideCaliperContext = true },
+					new Person("https://example.com/staff/56789", defaultContextV1p1) { HideCaliperContext = true }
+                },
 				DateCreated = Caliper11TestEntities.Instant20160801060000,
 				DatePublished = Instant.FromUtc(2016, 10, 01, 06, 00, 00),
 				Version = "1.1"
@@ -324,15 +332,17 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityFillInBlankResponse_MatchesReferenceJson() {
 
 			var entity = new FillInBlankResponse(
-				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/1/users/554433/responses/1") {
-				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/1/users/554433/attempts/1") {
-					Assignee = new Person("https://example.edu/users/554433"),
-					Assignable = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/1") {
-						IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1")
-					},
+				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/1/users/554433/responses/1", defaultContextV1p1) {
+				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/1/users/554433/attempts/1", defaultContextV1p1) {
+					Assignee = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+					Assignable = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/1", defaultContextV1p1) {
+						IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1) { HideCaliperContext = true },
+                        HideCaliperContext = true
+                    },
 					Count = 1,
 					StartedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 02),
-					EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 12)
+					EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 12),
+                    HideCaliperContext = true
 				},
 
 				DateCreated = Instant.FromUtc(2016, 11, 15, 10, 15, 12),
@@ -349,25 +359,29 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityForum_MatchesReferenceJson() {
 
 			var entity = new Forum(
-				"https://example.edu/terms/201601/courses/7/sections/1/forums/1") {
+				"https://example.edu/terms/201601/courses/7/sections/1/forums/1", defaultContextV1p1) {
 				Name = "Caliper Forum",
 				Items = new[] {
-					new Thread("https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1"){
+					new Thread("https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1", defaultContextV1p1){
 						Name = "Caliper Information Model",
-						DateCreated = Instant.FromUtc(2016,11,01,09,30,00)
+						DateCreated = Instant.FromUtc(2016,11,01,09,30,00),
+                        HideCaliperContext = true
 					},
-					new Thread("https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/2"){
+					new Thread("https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/2", defaultContextV1p1){
 						Name = "Caliper Sensor API",
-						DateCreated = Instant.FromUtc(2016,11,01,09,30,00)
-					},
-					new Thread("https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/3"){
+						DateCreated = Instant.FromUtc(2016,11,01,09,30,00),
+                        HideCaliperContext = true
+                    },
+					new Thread("https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/3", defaultContextV1p1){
 						Name = "Caliper Certification",
-						DateCreated = Instant.FromUtc(2016,11,01,09,30,00)
-					}
+						DateCreated = Instant.FromUtc(2016,11,01,09,30,00),
+                        HideCaliperContext = true
+                    }
 				},
-				IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1") {
-					SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7")
-				},
+				IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1) {
+					SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7", defaultContextV1p1) { HideCaliperContext = true },
+                    HideCaliperContext = true
+                },
 
 				DateCreated = Instant.FromUtc(2016, 08, 01, 6, 0, 0),
 				DateModified = Instant.FromUtc(2016, 09, 02, 11, 30, 0)
@@ -378,17 +392,18 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EntityGroup_MatchesReferenceJson() {
-			var entity = new Group("https://example.edu/terms/201601/courses/7/sections/1/groups/2") {
+			var entity = new Group("https://example.edu/terms/201601/courses/7/sections/1/groups/2", defaultContextV1p1) {
 				Name = "Discussion Group 2",
-				SubOrganizationOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1") {
-					SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7")
-				},
+				SubOrganizationOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1) {
+					SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7", defaultContextV1p1) { HideCaliperContext = true },
+                    HideCaliperContext = true
+                },
 				Members = new[] {
-					new Person("https://example.edu/users/554433"),
-					new Person("https://example.edu/users/778899"),
-					new Person("https://example.edu/users/445566"),
-					new Person("https://example.edu/users/667788"),
-					new Person("https://example.edu/users/889900")
+					new Person("https://example.edu/users/554433", defaultContextV1p1){ HideCaliperContext = true },
+					new Person("https://example.edu/users/778899", defaultContextV1p1) { HideCaliperContext = true },
+					new Person("https://example.edu/users/445566", defaultContextV1p1) { HideCaliperContext = true },
+					new Person("https://example.edu/users/667788", defaultContextV1p1) { HideCaliperContext = true },
+					new Person("https://example.edu/users/889900", defaultContextV1p1) { HideCaliperContext = true }
 				},
 				DateCreated = Caliper11TestEntities.Instant20161101060000,
 			};
@@ -400,12 +415,13 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityFrame_MatchesReferenceJson() {
 
 			var entity = new Frame(
-				"https://example.edu/etexts/201?index=2502") {
+				"https://example.edu/etexts/201?index=2502", defaultContextV1p1) {
 				DateCreated = Instant.FromUtc(2016, 08, 01, 6, 0, 0),
 				Index = 2502,
-				IsPartOf = new Document("https://example.edu/etexts/201") {
+				IsPartOf = new Document("https://example.edu/etexts/201", defaultContextV1p1) {
 					Name = "IMS Caliper Implementation Guide",
-					Version = "1.1"
+					Version = "1.1",
+                    HideCaliperContext = true
 				}
 			};
 
@@ -417,9 +433,9 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityHighlightAnnotation_MatchesReferenceJson() {
 
 			var entity = new HighlightAnnotation(
-				"https://example.edu/users/554433/etexts/201/highlights/20") {
-				Annotator = Caliper11TestEntities.Person554433,
-				Annotated = new Document("https://example.edu/etexts/201"),
+				"https://example.edu/users/554433/etexts/201/highlights/20", defaultContextV1p1) {
+				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Annotated = new Document("https://example.edu/etexts/201", defaultContextV1p1) { HideCaliperContext = true },
 				Selection = new TextPositionSelector() {
 					Start = 2300,
 					End = 2370
@@ -437,7 +453,7 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityImageObject_MatchesReferenceJson() {
 
 			var entity = new ImageObject(
-				"https://example.edu/images/caliper_lti.jpg") {
+				"https://example.edu/images/caliper_lti.jpg", defaultContextV1p1) {
 				Name = "IMS Caliper/LTI Integration Work Flow",
 				MediaType = "image/jpeg",
 				DateCreated = Instant.FromUtc(2016, 09, 01, 6, 0, 0)
@@ -451,15 +467,16 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityLearningObjective_MatchesReferenceJson() {
 
 			var entity = new AssignableDigitalResource(
-				"https://example.edu/terms/201601/courses/7/sections/1/assign/2") {
+				"https://example.edu/terms/201601/courses/7/sections/1/assign/2", defaultContextV1p1) {
 				Name = "Caliper Profile Design",
 				Description = "Choose a learning activity and describe the actions, entities and events that comprise it.",
 				LearningObjectives = new[] {
-					new LearningObjective("https://example.edu/terms/201601/courses/7/sections/1/objectives/1") {
+					new LearningObjective("https://example.edu/terms/201601/courses/7/sections/1/objectives/1", defaultContextV1p1) {
 						Name = "Research techniques",
 						Description = "Demonstrate ability to model a learning activity as a Caliper profile.",
-						DateCreated = Instant.FromUtc(2016,08,01,06,00,00)
-					}
+						DateCreated = Instant.FromUtc(2016,08,01,06,00,00),
+                        HideCaliperContext = true
+                    }
 				},
 
 				DateToActivate = Instant.FromUtc(2016, 11, 10, 11, 59, 59),
@@ -479,10 +496,10 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityLtiSession_MatchesReferenceJson() {
 
             var entity = new LtiSession(
-                "https://example.edu/lti/sessions/b533eb02823f31024e6b7f53436c42fb99b31241")
+                "https://example.edu/lti/sessions/b533eb02823f31024e6b7f53436c42fb99b31241", defaultContextV1p1)
             {
-                Context = CaliperContext.Context.Value,
-                User = new Person("https://example.edu/users/554433") { HideCaliperContext = true },
+                Context = defaultContextV1p1.Value,
+                User = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
                 MessageParameters = new Caliper11TestEntities.LtiParamsLtiSession(),
                 DateCreated = Caliper11TestEntities.Instant20181115101500,
                 StartedAt = Caliper11TestEntities.Instant20181115101500
@@ -497,7 +514,7 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityMediaObject_MatchesReferenceJson() {
 
 			var entity = new MediaObject(
-				"https://example.edu/media/54321") {
+				"https://example.edu/media/54321", defaultContextV1p1) {
 				DateCreated = Instant.FromUtc(2016, 08, 1, 6, 0, 0),
 				DateModified = Instant.FromUtc(2016, 09, 2, 11, 30, 0),
 				Duration = Period.FromHours(1) + Period.FromMinutes(17) + Period.FromSeconds(50)
@@ -511,7 +528,7 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityMediaLocation_MatchesReferenceJson() {
 
 			var entity = new MediaLocation(
-				"https://example.edu/videos/1225") {
+				"https://example.edu/videos/1225", defaultContextV1p1) {
 				CurrentTime = Period.FromMinutes(30) + Period.FromSeconds(54),
 				DateCreated = Instant.FromUtc(2016, 08, 1, 6, 0, 0)
 			};
@@ -523,11 +540,12 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityMembership_MatchesReferenceJson() {
 
 			var entity = new Membership(
-				"https://example.edu/terms/201601/courses/7/sections/1/rosters/1/members/554433") {
-				Member = new Person("https://example.edu/users/554433"),
-				Organization = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1") {
-					SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7")
-				},
+				"https://example.edu/terms/201601/courses/7/sections/1/rosters/1/members/554433", defaultContextV1p1) {
+				Member = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+				Organization = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1) {
+					SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7", defaultContextV1p1) { HideCaliperContext = true },
+                    HideCaliperContext = true
+                },
 				Roles = new[] { Role.Learner },
 				Status = Status.Active,
 				DateCreated = Instant.FromUtc(2016, 11, 1, 6, 0, 0)
@@ -541,20 +559,22 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityMessage_MatchesReferenceJson() {
 
 			var entity = new Message(
-				"https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1/messages/3") {
-				Creators = new[] { new Person("https://example.edu/users/778899") },
+				"https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1/messages/3", defaultContextV1p1) {
+				Creators = new[] { new Person("https://example.edu/users/778899", defaultContextV1p1) { HideCaliperContext = true } },
 				Body = "The Caliper working group provides a set of Caliper Sensor reference implementations for"
 					+ " the purposes of education and experimentation.  They have not been tested for use in a "
 					+ "production environment.  See the Caliper Implementation Guide for more details.",
-				ReplyTo = new Message("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1/messages/2"),
-				IsPartOf = new Thread("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1") {
-					IsPartOf = new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/2")
-				},
-				Attachments = new[] { new Document("https://example.edu/etexts/201.epub") {
+				ReplyTo = new Message("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1/messages/2", defaultContextV1p1) { HideCaliperContext = true },
+				IsPartOf = new Thread("https://example.edu/terms/201601/courses/7/sections/1/forums/2/topics/1", defaultContextV1p1) {
+					IsPartOf = new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/2", defaultContextV1p1) { HideCaliperContext = true },
+                    HideCaliperContext = true
+                },
+				Attachments = new[] { new Document("https://example.edu/etexts/201.epub", defaultContextV1p1) {
 						Name = "IMS Caliper Implementation Guide",
 						DateCreated = Instant.FromUtc(2016,10,01,06,00,00),
-						  Version = "1.1"
-					}
+						Version = "1.1",
+                        HideCaliperContext = true
+                    }
 				},
 				DateCreated = Instant.FromUtc(2016, 11, 15, 10, 15, 30)
 			};
@@ -567,16 +587,18 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityMultipleChoiceResponse_MatchesReferenceJson() {
 
 			var entity = new MultipleChoiceResponse(
-				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/2/users/554433/responses/1") {
+				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/2/users/554433/responses/1", defaultContextV1p1) {
 
-				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/2/users/554433/attempts/1") {
-					Assignee = new Person("https://example.edu/users/554433"),
-					Assignable = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/2") {
-						IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1")
-					},
+				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/2/users/554433/attempts/1", defaultContextV1p1) {
+					Assignee = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+					Assignable = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/2", defaultContextV1p1) {
+						IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1) { HideCaliperContext = true },
+                        HideCaliperContext = true
+                    },
 					Count = 1,
 					StartedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 14),
-					EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 20)
+					EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 20),
+                    HideCaliperContext = true
 
 				},
 				DateCreated = Instant.FromUtc(2016, 11, 15, 10, 15, 20),
@@ -592,19 +614,18 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityMultipleResponseResponse_MatchesReferenceJson() {
 
 			var entity = new MultipleResponseResponse(
-				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/responses/1") {
-
-
-				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/attempts/1") {
-					Assignee = new Person("https://example.edu/users/554433"),
-					Assignable = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3") {
-						IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1")
-					},
+				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/responses/1", defaultContextV1p1) {
+				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/attempts/1", defaultContextV1p1) {
+					Assignee = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+					Assignable = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3", defaultContextV1p1) {
+						IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1) { HideCaliperContext = true },
+                        HideCaliperContext = true
+                    },
 					Count = 1,
 					StartedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 22),
-					EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 30)
-
-				},
+					EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 30),
+                    HideCaliperContext = true
+                },
 				DateCreated = Instant.FromUtc(2016, 11, 15, 10, 15, 22),
 				StartedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 22),
 				EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 30),
@@ -618,11 +639,12 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityOrganization_MatchesReferenceJson() {
 
 			var entity = new Organization(
-							"https://example.edu/colleges/1/depts/1") {
+							"https://example.edu/colleges/1/depts/1", defaultContextV1p1) {
 				Name = "Computer Science Department",
-				SubOrganizationOf = new Organization("https://example.edu/colleges/1") {
-					Name = "College of Engineering"
-				}
+				SubOrganizationOf = new Organization("https://example.edu/colleges/1", defaultContextV1p1) {
+					Name = "College of Engineering",
+                    HideCaliperContext = true
+                }
 			};
 
 			JsonAssertions.AssertSameObjectJson(entity, "caliperEntityOrganization");
@@ -633,17 +655,18 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityPage_MatchesReferenceJson() {
 
 			var entity = new Page(
-				"https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0") {
+				"https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0", defaultContextV1p1) {
 				Name = "Page 5",
-				IsPartOf = new Chapter("https://example.com/#/texts/imscaliperimplguide/cfi/6/10") {
+				IsPartOf = new Chapter("https://example.com/#/texts/imscaliperimplguide/cfi/6/10", defaultContextV1p1) {
 					Name = "Chapter 1",
-					IsPartOf = new Document("https://example.com/#/texts/imscaliperimplguide") {
+					IsPartOf = new Document("https://example.com/#/texts/imscaliperimplguide", defaultContextV1p1) {
 						Name = "IMS Caliper Implementation Guide",
 						DateCreated = Instant.FromUtc(2016, 10, 01, 06, 00, 00),
-						Version = "1.1"
-
-					}
-				}
+						Version = "1.1",
+                        HideCaliperContext = true
+					},
+                    HideCaliperContext = true
+                }
 			};
 
 			JsonAssertions.AssertSameObjectJson(entity, "caliperEntityPage");
@@ -654,7 +677,7 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityPerson_MatchesReferenceJson() {
 
 			var entity = new Person(
-				"https://example.edu/users/554433") {
+				"https://example.edu/users/554433", defaultContextV1p1) {
 				DateCreated = Caliper11TestEntities.Instant20160801060000,
 				DateModified = Instant.FromUtc(2016, 09, 02, 11, 30, 00)
 			};
@@ -665,13 +688,14 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EntityResponseExtended_MatchesReferenceJson() {
 			var entity = new Response(
-				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/6/users/554433/responses/1") {
-				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/6/users/554433/attempts/1") {
-					Assignee = Caliper11TestEntities.Person554433,
-					Assignable = Caliper11TestEntities.AssessmentItem6,
+				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/6/users/554433/responses/1", defaultContextV1p1) {
+				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/6/users/554433/attempts/1", defaultContextV1p1) {
+					Assignee = Caliper11TestEntities.Person554433(defaultContextV1p1),
+					Assignable = Caliper11TestEntities.AssessmentItem6(defaultContextV1p1),
 					Count = 1,
 					StartedAtTime = Caliper11TestEntities.Instant20161115101546,
 					EndedAtTime = Caliper11TestEntities.Instant20161115101720,
+                    HideCaliperContext = true
 				},
 				DateCreated = Caliper11TestEntities.Instant20161115101546,
 				StartedAtTime = Caliper11TestEntities.Instant20161115101546,
@@ -679,7 +703,10 @@ namespace ImsGlobal.Caliper.Tests {
 				Extensions = new { value = "A Caliper Event describes a relationship established between an actor and an object.  The relationship is formed as a result of a purposeful action undertaken by the actor in connection to the object at a particular moment. A learner starting an assessment, annotating a reading, pausing a video, or posting a message to a forum, are examples of learning activities that Caliper models as events." }
 			};
 
-			var coerced = JsonAssertions.coerce(entity,
+            entity.Attempt.Assignable.HideCaliperContext = true;
+            entity.Attempt.Assignable.IsPartOf.HideCaliperContext = true;
+
+            var coerced = JsonAssertions.coerce(entity,
 				new string[] { "..attempt.assignee" });
 
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEntityResponseExtended");
@@ -690,23 +717,24 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityResult_MatchesReferenceJson() {
 
 			var entity = new Result(
-				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1/results/1") {
-				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1") {
-					Assignee = new Person("https://example.edu/users/554433"),
-					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1"),
+				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1/results/1", defaultContextV1p1) {
+				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", defaultContextV1p1) {
+					Assignee = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1) { HideCaliperContext = true },
 					Count = 1,
 					DateCreated = Instant.FromUtc(2016, 11, 15, 10, 05, 00),
 					StartedAtTime = Instant.FromUtc(2016, 11, 15, 10, 05, 00),
 					EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 55, 30),
-					Duration = Period.FromMinutes(50) + Period.FromSeconds(30)
-
+					Duration = Period.FromMinutes(50) + Period.FromSeconds(30),
+                    HideCaliperContext = true
 				},
 				Comment = "Consider retaking the assessment.",
 				MaxResultScore = 15.0,
 				ResultScore = 10.0,
-				ScoredBy = new SoftwareApplication("https://example.edu/autograder") {
-					DateCreated = Instant.FromUtc(2016, 11, 15, 10, 55, 58)
-				},
+				ScoredBy = new SoftwareApplication("https://example.edu/autograder", defaultContextV1p1) {
+					DateCreated = Instant.FromUtc(2016, 11, 15, 10, 55, 58),
+                    HideCaliperContext = true
+                },
 				DateCreated = Instant.FromUtc(2016, 11, 15, 10, 56, 00)
 			};
 
@@ -715,21 +743,23 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EntityScore_MatchesReferenceJson() {
-			var entity = new Score("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1/scores/1") {
-				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1") {
-					Assignee = Caliper11TestEntities.Person554433,
-					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1"),
+			var entity = new Score("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1/scores/1", defaultContextV1p1) {
+				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", defaultContextV1p1) {
+					Assignee = Caliper11TestEntities.Person554433(defaultContextV1p1),
+					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1),
 					Count = 1,
 					DateCreated = Instant.FromUtc(2016, 11, 15, 10, 05, 00),
 					StartedAtTime = Instant.FromUtc(2016, 11, 15, 10, 05, 00),
 					EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 55, 30),
-					Duration = Period.FromMinutes(50) + Period.FromSeconds(30)
+					Duration = Period.FromMinutes(50) + Period.FromSeconds(30),
+                    HideCaliperContext = true
 				},
 				MaxScore = 15.0,
 				ScoreGiven = 10.0,
-				ScoredBy = new SoftwareApplication("https://example.edu/autograder") {
+				ScoredBy = new SoftwareApplication("https://example.edu/autograder", defaultContextV1p1) {
 					DateCreated = Instant.FromUtc(2016, 11, 15, 10, 55, 58),
-				},
+                    HideCaliperContext = true
+                },
 				Comment = "auto-graded exam",
 				DateCreated = Instant.FromUtc(2016, 11, 15, 10, 56, 00),
 			};
@@ -746,15 +776,17 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntitySelectTextResponse_MatchesReferenceJson() {
 
 			var entity = new SelectTextResponse(
-				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/4/users/554433/responses/1") {
-				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/4/users/554433/attempts/1") {
-					Assignee = new Person("https://example.edu/users/554433"),
-					Assignable = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/4") {
-						IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1")
-					},
+				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/4/users/554433/responses/1", defaultContextV1p1) {
+				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/4/users/554433/attempts/1", defaultContextV1p1) {
+					Assignee = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+					Assignable = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/4", defaultContextV1p1) {
+						IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1) { HideCaliperContext = true },
+                        HideCaliperContext = true
+                    },
 					Count = 1,
 					StartedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 32),
-					EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 38)
+					EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 38),
+                    HideCaliperContext = true
 				},
 
 				DateCreated = Instant.FromUtc(2016, 11, 15, 10, 15, 32),
@@ -771,8 +803,8 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntitySession_MatchesReferenceJson() {
 
 			var entity = new Session(
-				"https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259") {
-				User = new Person("https://example.edu/users/554433"),
+				"https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259", defaultContextV1p1) {
+				User = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
 				StartedAt = Instant.FromUtc(2016, 9, 15, 10, 00, 00)
 			};
 
@@ -783,13 +815,13 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntitySharedAnnotation_MatchesReferenceJson() {
 
 			var entity = new ShareAnnotation(
-				"https://example.edu/users/554433/etexts/201/shares/1") {
-				Annotator = new Person("https://example.edu/users/554433"),
-				Annotated = new Document("https://example.edu/etexts/201.epub"),
+				"https://example.edu/users/554433/etexts/201/shares/1", defaultContextV1p1) {
+				Annotator = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+				Annotated = new Document("https://example.edu/etexts/201.epub", defaultContextV1p1) { HideCaliperContext = true },
 				WithAgents = new[] {
-					new Person("https://example.edu/users/657585"),
-					new Person("https://example.edu/users/667788")
-				},
+					new Person("https://example.edu/users/657585", defaultContextV1p1) { HideCaliperContext = true },
+					new Person("https://example.edu/users/667788", defaultContextV1p1) { HideCaliperContext = true }
+                },
 				DateCreated = Instant.FromUtc(2016, 08, 01, 9, 00, 00)
 			};
 
@@ -800,7 +832,7 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntitySoftwareApplication_MatchesReferenceJson() {
 
 			var entity = new SoftwareApplication(
-				"https://example.edu/autograder") {
+				"https://example.edu/autograder", defaultContextV1p1) {
 				Name = "Auto Grader",
 				Description = "Automates assignment scoring.",
 				Version = "2.5.2"
@@ -813,9 +845,9 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityTagAnnotation_MatchesReferenceJson() {
 
 			var entity = new TagAnnotation(
-				"https://example.com/users/554433/texts/imscaliperimplguide/tags/3") {
-				Annotator = new Person("https://example.edu/users/554433"),
-				Annotated = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0"),
+				"https://example.com/users/554433/texts/imscaliperimplguide/tags/3", defaultContextV1p1) {
+				Annotator = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+				Annotated = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0", defaultContextV1p1) { HideCaliperContext = true },
 				Tags = new[] { "profile", "event", "entity" },
 				DateCreated = Instant.FromUtc(2016, 08, 01, 9, 0, 0)
 			};
@@ -827,24 +859,27 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityThread_MatchesReferenceJson() {
 
 			var msg1 = new Message(
-				"https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1/messages/1");
+                "https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1/messages/1", defaultContextV1p1) { HideCaliperContext = true };
 			var msg2 = new Message(
-				"https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1/messages/2") { ReplyTo = msg1 };
+				"https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1/messages/2", defaultContextV1p1) { ReplyTo = msg1, HideCaliperContext = true };
 			var msg3 = new Message(
-				"https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1/messages/3") {
-				ReplyTo = new Message("https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1/messages/2")
-			};
+				"https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1/messages/3", defaultContextV1p1) {
+				ReplyTo = new Message("https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1/messages/2", defaultContextV1p1) { HideCaliperContext = true },
+                HideCaliperContext = true
+            };
 
 			var entity = new Thread(
-				"https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1") {
+				"https://example.edu/terms/201601/courses/7/sections/1/forums/1/topics/1", defaultContextV1p1) {
 				Name = "Caliper Information Model",
 				Items = new[] { msg1, msg2, msg3 },
-				IsPartOf = new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/1") {
+				IsPartOf = new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/1", defaultContextV1p1) {
 					Name = "Caliper Forum",
-					IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1") {
-						SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7")
-					}
-				},
+					IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1) {
+						SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7", defaultContextV1p1) { HideCaliperContext = true },
+                        HideCaliperContext = true
+                    },
+                    HideCaliperContext = true
+                },
 				DateCreated = Caliper11TestEntities.Instant20160801060000,
 				DateModified = Instant.FromUtc(2016, 09, 02, 11, 30, 00)
 			};
@@ -856,15 +891,17 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityTrueFalseResponse_MatchesReferenceJson() {
 
 			var entity = new TrueFalseResponse(
-				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/5/users/554433/responses/1") {
-				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/5/users/554433/attempts/1") {
-					Assignee = new Person("https://example.edu/users/554433"),
-					Assignable = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/5") {
-						IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1")
-					},
+				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/5/users/554433/responses/1", defaultContextV1p1) {
+				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/5/users/554433/attempts/1", defaultContextV1p1) {
+					Assignee = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+					Assignable = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/5", defaultContextV1p1) {
+						IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1) { HideCaliperContext = true },
+                        HideCaliperContext = true
+                    },
 					Count = 1,
 					StartedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 40),
-					EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 45)
+					EndedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 45),
+                    HideCaliperContext = true
 				},
 				DateCreated = Instant.FromUtc(2016, 11, 15, 10, 15, 45),
 				StartedAtTime = Instant.FromUtc(2016, 11, 15, 10, 15, 40),
@@ -881,7 +918,7 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityVideoObject_MatchesReferenceJson() {
 
 			var entity = new VideoObject(
-				"https://example.edu/videos/1225") {
+				"https://example.edu/videos/1225", defaultContextV1p1) {
 				MediaType = "video/ogg",
 				Name = "Introduction to IMS Caliper",
 				Version = "1.1",
@@ -898,12 +935,13 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityWebPage_MatchesReferenceJson() {
 
 			var entity = new WebPage(
-				"https://example.edu/terms/201601/courses/7/sections/1/pages/index.html") {
+				"https://example.edu/terms/201601/courses/7/sections/1/pages/index.html", defaultContextV1p1) {
 				Name = "CPS 435-01 Landing Page",
 				MediaType = "text/html",
-				IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1") {
+				IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1) {
 					CourseNumber = "CPS 435-01",
-					AcademicSession = "Fall 2016"
+					AcademicSession = "Fall 2016",
+                    HideCaliperContext = true
 				}
 			};
 
@@ -913,28 +951,34 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EnvelopeEntityBatch_MatchesReferenceJson() {
 
-			var Person554433 = Caliper11TestEntities.Person554433dates;
+			var Person554433 = Caliper11TestEntities.Person554433dates(defaultContextV1p1);
 
-			var Epub201 = new Document("https://example.edu/etexts/201.epub") {
+			var Epub201 = new Document("https://example.edu/etexts/201.epub", defaultContextV1p1) {
 				Name = "IMS Caliper Implementation Guide",
-				Creators = new[] { new Person("https://example.edu/people/12345"),
-					new Person("https://example.com/staff/56789") },
+				Creators = new[] { new Person("https://example.edu/people/12345", defaultContextV1p1){ HideCaliperContext = true },
+					new Person("https://example.com/staff/56789", defaultContextV1p1) { HideCaliperContext = true } },
 				DateCreated = Caliper11TestEntities.Instant20161001060000,
 				Version = "1.1"
 			};
 
 			var VideoCollection = new DigitalResourceCollection(
-				"https://example.edu/terms/201601/courses/7/sections/1/resources/2") {
+				"https://example.edu/terms/201601/courses/7/sections/1/resources/2", defaultContextV1p1) {
 				Name = "Video Collection",
-				IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1") {
-					SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7")
-				},
-				Items = new[] { Caliper11TestEntities.VideoObject_1, Caliper11TestEntities.VideoObject_2 },
+				IsPartOf = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1) {
+					SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7", defaultContextV1p1) { HideCaliperContext = true },
+                    HideCaliperContext = true
+                },
+				Items = new[] { Caliper11TestEntities.VideoObject_1(defaultContextV1p1), Caliper11TestEntities.VideoObject_2(defaultContextV1p1) },
 				DateCreated = Caliper11TestEntities.Instant20160801060000,
 				DateModified = Caliper11TestEntities.Instant20160902113000
 			};
 
-			var envelope = new CaliperMessage<JObject> {
+            foreach(var item in VideoCollection.Items)
+            {
+                item.HideCaliperContext = true;
+            }
+
+			var envelope = new CaliperMessage<JObject>(defaultContextV1p1) {
 				SensorId = Caliper11TestEntities.EnvelopeDefaultSensorId,
 				SendTime = Caliper11TestEntities.EnvelopeDefaultSendTime,
 				Data = new[] {
@@ -950,13 +994,19 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EnvelopeEntitySingle_MatchesReferenceJson() {
 
-			var envelope = new CaliperMessage<Entity> {
+            var digitalResource = Caliper11TestEntities.DigitalResourceSyllabusPDF(defaultContextV1p1);
+            digitalResource.Creators[0].HideCaliperContext = true;
+            digitalResource.IsPartOf.HideCaliperContext = true;
+            (digitalResource.IsPartOf as DigitalResourceCollection).IsPartOf.HideCaliperContext = true;
+
+            var envelope = new CaliperMessage<Entity>(defaultContextV1p1)
+            {
 				SensorId = Caliper11TestEntities.EnvelopeDefaultSensorId,
 				SendTime = Caliper11TestEntities.EnvelopeDefaultSendTime,
-				Data = new[] { Caliper11TestEntities.DigitalResourceSyllabusPDF }
+				Data = new[] { digitalResource }
 			};
 
-			JsonAssertions.AssertSameObjectJson(envelope, "caliperEnvelopeEntitySingle");
+            JsonAssertions.AssertSameObjectJson(envelope, "caliperEnvelopeEntitySingle");
 		}
 
 
@@ -964,57 +1014,74 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EnvelopeEventBatch_MatchesReferenceJson() {
 
 			var NavigationEvent = new NavigationEvent(
-				"urn:uuid:72f66ce5-d2ec-44cc-bce5-41602e1015dc") {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/2") {
+				"urn:uuid:72f66ce5-d2ec-44cc-bce5-41602e1015dc", defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/2", defaultContextV1p1) {
 					Name = "Learning Analytics Specifications",
 					Description = "Overview of Learning Analytics Specifications with particular emphasis on IMS Caliper.",
-					DateCreated = Caliper11TestEntities.Instant20160801090000
+					DateCreated = Caliper11TestEntities.Instant20160801090000,
+                    HideCaliperContext = true
 				},
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				Referrer = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/1"),
-				EdApp = Caliper11TestEntities.EpubReader123,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259
-			};
+				Referrer = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/1", defaultContextV1p1),
+				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+            };
+            NavigationEvent.Referrer.HideCaliperContext = true;
+            NavigationEvent.EdApp.HideCaliperContext = true;
+            (NavigationEvent.Group as CourseSection).HideCaliperContext = true;
+            NavigationEvent.Membership.HideCaliperContext = true;
+            NavigationEvent.Session.HideCaliperContext = true;
 
-			var BookmarkAnnotation = new BookmarkAnnotation(
-				"https://example.com/users/554433/texts/imscaliperimplguide/bookmarks/1") {
-				Annotator = Caliper11TestEntities.Person554433,
-				Annotated = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0"),
+            var BookmarkAnnotation = new BookmarkAnnotation(
+				"https://example.com/users/554433/texts/imscaliperimplguide/bookmarks/1", defaultContextV1p1) {
+				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Annotated = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0", defaultContextV1p1),
 				BookmarkNotes = "Caliper profiles model discrete learning activities or supporting activities that facilitate learning.",
 				DateCreated = Caliper11TestEntities.Instant20161115102000
 
 			};
 
 			var AnnotationEvent = new AnnotationEvent(
-				"urn:uuid:c0afa013-64df-453f-b0a6-50f3efbe4cc0", BookmarkAnnotation) {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = new Document("https://example.com/#/texts/imscaliperimplguide") {
+				"urn:uuid:c0afa013-64df-453f-b0a6-50f3efbe4cc0", BookmarkAnnotation, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = new Document("https://example.com/#/texts/imscaliperimplguide", defaultContextV1p1) {
 					Name = "IMS Caliper Implementation Guide",
-					Version = "1.1"
-				},
+					Version = "1.1",
+                    HideCaliperContext = true
+                },
 				EventTime = Caliper11TestEntities.Instant20161115102000,
-				EdApp = Caliper11TestEntities.EpubReader123,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259
+				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+            };
+            AnnotationEvent.Generated.HideCaliperContext = true;
+            AnnotationEvent.EdApp.HideCaliperContext = true;
+            (AnnotationEvent.Group as CourseSection).HideCaliperContext = true;
+            AnnotationEvent.Membership.HideCaliperContext = true;
+            AnnotationEvent.Session.HideCaliperContext = true;
 
-			};
-
-			var ViewEvent = new ViewEvent(
-							"urn:uuid:94bad4bd-a7b1-4c3e-ade4-2253efe65172") {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.Epub201,
+            var ViewEvent = new ViewEvent(
+							"urn:uuid:94bad4bd-a7b1-4c3e-ade4-2253efe65172", defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.Epub201(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115102100,
-				EdApp = Caliper11TestEntities.EpubReader123,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259
-			};
+				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+            };
+            ViewEvent.Object.HideCaliperContext = true;
+            ViewEvent.EdApp.HideCaliperContext = true;
+            (ViewEvent.Group as CourseSection).HideCaliperContext = true;
+            ViewEvent.Membership.HideCaliperContext = true;
+            ViewEvent.Session.HideCaliperContext = true;
 
-			var envelope = new CaliperMessage<JObject> {
+            var envelope = new CaliperMessage<JObject>(defaultContextV1p1)
+            {
 				SensorId = Caliper11TestEntities.EnvelopeDefaultSensorId,
 				SendTime = Caliper11TestEntities.EnvelopeDefaultSendTime,
 				Data = new[] {
@@ -1035,24 +1102,31 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EnvelopeEventSingle_MatchesReferenceJson() {
 
-			var envelope = new CaliperMessage<Event> {
+			var envelope = new CaliperMessage<Event>(defaultContextV1p1)
+            {
 				SensorId = "https://example.edu/sensors/1",
 				SendTime = Caliper11TestEntities.EnvelopeDefaultSendTime,
 				Data = new[] { new AssessmentEvent(
-					"urn:uuid:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594", Action.Started) {
-						Actor = Caliper11TestEntities.Person554433,
-						Object = Caliper11TestEntities.AssessmentQuizOne,
-						Generated = Caliper11TestEntities.Attempt1c,
+					"urn:uuid:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594", Action.Started, defaultContextV1p1) {
+						Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+						Object = Caliper11TestEntities.AssessmentQuizOne(defaultContextV1p1),
+						Generated = Caliper11TestEntities.Attempt1c(defaultContextV1p1),
 						EventTime = Caliper11TestEntities.Instant20161115101500,
-						EdApp = Caliper11TestEntities.SoftwareAppV2,
-						Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-						Membership = Caliper11TestEntities.EntityMembership554433Learner,
-						Session = Caliper11TestEntities.Session6259edu
-					}
+						EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+						Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+						Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+						Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+                    }
 				}
 			};
+            envelope.Data.First().Object.HideCaliperContext = true;
+            envelope.Data.First().Generated.HideCaliperContext = true;
+            envelope.Data.First().EdApp.HideCaliperContext = true;
+            (envelope.Data.First().Group as CourseSection).HideCaliperContext = true;
+            envelope.Data.First().Membership.HideCaliperContext = true;
+            envelope.Data.First().Session.HideCaliperContext = true;
 
-			var coerced = JsonAssertions.coerce(envelope,
+            var coerced = JsonAssertions.coerce(envelope,
 				new string[] { "..membership.member", "..membership.organization",
 							"..generated.assignee", "..generated.assignable" });
 
@@ -1063,13 +1137,13 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EnvelopeMixedBatch_MatchesReferenceJson() {
 
-			var Assessment = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0") {
+			var Assessment = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0", defaultContextV1p1) {
 				Name = "Quiz One",
 				Items = new[] {
-					new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/1"),
-					new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/2"),
-					new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3")
-				},
+					new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/1", defaultContextV1p1) { HideCaliperContext = true },
+					new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/2", defaultContextV1p1) { HideCaliperContext = true },
+					new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3", defaultContextV1p1) { HideCaliperContext = true }
+                },
 				DateCreated = Caliper11TestEntities.Instant20160801060000,
 				DateToStartOn = Caliper11TestEntities.Instant20160816050000,
 				DateToSubmit = Caliper11TestEntities.Instant20160928115959,
@@ -1084,43 +1158,47 @@ namespace ImsGlobal.Caliper.Tests {
 			};
 
 			var CourseSection = new CourseSection
-				("https://example.edu/terms/201601/courses/7/sections/1") {
+				("https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1) {
 				CourseNumber = "CPS 435-01",
 				AcademicSession = "Fall 2016",
 				Name = "CPS 435 Learning Analytics, Section 01",
 				Category = "seminar",
-				SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7") {
-					CourseNumber = "CPS 435"
-				},
+				SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7", defaultContextV1p1) {
+					CourseNumber = "CPS 435",
+                    HideCaliperContext = true
+                },
 				DateCreated = Caliper11TestEntities.Instant20160801060000
 			};
 
 			var AssessmentEventStarted = new AssessmentEvent(
-				"urn:uuid:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594", Action.Started) {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0"),
-				Generated = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1") {
-					Assignee = Caliper11TestEntities.Person554433,
-					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0"),
+				"urn:uuid:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594", Action.Started, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0", defaultContextV1p1),
+				Generated = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", defaultContextV1p1) {
+					Assignee = Caliper11TestEntities.Person554433(defaultContextV1p1),
+					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0", defaultContextV1p1),
 					Count = 1,
 					DateCreated = Caliper11TestEntities.Instant20161115101500,
 					StartedAtTime = Caliper11TestEntities.Instant20161115101500
 				},
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
+            AssessmentEventStarted.Generated.HideCaliperContext = true;
+            AssessmentEventStarted.Membership.HideCaliperContext = true;
+            AssessmentEventStarted.Session.HideCaliperContext = true;
 
-			var AssessmentEventSubmitted = new AssessmentEvent(
-				"urn:uuid:dad88464-0c20-4a19-a1ba-ddf2f9c3ff33", Action.Submitted) {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0"),
+            var AssessmentEventSubmitted = new AssessmentEvent(
+				"urn:uuid:dad88464-0c20-4a19-a1ba-ddf2f9c3ff33", Action.Submitted, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0", defaultContextV1p1),
 				Generated = new Attempt(
-					"https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1") {
-					Assignee = Caliper11TestEntities.Person554433,
-					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0"),
+					"https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", defaultContextV1p1) {
+					Assignee = Caliper11TestEntities.Person554433(defaultContextV1p1),
+					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0", defaultContextV1p1),
 					Count = 1,
 					DateCreated = Caliper11TestEntities.Instant20161115101500,
 					StartedAtTime = Caliper11TestEntities.Instant20161115101500,
@@ -1129,37 +1207,44 @@ namespace ImsGlobal.Caliper.Tests {
 				},
 
 				EventTime = Caliper11TestEntities.Instant20161115102530,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
+            AssessmentEventSubmitted.Generated.HideCaliperContext = true;
+            AssessmentEventSubmitted.Membership.HideCaliperContext = true;
+            AssessmentEventSubmitted.Session.HideCaliperContext = true;
 
-			var GradeEvent = new GradeEvent(
-						"urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d", Action.Graded) {
-				Actor = Caliper11TestEntities.AutoGraderV2,
-				Object = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1") {
-					Assignee = Caliper11TestEntities.Person554433,
-					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0"),
+            var GradeEvent = new GradeEvent(
+						"urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d", Action.Graded, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.AutoGraderV2(defaultContextV1p1),
+				Object = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", defaultContextV1p1) {
+					Assignee = Caliper11TestEntities.Person554433(defaultContextV1p1),
+					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0", defaultContextV1p1),
 					Count = 1,
 					DateCreated = Caliper11TestEntities.Instant20161115101500,
 					StartedAtTime = Caliper11TestEntities.Instant20161115101500,
 					EndedAtTime = Caliper11TestEntities.Instant20161115105512,
 					Duration = Period.FromMinutes(40) + Period.FromSeconds(12)
 				},
-				Generated = Caliper11TestEntities.Score1,
+				Generated = Caliper11TestEntities.Score1(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115105706,
-				EdApp = new SoftwareApplication("https://example.edu"),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16
-			};
+				EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1)
+            };
+            (GradeEvent.Actor as SoftwareApplication).HideCaliperContext = true;
+            GradeEvent.Object.HideCaliperContext = true;
+            GradeEvent.Generated.HideCaliperContext = true;
 
-			var envelope = new CaliperMessage<JObject> {
+            var envelope = new CaliperMessage<JObject>(defaultContextV1p1)
+            {
 				SensorId = Caliper11TestEntities.EnvelopeDefaultSensorId,
 				SendTime = Caliper11TestEntities.EnvelopeDefaultSendTime,
 				Data = new[] {
-					clean(toJobject(Caliper11TestEntities.Person554433dates)),
+					clean(toJobject(Caliper11TestEntities.Person554433dates(defaultContextV1p1))),
 					clean(toJobject(Assessment)),
-					clean(toJobject(Caliper11TestEntities.SoftwareAppV2)),
+					clean(toJobject(Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1))),
 					clean(toJobject(CourseSection)),
 					clean(toJobject(AssessmentEventStarted)),
 					clean(toJobject(AssessmentEventSubmitted)),
@@ -1180,31 +1265,38 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventAnnotationBookmarked_MatchesReferenceJson() {
 
-			var page = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0") {
+			var page = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0", defaultContextV1p1) {
 				Name = "IMS Caliper Implementation Guide, pg 5",
-				Version = "1.1"
+				Version = "1.1",
+                HideCaliperContext = true
 			};
 
 			var annotation = new BookmarkAnnotation(
-				"https://example.com/users/554433/texts/imscaliperimplguide/bookmarks/1") {
-				Annotator = Caliper11TestEntities.Person554433,
+				"https://example.com/users/554433/texts/imscaliperimplguide/bookmarks/1", defaultContextV1p1) {
+				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
 				Annotated = page,
 				BookmarkNotes = "Caliper profiles model discrete learning activities or supporting activities"
 				+ " that facilitate learning.",
 				DateCreated = Caliper11TestEntities.Instant20161115101500
 			};
 
-			var bookmarkEvent = new AnnotationEvent("urn:uuid:d4618c23-d612-4709-8d9a-478d87808067", annotation) {
-				Actor = Caliper11TestEntities.Person554433,
+			var bookmarkEvent = new AnnotationEvent("urn:uuid:d4618c23-d612-4709-8d9a-478d87808067", annotation, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
 				Object = page,
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.EpubReader123,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259
-			};
+				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+            };
 
-			var coerced = JsonAssertions.coerce(bookmarkEvent,
+            bookmarkEvent.Generated.HideCaliperContext = true;
+            bookmarkEvent.EdApp.HideCaliperContext = true;
+            (bookmarkEvent.Group as CourseSection).HideCaliperContext = true;
+            bookmarkEvent.Membership.HideCaliperContext = true;
+            bookmarkEvent.Session.HideCaliperContext = true;
+
+            var coerced = JsonAssertions.coerce(bookmarkEvent,
 				new string[] { "..generated.annotator", "..generated.annotated",
 								"..membership.organization", "..membership.member" });
 
@@ -1214,35 +1306,41 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventAnnotationHighlighted_MatchesReferenceJson() {
 
-			var doc = new Document("https://example.com/#/texts/imscaliperimplguide") {
+			var doc = new Document("https://example.com/#/texts/imscaliperimplguide", defaultContextV1p1) {
 				Name = "IMS Caliper Implementation Guide",
 				DateCreated = Caliper11TestEntities.Instant20161001060000,
-				Version = "1.1"
+				Version = "1.1",
+                HideCaliperContext = true
 			};
 
 			var annotation = new HighlightAnnotation(
-				"https://example.com/users/554433/texts/imscaliperimplguide/highlights?start=2300&end=2370") {
-				Annotator = Caliper11TestEntities.Person554433,
+				"https://example.com/users/554433/texts/imscaliperimplguide/highlights?start=2300&end=2370", defaultContextV1p1) {
+				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
 				Annotated = doc,
 				Selection = new TextPositionSelector {
 					Start = 2300,
 					End = 2370
 				},
 				SelectionText = "ISO 8601 formatted date and time expressed with millisecond precision.",
-				DateCreated = Caliper11TestEntities.Instant20161115101500
-			};
+				DateCreated = Caliper11TestEntities.Instant20161115101500,
+                HideCaliperContext = true
+            };
 
-			var highlightEvent = new AnnotationEvent("urn:uuid:0067a052-9bb4-4b49-9d1a-87cd43da488a", annotation) {
-				Actor = Caliper11TestEntities.Person554433,
+			var highlightEvent = new AnnotationEvent("urn:uuid:0067a052-9bb4-4b49-9d1a-87cd43da488a", annotation, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
 				Object = doc,
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.EpubReader123,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259
-			};
+				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+            };
+            highlightEvent.EdApp.HideCaliperContext = true;
+            (highlightEvent.Group as CourseSection).HideCaliperContext = true;
+            highlightEvent.Membership.HideCaliperContext = true;
+            highlightEvent.Session.HideCaliperContext = true;
 
-			var coerced = JsonAssertions.coerce(highlightEvent,
+            var coerced = JsonAssertions.coerce(highlightEvent,
 				new string[] { "..generated.annotator", "..generated.annotated",
 								"..membership.organization", "..membership.member" });
 
@@ -1251,35 +1349,44 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventAnnotationShared_MatchesReferenceJson() {
-			var doc = new Document("https://example.com/#/texts/imscaliperimplguide") {
+			var doc = new Document("https://example.com/#/texts/imscaliperimplguide", defaultContextV1p1) {
 				Name = "IMS Caliper Implementation Guide",
-				Version = "1.1"
+				Version = "1.1",
+                HideCaliperContext = true
 			};
 
 			var annotation = new ShareAnnotation(
-				"https://example.com/users/554433/texts/imscaliperimplguide/shares/1") {
-				Annotator = Caliper11TestEntities.Person554433,
+				"https://example.com/users/554433/texts/imscaliperimplguide/shares/1", defaultContextV1p1) {
+				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
 				Annotated = doc,
 				WithAgents = new[] {
-					new Person( "https://example.edu/users/657585" ) {
-					},
-					new Person( "https://example.edu/users/667788" ) {
-					}
+					new Person("https://example.edu/users/657585", defaultContextV1p1) {
+                        HideCaliperContext = true
+                    },
+					new Person("https://example.edu/users/667788", defaultContextV1p1) {
+                        HideCaliperContext = true
+                    }
 				},
-				DateCreated = Caliper11TestEntities.Instant20161115101500
-			};
+				DateCreated = Caliper11TestEntities.Instant20161115101500,
+                HideCaliperContext = true
+            };
 
-			var shareEvent = new AnnotationEvent("urn:uuid:3bdab9e6-11cd-4a0f-9d09-8e363994176b", annotation) {
-				Actor = Caliper11TestEntities.Person554433,
+			var shareEvent = new AnnotationEvent("urn:uuid:3bdab9e6-11cd-4a0f-9d09-8e363994176b", annotation, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
 				Object = doc,
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.EpubReader123,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259
-			};
+				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+            };
+            shareEvent.Object.HideCaliperContext = true;
+            shareEvent.EdApp.HideCaliperContext = true;
+            (shareEvent.Group as CourseSection).HideCaliperContext = true;
+            shareEvent.Membership.HideCaliperContext = true;
+            shareEvent.Session.HideCaliperContext = true;
 
-			var coerced = JsonAssertions.coerce(shareEvent,
+            var coerced = JsonAssertions.coerce(shareEvent,
 				new string[] { "..generated.annotator", "..generated.annotated",
 								"..membership.organization", "..membership.member" });
 
@@ -1288,30 +1395,37 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventAnnotationTagged_MatchesReferenceJson() {
-			var doc = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0") {
+			var doc = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0", defaultContextV1p1) {
 				Name = "IMS Caliper Implementation Guide, pg 5",
-				Version = "1.1"
-			};
+				Version = "1.1",
+                HideCaliperContext = true
+            };
 
 			var annotation = new TagAnnotation(
-				"https://example.com/users/554433/texts/imscaliperimplguide/tags/3") {
-				Annotator = Caliper11TestEntities.Person554433,
+				"https://example.com/users/554433/texts/imscaliperimplguide/tags/3", defaultContextV1p1) {
+				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
 				Annotated = doc,
 				Tags = new[] { "profile", "event", "entity" },
-				DateCreated = Caliper11TestEntities.Instant20161115101500
-			};
+				DateCreated = Caliper11TestEntities.Instant20161115101500,
+                HideCaliperContext = true
+            };
 
-			var tagEvent = new AnnotationEvent("urn:uuid:b2009c63-2659-4cd2-b71e-6e03c498f02b", annotation) {
-				Actor = Caliper11TestEntities.Person554433,
+			var tagEvent = new AnnotationEvent("urn:uuid:b2009c63-2659-4cd2-b71e-6e03c498f02b", annotation, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
 				Object = doc,
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.EpubReader123,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259
-			};
+				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+            };
+            tagEvent.Object.HideCaliperContext = true;
+            tagEvent.EdApp.HideCaliperContext = true;
+            (tagEvent.Group as CourseSection).HideCaliperContext = true;
+            tagEvent.Membership.HideCaliperContext = true;
+            tagEvent.Session.HideCaliperContext = true;
 
-			var coerced = JsonAssertions.coerce(tagEvent,
+            var coerced = JsonAssertions.coerce(tagEvent,
 				new string[] { "..generated.annotator", "..generated.annotated",
 								"..membership.organization", "..membership.member" });
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventAnnotationTagged");
@@ -1321,37 +1435,46 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventAssessmentItemCompleted_MatchesReferenceJson() {
 
 			var assessmentItemEvent = new AssessmentItemEvent(
-				"urn:uuid:e5891791-3d27-4df1-a272-091806a43dfb", Action.Completed) {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3") {
+				"urn:uuid:e5891791-3d27-4df1-a272-091806a43dfb", Action.Completed, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3", defaultContextV1p1) {
 					Name = "Assessment Item 3",
-					IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1"),
+					IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1) { HideCaliperContext = true },
 					DateToStartOn = Caliper11TestEntities.Instant20161114050000,
 					DateToSubmit = Caliper11TestEntities.Instant20161118115959,
 					MaxAttempts = 2,
 					MaxSubmits = 2,
 					MaxScore = 1.0,
 					IsTimeDependent = false,
-					Version = "1.0"
+					Version = "1.0",
+                    HideCaliperContext = true
 
 				},
 				Generated = new FillInBlankResponse(
-					"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/responses/1") {
-					Attempt = Caliper11TestEntities.Attempt1,
+					"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/responses/1", defaultContextV1p1) {
+					Attempt = Caliper11TestEntities.Attempt1(defaultContextV1p1),
 					DateCreated = Caliper11TestEntities.Instant20161115101512,
 					StartedAtTime = Caliper11TestEntities.Instant20161115101502,
 					EndedAtTime = Caliper11TestEntities.Instant20161115101512,
-					Values = new[] { "subject", "object", "predicate" }
-				},
+					Values = new[] { "subject", "object", "predicate" },
+                    HideCaliperContext = true
+                },
 
 				EventTime = Caliper11TestEntities.Instant20161115101512,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
+            assessmentItemEvent.Generated.Attempt.HideCaliperContext = true;
+            assessmentItemEvent.Generated.Attempt.Assignable.HideCaliperContext = true;
+            assessmentItemEvent.Generated.Attempt.Assignable.IsPartOf.HideCaliperContext = true;
+            assessmentItemEvent.EdApp.HideCaliperContext = true;
+            (assessmentItemEvent.Group as CourseSection).HideCaliperContext = true;
+            assessmentItemEvent.Membership.HideCaliperContext = true;
+            assessmentItemEvent.Session.HideCaliperContext = true;
 
-			var coerced = JsonAssertions.coerce(assessmentItemEvent,
+            var coerced = JsonAssertions.coerce(assessmentItemEvent,
 				new string[] { "..attempt.assignee", "..attempt.isPartOf", "..membership.member", "..membership.organization" });
 
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventAssessmentItemCompleted");
@@ -1361,15 +1484,21 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventAssessmentItemSkipped_MatchesReferenceJson() {
 
 			var assessmentItemEvent = new AssessmentItemEvent(
-				"urn:uuid:04e27704-73bf-4d3c-912c-1b2da40aef8f", Action.Skipped) {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.AssessmentItem2,
+				"urn:uuid:04e27704-73bf-4d3c-912c-1b2da40aef8f", Action.Skipped, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.AssessmentItem2(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101430,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
+            assessmentItemEvent.Object.HideCaliperContext = true;
+            assessmentItemEvent.Object.IsPartOf.HideCaliperContext = true;
+            assessmentItemEvent.EdApp.HideCaliperContext = true;
+            (assessmentItemEvent.Group as CourseSection).HideCaliperContext = true;
+            assessmentItemEvent.Membership.HideCaliperContext = true;
+            assessmentItemEvent.Session.HideCaliperContext = true;
 
 			var coerced = JsonAssertions.coerce(assessmentItemEvent,
 				new string[] { "..membership.member", "..membership.organization" });
@@ -1381,18 +1510,26 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventAssessmentItemStarted_MatchesReferenceJson() {
 
 			var assessmentItemEvent = new AssessmentItemEvent(
-				"urn:uuid:1b557176-ba67-4624-b060-6bee670a3d8e", Action.Started) {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.AssessmentItem3b,
-				Generated = Caliper11TestEntities.Attempt1b,
+				"urn:uuid:1b557176-ba67-4624-b060-6bee670a3d8e", Action.Started, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.AssessmentItem3b(defaultContextV1p1),
+				Generated = Caliper11TestEntities.Attempt1b(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
+            assessmentItemEvent.Object.HideCaliperContext = true;
+            assessmentItemEvent.Object.IsPartOf.HideCaliperContext = true;
+            assessmentItemEvent.Generated.HideCaliperContext = true;
+            assessmentItemEvent.Generated.IsPartOf.HideCaliperContext = true;
+            assessmentItemEvent.EdApp.HideCaliperContext = true;
+            (assessmentItemEvent.Group as CourseSection).HideCaliperContext = true;
+            assessmentItemEvent.Membership.HideCaliperContext = true;
+            assessmentItemEvent.Session.HideCaliperContext = true;
 
-			var coerced = JsonAssertions.coerce(assessmentItemEvent,
+            var coerced = JsonAssertions.coerce(assessmentItemEvent,
 				new string[] { "..membership.member", "..membership.organization",
 							"..generated.assignee", "..generated.assignable" });
 
@@ -1403,19 +1540,24 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventAssessmentStarted_MatchesReferenceJson() {
 
 			var assessmentEvent = new AssessmentEvent(
-				"urn:uuid:27734504-068d-4596-861c-2315be33a2a2", Action.Started) {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.AssessmentQuizOne,
-				Generated = Caliper11TestEntities.Attempt1c,
+				"urn:uuid:27734504-068d-4596-861c-2315be33a2a2", Action.Started, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.AssessmentQuizOne(defaultContextV1p1),
+				Generated = Caliper11TestEntities.Attempt1c(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
+            assessmentEvent.Object.HideCaliperContext = true;
+            assessmentEvent.Generated.HideCaliperContext = true;
+            assessmentEvent.EdApp.HideCaliperContext = true;
+            (assessmentEvent.Group as CourseSection).HideCaliperContext = true;
+            assessmentEvent.Membership.HideCaliperContext = true;
+            assessmentEvent.Session.HideCaliperContext = true;
 
-
-			var coerced = JsonAssertions.coerce(assessmentEvent,
+            var coerced = JsonAssertions.coerce(assessmentEvent,
 				new string[] { "..membership.member", "..membership.organization",
 							"..generated.assignee", "..generated.assignable" });
 
@@ -1426,18 +1568,24 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventAssessmentSubmitted_MatchesReferenceJson() {
 
 			var assessmentEvent = new AssessmentEvent(
-				"urn:uuid:dad88464-0c20-4a19-a1ba-ddf2f9c3ff33", Action.Submitted) {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.AssessmentQuizOne,
-				Generated = Caliper11TestEntities.Attempt2,
+				"urn:uuid:dad88464-0c20-4a19-a1ba-ddf2f9c3ff33", Action.Submitted, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.AssessmentQuizOne(defaultContextV1p1),
+				Generated = Caliper11TestEntities.Attempt2(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115102530,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
+            assessmentEvent.Object.HideCaliperContext = true;
+            assessmentEvent.Generated.HideCaliperContext = true;
+            assessmentEvent.EdApp.HideCaliperContext = true;
+            (assessmentEvent.Group as CourseSection).HideCaliperContext = true;
+            assessmentEvent.Membership.HideCaliperContext = true;
+            assessmentEvent.Session.HideCaliperContext = true;
 
-			var coerced = JsonAssertions.coerce(assessmentEvent,
+            var coerced = JsonAssertions.coerce(assessmentEvent,
 				new string[] { "..generated.assignable", "..generated.assignee", "..membership.member", "..membership.organization",
 							"..object.assignee" });
 
@@ -1447,15 +1595,21 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventAssignableActivated_MatchesReferenceJson() {
 			var assignableEvent = new AssignableEvent(
-				"urn:uuid:2635b9dd-0061-4059-ac61-2718ab366f75", Action.Activated) {
-				Actor = Caliper11TestEntities.Person112233,
-				Object = Caliper11TestEntities.AssessmentQuizOneB,
+				"urn:uuid:2635b9dd-0061-4059-ac61-2718ab366f75", Action.Activated, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person112233(defaultContextV1p1),
+				Object = Caliper11TestEntities.AssessmentQuizOneB(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161112101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership112233Instructor,
-				Session = Caliper11TestEntities.Session6259edu2
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership112233Instructor(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu2(defaultContextV1p1)
+            };
+            (assignableEvent.Actor as Person).HideCaliperContext = true;
+            assignableEvent.Object.HideCaliperContext = true;
+            assignableEvent.EdApp.HideCaliperContext = true;
+            (assignableEvent.Group as CourseSection).HideCaliperContext = true;
+            assignableEvent.Membership.HideCaliperContext = true;
+            assignableEvent.Session.HideCaliperContext = true;
 
 			var coerced = JsonAssertions.coerce(assignableEvent,
 				new string[] { "..membership.member", "..membership.organization" });
@@ -1465,13 +1619,14 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventBasicCreated_MatchesReferenceJson() {
-			var evnt = new Event("urn:uuid:3a648e68-f00d-4c08-aa59-8738e1884f2c") {
+			var evnt = new Event("urn:uuid:3a648e68-f00d-4c08-aa59-8738e1884f2c", defaultContextV1p1) {
 				Action = Action.Created,
-				Actor = Caliper11TestEntities.Person554433,
-				Object = new Document("https://example.edu/terms/201601/courses/7/sections/1/resources/123") {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = new Document("https://example.edu/terms/201601/courses/7/sections/1/resources/123", defaultContextV1p1) {
 					Name = "Course Syllabus",
 					DateCreated = Caliper11TestEntities.Instant20161112071500,
-					Version = "1"
+					Version = "1",
+                    HideCaliperContext = true
 				},
 				EventTime = Caliper11TestEntities.Instant20161115101500
 			};
@@ -1480,19 +1635,25 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventBasicModifiedExtended_MatchesReferenceJson() {
-			var evnt = new Event("urn:uuid:5973dcd9-3126-4dcc-8fd8-8153a155361c") {
+			var evnt = new Event("urn:uuid:5973dcd9-3126-4dcc-8fd8-8153a155361c", defaultContextV1p1) {
 				Action = Action.Modified,
-				Actor = Caliper11TestEntities.Person554433,
-				Object = new Document("https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=3") {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = new Document("https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=3", defaultContextV1p1) {
 					Name = "Course Syllabus",
 					DateCreated = Caliper11TestEntities.Instant20161112071500,
 					DateModified = Caliper11TestEntities.Instant20161115101500,
-					Version = "3"
-				},
+					Version = "3",
+                    HideCaliperContext = true
+                },
 				EventTime = Caliper11TestEntities.Instant20161115101500,
 				Extensions = new ExtensionObject2()
-
 			};
+
+            foreach (Document archive in (evnt.Extensions as ExtensionObject2).Archive as IList)
+            {
+                archive.HideCaliperContext = true;
+            }
+
 			JsonAssertions.AssertSameObjectJson(evnt, "caliperEventBasicModifiedExtended");
 		}
 
@@ -1501,13 +1662,13 @@ namespace ImsGlobal.Caliper.Tests {
 			[JsonProperty("archive", Order = 90)]
 			public IList Archive = new[] {
 				new Document(
-				"https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=2") {
+				"https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=2", defaultContextV1p1) {
 					DateCreated = Caliper11TestEntities.Instant20161112071500,
 					DateModified = Caliper11TestEntities.Instant20161113110000,
 					Version = "2"
 				},
 				new Document(
-				"https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=1") {
+				"https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=1", defaultContextV1p1) {
 					DateCreated = Caliper11TestEntities.Instant20161112071500,
 					Version = "1"
 				}
@@ -1517,15 +1678,22 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventForumSubscribed_MatchesReferenceJson() {
 			var forumEvent = new ForumEvent(
-				"urn:uuid:a2f41f9c-d57d-4400-b3fe-716b9026334e", Action.Subscribed) {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.Forum1Caliper,
+				"urn:uuid:a2f41f9c-d57d-4400-b3fe-716b9026334e", Action.Subscribed, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.Forum1Caliper(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101600,
-				EdApp = Caliper11TestEntities.ForumAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = Caliper11TestEntities.ForumAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
+
+            forumEvent.Object.HideCaliperContext = true;
+            forumEvent.Object.IsPartOf.HideCaliperContext = true;
+            forumEvent.EdApp.HideCaliperContext = true;
+            (forumEvent.Group as CourseSection).HideCaliperContext = true;
+            forumEvent.Membership.HideCaliperContext = true;
+            forumEvent.Session.HideCaliperContext = true;
 
 			var coerced = JsonAssertions.coerce(forumEvent,
 				new string[] { "..membership.member", "..membership.organization" });
@@ -1537,20 +1705,26 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventMediaPausedVideo_MatchesReferenceJson() {
 
 			var mediaEvent = new MediaEvent(
-				"urn:uuid:956b4a02-8de0-4991-b8c5-b6eebb6b4cab", Action.Paused) {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.VideoObject1,
-				Target = new MediaLocation("https://example.edu/UQVK-dsU7-Y?t=321") {
-					CurrentTime = Period.FromMinutes(5) + Period.FromSeconds(21)                 
+				"urn:uuid:956b4a02-8de0-4991-b8c5-b6eebb6b4cab", Action.Paused, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.VideoObject1(defaultContextV1p1),
+				Target = new MediaLocation("https://example.edu/UQVK-dsU7-Y?t=321", defaultContextV1p1) {
+					CurrentTime = Period.FromMinutes(5) + Period.FromSeconds(21),
+                    HideCaliperContext = true
 				},
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = new SoftwareApplication("https://example.edu/player"),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = new SoftwareApplication("https://example.edu/player", defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
 
-			JObject coerced = JsonAssertions.coerce(mediaEvent,
+            (mediaEvent.Object as VideoObject).HideCaliperContext = true;
+            (mediaEvent.Group as CourseSection).HideCaliperContext = true;
+            mediaEvent.Membership.HideCaliperContext = true;
+            mediaEvent.Session.HideCaliperContext = true;
+
+            JObject coerced = JsonAssertions.coerce(mediaEvent,
 				new string[] { "..membership.member", "..membership.organization", "..edApp" });
 
 			//nodatime period doesnt allow zero-padding, so fix in JObject state
@@ -1564,15 +1738,23 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventMessagePosted_MatchesReferenceJson() {
 			var messageEvent = new MessageEvent(
-				"urn:uuid:0d015a85-abf5-49ee-abb1-46dbd57fe64e", Action.Posted) {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.Message2,
+				"urn:uuid:0d015a85-abf5-49ee-abb1-46dbd57fe64e", Action.Posted, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.Message2(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.ForumAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = Caliper11TestEntities.ForumAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
+
+            messageEvent.Object.HideCaliperContext = true;
+            messageEvent.Object.IsPartOf.HideCaliperContext = true;
+            (messageEvent.Object.IsPartOf as Thread).IsPartOf.HideCaliperContext = true;
+            messageEvent.EdApp.HideCaliperContext = true;
+            (messageEvent.Group as CourseSection).HideCaliperContext = true;
+            messageEvent.Membership.HideCaliperContext = true;
+            messageEvent.Session.HideCaliperContext = true;
 
 			var coerced = JsonAssertions.coerce(messageEvent,
 				new string[] { "..membership.member", "..membership.organization" });
@@ -1583,17 +1765,28 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventMessageReplied_MatchesReferenceJson() {
 			var messageEvent = new MessageEvent(
-				"urn:uuid:aed54386-a3fb-45ff-90f9-a35d3daaf031", Action.Posted) {
-				Actor = Caliper11TestEntities.Person778899,
-				Object = Caliper11TestEntities.Message3,
+				"urn:uuid:aed54386-a3fb-45ff-90f9-a35d3daaf031", Action.Posted, defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person778899(defaultContextV1p1),
+				Object = Caliper11TestEntities.Message3(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101530,
-				EdApp = Caliper11TestEntities.ForumAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership778899Learner,
-				Session = Caliper11TestEntities.SessionCd50
-			};
+				EdApp = Caliper11TestEntities.ForumAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership778899Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.SessionCd50(defaultContextV1p1)
+            };
 
-			var coerced = JsonAssertions.coerce(messageEvent,
+            (messageEvent.Actor as Person).HideCaliperContext = true;
+            messageEvent.Object.HideCaliperContext = true;
+            messageEvent.Object.Creators.First().HideCaliperContext = true;
+            messageEvent.Object.ReplyTo.HideCaliperContext = true;
+            messageEvent.Object.IsPartOf.HideCaliperContext = true;
+            (messageEvent.Object.IsPartOf as Thread).IsPartOf.HideCaliperContext = true;
+            messageEvent.EdApp.HideCaliperContext = true;
+            (messageEvent.Group as CourseSection).HideCaliperContext = true;
+            messageEvent.Membership.HideCaliperContext = true;
+            messageEvent.Session.HideCaliperContext = true;
+
+            var coerced = JsonAssertions.coerce(messageEvent,
 				new string[] { "..membership.member", "..membership.organization" });
 
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventMessageReplied");
@@ -1602,17 +1795,23 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventNavigationNavigatedTo_MatchesReferenceJson() {
 			var navEvent = new NavigationEvent(
-				"urn:uuid:ff9ec22a-fc59-4ae1-ae8d-2c9463ee2f8f") {
+				"urn:uuid:ff9ec22a-fc59-4ae1-ae8d-2c9463ee2f8f", defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.WebPage2,
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.WebPage2(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				Referrer = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/1"),
-				EdApp = new SoftwareApplication("https://example.edu"),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				Referrer = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/1", defaultContextV1p1),
+				EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
+
+            (navEvent.Object as WebPage).HideCaliperContext = true;
+            (navEvent.Group as CourseSection).HideCaliperContext = true;
+            navEvent.Membership.HideCaliperContext = true;
+            navEvent.Session.HideCaliperContext = true;
+            navEvent.Referrer.HideCaliperContext = true;
 
 			var coerced = JsonAssertions.coerce(navEvent,
 				new string[] { "..membership.member", "..membership.organization", "..edApp" });
@@ -1623,25 +1822,31 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventViewViewedFedSession_MatchesReferenceJson() {
 			var viewEvent = new ViewEvent(
-				"urn:uuid:4be6d29d-5728-44cd-8a8f-3d3f07e46b61") {
+				"urn:uuid:4be6d29d-5728-44cd-8a8f-3d3f07e46b61", defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.Epub202,
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.Epub202(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115102000,
-				EdApp = new SoftwareApplication("https://example.com"),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16b,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session1241,
+				EdApp = new SoftwareApplication("https://example.com", defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16b(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session1241(defaultContextV1p1),
 				FederatedSession = new LtiSession(
-					"urn:uuid:1c519ff7-3dfa-4764-be48-d2fb35a2925a") {
-					User = Caliper11TestEntities.Person554433,
+					"urn:uuid:1c519ff7-3dfa-4764-be48-d2fb35a2925a", defaultContextV1p1) {
+					User = Caliper11TestEntities.Person554433(defaultContextV1p1),
                     MessageParameters = new Caliper11TestEntities.LtiParamsViewViewedFedSession(),
                     DateCreated = Caliper11TestEntities.Instant20161115101500,
 					StartedAt = Caliper11TestEntities.Instant20161115101500
 				}
 			};
 
-			var coerced = JsonAssertions.coerce(viewEvent,
+            (viewEvent.Object as Document).HideCaliperContext = true;
+            (viewEvent.Group as CourseSection).HideCaliperContext = true;
+            viewEvent.Membership.HideCaliperContext = true;
+            viewEvent.FederatedSession.HideCaliperContext = true;
+            viewEvent.Session.HideCaliperContext = true;
+
+            var coerced = JsonAssertions.coerce(viewEvent,
 				new string[] { "..membership.member", "..membership.organization",
 							"..edApp", "..federatedSession.user" });
 
@@ -1651,17 +1856,17 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventNavigationNavigatedToThinned_MatchesReferenceJson() {
 			var navEvent = new NavigationEvent(
-				"urn:uuid:71657137-8e6e-44f8-8499-e1c3df6810d2") {
+				"urn:uuid:71657137-8e6e-44f8-8499-e1c3df6810d2", defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.WebPage2,
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.WebPage2(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				Referrer = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/1"),
-				EdApp = new SoftwareApplication("https://example.edu"),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				Referrer = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/1", defaultContextV1p1),
+				EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
 
 			var coerced = JsonAssertions.coerce(navEvent,
 				new string[] { "..actor", "..object", "..referrer", "..edApp",
@@ -1673,9 +1878,14 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventGradeGraded_MatchesReferenceJson() {
-			var gradeEvent = Caliper11TestEntities.GradeEvent1;
+			var gradeEvent = Caliper11TestEntities.GradeEvent1(defaultContextV1p1);
+            (gradeEvent.Actor as SoftwareApplication).HideCaliperContext = true;
+            (gradeEvent.Object as Attempt).HideCaliperContext = true;
+            (gradeEvent.Object as Attempt).Assignable.HideCaliperContext = true;
+            (gradeEvent.Generated as Score).HideCaliperContext = true;
+            (gradeEvent.Group as CourseSection).HideCaliperContext = true;
 
-			var coerced = JsonAssertions.coerce(gradeEvent,
+            var coerced = JsonAssertions.coerce(gradeEvent,
 				new string[] { "..edApp", "..scoredBy", "..generated.attempt" });
 
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventGradeGraded");
@@ -1685,17 +1895,24 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventGradeGradedItem_MatchesReferenceJson() {
 			var gradeEvent = new GradeEvent(
-				"urn:uuid:12c05c4e-253f-4073-9f29-5786f3ff3f36", Action.Graded) {
+				"urn:uuid:12c05c4e-253f-4073-9f29-5786f3ff3f36", Action.Graded, defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.AutoGraderV2,
-				Object = Caliper11TestEntities.Attempt1,
+				Actor = Caliper11TestEntities.AutoGraderV2(defaultContextV1p1),
+				Object = Caliper11TestEntities.Attempt1(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115105706,
-				EdApp = new SoftwareApplication("https://example.edu"),
-				Generated = Caliper11TestEntities.Score1b,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16
-			};
+				EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1),
+				Generated = Caliper11TestEntities.Score1b(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1)
+            };
 
-			var coerced = JsonAssertions.coerce(gradeEvent,
+            (gradeEvent.Actor as SoftwareApplication).HideCaliperContext = true;
+            (gradeEvent.Object as Attempt).HideCaliperContext = true;
+            (gradeEvent.Object as Attempt).Assignable.HideCaliperContext = true;
+            (gradeEvent.Object as Attempt).Assignable.IsPartOf.HideCaliperContext = true;
+            gradeEvent.Generated.HideCaliperContext = true;
+            (gradeEvent.Group as CourseSection).HideCaliperContext = true;
+
+            var coerced = JsonAssertions.coerce(gradeEvent,
 				new string[] { "..edApp", "..scoredBy", "..generated.attempt",
 							"..object.isPartOf" });
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventGradeGradedItem");
@@ -1704,16 +1921,19 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventSessionLoggedIn_MatchesReferenceJson() {
 			var sessionEvent = new SessionEvent(
-				"urn:uuid:fcd495d0-3740-4298-9bec-1154571dc211", Action.LoggedIn) {
+				"urn:uuid:fcd495d0-3740-4298-9bec-1154571dc211", Action.LoggedIn, defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.SoftwareAppV2,
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Session = Caliper11TestEntities.Session6259b
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259b(defaultContextV1p1)
+            };
 
-			var coerced = JsonAssertions.coerce(sessionEvent,
+            sessionEvent.Object.HideCaliperContext = true;
+            sessionEvent.Session.HideCaliperContext = true;
+
+            var coerced = JsonAssertions.coerce(sessionEvent,
 				new string[] { "..edApp", "..session.user" });
 
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventSessionLoggedIn");
@@ -1723,14 +1943,17 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventSessionLoggedInExtended_MatchesReferenceJson() {
 
 			var sessionEvent = new SessionEvent(
-				"urn:uuid:4ec2c31e-3ec0-4fe1-a017-b81561b075d7", Action.LoggedIn) {
+				"urn:uuid:4ec2c31e-3ec0-4fe1-a017-b81561b075d7", Action.LoggedIn, defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.SoftwareAppV2,
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115201115,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Session = Caliper11TestEntities.Session6259c
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259c(defaultContextV1p1)
+            };
+
+            sessionEvent.Object.HideCaliperContext = true;
+            sessionEvent.Session.HideCaliperContext = true;
 
 			sessionEvent.Session.Extensions = new RequestExtension();
 
@@ -1752,16 +1975,19 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventSessionLoggedOut_MatchesReferenceJson() {
 			var sessionEvent = new SessionEvent(
-				"urn:uuid:a438f8ac-1da3-4d48-8c86-94a1b387e0f6", Action.LoggedOut) {
+				"urn:uuid:a438f8ac-1da3-4d48-8c86-94a1b387e0f6", Action.LoggedOut, defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.SoftwareAppV2,
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115110500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Session = Caliper11TestEntities.Session6259d
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259d(defaultContextV1p1)
+            };
 
-			var coerced = JsonAssertions.coerce(sessionEvent,
+            sessionEvent.Object.HideCaliperContext = true;
+            sessionEvent.Session.HideCaliperContext = true;
+
+            var coerced = JsonAssertions.coerce(sessionEvent,
 				new string[] { "..edApp", "..session.user" });
 
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventSessionLoggedOut");
@@ -1770,12 +1996,12 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventSessionTimedOut_MatchesReferenceJson() {
 			var sessionEvent = new SessionEvent(
-				"urn:uuid:4e61cf6c-ffbe-45bc-893f-afe7ad4079dc", Action.TimedOut) {
+				"urn:uuid:4e61cf6c-ffbe-45bc-893f-afe7ad4079dc", Action.TimedOut, defaultContextV1p1) {
 
-				Actor = new SoftwareApplication("https://example.edu"),
+				Actor = new SoftwareApplication("https://example.edu", defaultContextV1p1),
 				Object = new Session(
-					"https://example.edu/sessions/7d6b88adf746f0692e2e873308b78c60fb13a864") {
-					User = Caliper11TestEntities.Person112233,
+					"https://example.edu/sessions/7d6b88adf746f0692e2e873308b78c60fb13a864", defaultContextV1p1) {
+					User = Caliper11TestEntities.Person112233(defaultContextV1p1),
 					DateCreated = Caliper11TestEntities.Instant20161115101500,
 					StartedAt = Caliper11TestEntities.Instant20161115101500,
 					EndedAt = Caliper11TestEntities.Instant20161115111500,
@@ -1783,9 +2009,12 @@ namespace ImsGlobal.Caliper.Tests {
 
 				},
 				EventTime = Caliper11TestEntities.Instant20161115111500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2
-
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1)
 			};
+
+            (sessionEvent.Actor as SoftwareApplication).HideCaliperContext = true;
+            sessionEvent.Object.HideCaliperContext = true;
+            (sessionEvent.Object as Session).User.HideCaliperContext = true;
 
 			var coerced = JsonAssertions.coerce(sessionEvent,
 				new string[] { "..edApp" });
@@ -1796,16 +2025,23 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventThreadMarkedAsRead_MatchesReferenceJson() {
 			var threadEvent = new ThreadEvent(
-				"urn:uuid:6b20c5ba-301c-4e56-85a0-2f3d9a94c249", Action.MarkedAsRead) {
+				"urn:uuid:6b20c5ba-301c-4e56-85a0-2f3d9a94c249", Action.MarkedAsRead, defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.Thread1,
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.Thread1(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101600,
-				EdApp = Caliper11TestEntities.ForumAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = Caliper11TestEntities.ForumAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
+
+            threadEvent.Object.HideCaliperContext = true;
+            threadEvent.Object.IsPartOf.HideCaliperContext = true;
+            threadEvent.EdApp.HideCaliperContext = true;
+            (threadEvent.Group as CourseSection).HideCaliperContext = true;
+            threadEvent.Membership.HideCaliperContext = true;
+            threadEvent.Session.HideCaliperContext = true;
 
 			var coerced = JsonAssertions.coerce(threadEvent,
 				new string[] { "..membership.member", "..membership.organization" });
@@ -1815,16 +2051,21 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventToolUseUsed_MatchesReferenceJson() {
 			var toolUseEvent = new ToolUseEvent(
-				"urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d916", Action.Used) {
+				"urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d916", Action.Used, defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433,
-				Object = new SoftwareApplication("https://example.edu"),
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = new SoftwareApplication("https://example.edu", defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
+
+            (toolUseEvent.Object as SoftwareApplication).HideCaliperContext = true;
+            (toolUseEvent.Group as CourseSection).HideCaliperContext = true;
+            toolUseEvent.Membership.HideCaliperContext = true;
+            toolUseEvent.Session.HideCaliperContext = true;
 
 			var coerced = JsonAssertions.coerce(toolUseEvent,
 				new string[] { "..membership.member", "..membership.organization", "..edApp" });
@@ -1835,25 +2076,24 @@ namespace ImsGlobal.Caliper.Tests {
         [Test]
         public void EventToolUseUsedWithProgress_MatchesReferenceJson()
         {
-            var person = new Person("https://example.edu/users/554433") { HideCaliperContext = true };
+            var person = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true };
 
-            var toolUseEvent = new ToolUseEvent("urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d916", Action.Used)
+            var toolUseEvent = new ToolUseEvent("urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d916", Action.Used, toolUseProfileExtensionV1p1)
             {
-                Context = CaliperContext.ToolUseProfileExtension,
-
+                Context = toolUseProfileExtensionV1p1,
                 Actor = person,
                 Action = Action.Used,
-                Object = new SoftwareApplication("https://example.edu") { HideCaliperContext = true},
+                Object = new SoftwareApplication("https://example.edu", defaultContextV1p1) { HideCaliperContext = true},
                 EventTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00),
-                EdApp = Caliper11TestEntities.SoftwareAppV2,
-                Generated = Caliper11TestEntities.AggregateMeasureCollection2019,
-                Group = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1")
+                EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+                Generated = Caliper11TestEntities.AggregateMeasureCollection2019(defaultContextV1p1),
+                Group = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1)
                 {
                     CourseNumber = "CPS 435-01",
                     Name = "CPS 435 Learning Analytics, Section 01",
                     AcademicSession = "Fall 2016",
                     Category = "seminar",
-                    SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7")
+                    SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7", defaultContextV1p1)
                     {
                         CourseNumber = "CPS 435",
                         HideCaliperContext = true
@@ -1861,12 +2101,12 @@ namespace ImsGlobal.Caliper.Tests {
                     DateCreated = Caliper11TestEntities.Instant20160801060000,
                     HideCaliperContext = true
                 },
-                Membership = new Membership("https://example.edu/terms/201601/courses/7/sections/1/rosters/1/members/554433")
+                Membership = new Membership("https://example.edu/terms/201601/courses/7/sections/1/rosters/1/members/554433", defaultContextV1p1)
                 {
                     Member = person,
-                    Organization = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1")
+                    Organization = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1)
                     {
-                        SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7") { HideCaliperContext = true },
+                        SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7", defaultContextV1p1) { HideCaliperContext = true },
                         HideCaliperContext = true
                     },
                     Roles = new[] { Role.Learner },
@@ -1874,12 +2114,12 @@ namespace ImsGlobal.Caliper.Tests {
                     DateCreated = Caliper11TestEntities.Instant20161101060000,
                     HideCaliperContext = true
                 },
-                Session = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259")
+                Session = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259", defaultContextV1p1)
                 {
                     User = person,
                     StartedAt = Instant.FromUtc(2016, 09, 15, 10, 00, 00),
                     HideCaliperContext = true
-                }
+                },
             };
 
             var coerced = JsonAssertions.coerce(toolUseEvent, new string[] { "..edApp" });
@@ -1890,17 +2130,22 @@ namespace ImsGlobal.Caliper.Tests {
         [Test]
 		public void EventViewViewed_MatchesReferenceJson() {
 			var viewEvent = new ViewEvent(
-				"urn:uuid:cd088ca7-c044-405c-bb41-0b2a8506f907") {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.Epub201,
+				"urn:uuid:cd088ca7-c044-405c-bb41-0b2a8506f907", defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.Epub201(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu
-			};
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+            };
 
-			var coerced = JsonAssertions.coerce(viewEvent,
+            (viewEvent.Object as Document).HideCaliperContext = true;
+            (viewEvent.Group as CourseSection).HideCaliperContext = true;
+            viewEvent.Membership.HideCaliperContext = true;
+            viewEvent.Session.HideCaliperContext = true;
+
+            var coerced = JsonAssertions.coerce(viewEvent,
 				new string[] { "..membership.member", "..membership.organization", "..edApp" });
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventViewViewed");
 		}
@@ -1908,16 +2153,21 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventViewViewedExtended_MatchesReferenceJson() {
 			var viewEvent = new ViewEvent(
-				"urn:uuid:3a9bd869-addc-48b1-80f6-a14b2ff591ed") {
-				Actor = Caliper11TestEntities.Person554433,
-				Object = Caliper11TestEntities.Epub200,
+				"urn:uuid:3a9bd869-addc-48b1-80f6-a14b2ff591ed", defaultContextV1p1) {
+				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Object = Caliper11TestEntities.Epub200(defaultContextV1p1),
 				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2,
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16,
-				Membership = Caliper11TestEntities.EntityMembership554433Learner,
-				Session = Caliper11TestEntities.Session6259edu,
+				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1),
 				Extensions = new ViewEventExtension1()
 			};
+
+            (viewEvent.Object as Document).HideCaliperContext = true;
+            (viewEvent.Group as CourseSection).HideCaliperContext = true;
+            viewEvent.Membership.HideCaliperContext = true;
+            viewEvent.Session.HideCaliperContext = true;
 
 			var coerced = JsonAssertions.coerce(viewEvent,
 				new string[] { "..membership.member", "..membership.organization", "..edApp" });
@@ -1938,16 +2188,16 @@ namespace ImsGlobal.Caliper.Tests {
         public void EventSearchSearched_MatchesReferenceJson()
         {
             var searchEvent = new SearchEvent(
-                "urn:uuid:cb3878ed-8240-4c6d-9fee-77221810f5e4", Action.Searched)
+                "urn:uuid:cb3878ed-8240-4c6d-9fee-77221810f5e4", Action.Searched, searchProfileExtensionV1p1)
             {
-                Actor = new Person("https://example.edu/users/554433") { HideCaliperContext = true },
-                Object = Caliper11TestEntities.CatalogApp,
+                Actor = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+                Object = Caliper11TestEntities.CatalogApp(defaultContextV1p1),
                 EventTime = Caliper11TestEntities.Instant20181115100500,
-                Generated = Caliper11TestEntities.SearchIMSCaliperAnalytics,
-                EdApp = Caliper11TestEntities.SoftwareAppV2,
-                Group = Caliper11TestEntities.CourseSectionCPS43501Fall18,
-                Membership = Caliper11TestEntities.EntityMembership554433Learner_2018,
-                Session = Caliper11TestEntities.Session6259_2018
+                Generated = Caliper11TestEntities.SearchIMSCaliperAnalytics(defaultContextV1p1),
+                EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
+                Group = Caliper11TestEntities.CourseSectionCPS43501Fall18(defaultContextV1p1),
+                Membership = Caliper11TestEntities.EntityMembership554433Learner_2018(defaultContextV1p1),
+                Session = Caliper11TestEntities.Session6259_2018(defaultContextV1p1)
             };
 
             var coerced = JsonAssertions.coerce(searchEvent,
@@ -1960,37 +2210,37 @@ namespace ImsGlobal.Caliper.Tests {
         public void EventToolLaunchLaunched_MatchesReferenceJson()
         {
             var toolLaunchEvent = new ToolLaunchEvent(
-                "urn:uuid:a2e8b214-4d4a-4456-bb4c-099945749117", Action.Launched)
+                "urn:uuid:a2e8b214-4d4a-4456-bb4c-099945749117", Action.Launched, toolLaunchProfileExtensionV1p1)
             {
-                Actor = new Person("https://example.edu/users/554433") { HideCaliperContext = true },
-                Object = new SoftwareApplication("https://example.com/lti/tool") { HideCaliperContext = true },
+                Actor = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+                Object = new SoftwareApplication("https://example.com/lti/tool", defaultContextV1p1) { HideCaliperContext = true },
                 EventTime = Caliper11TestEntities.Instant20181115101500,
-                EdApp = new SoftwareApplication("https://example.edu") { HideCaliperContext = true },
-                Referrer = new Entity("https://example.edu/terms/201801/courses/7/sections/1/pages/1") { Type = EntityType.WebPage, HideCaliperContext = true },
-                Group = new CourseSection("https://example.edu/terms/201801/courses/7/sections/1")
+                EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1) { HideCaliperContext = true },
+                Referrer = new Entity("https://example.edu/terms/201801/courses/7/sections/1/pages/1", defaultContextV1p1) { Type = EntityType.WebPage, HideCaliperContext = true },
+                Group = new CourseSection("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1)
                 {
                     CourseNumber = "CPS 435-01",
                     AcademicSession = "Fall 2018",
                     HideCaliperContext = true
                 },
-                Membership = new Membership("https://example.edu/terms/201801/courses/7/sections/1/rosters/1")
+                Membership = new Membership("https://example.edu/terms/201801/courses/7/sections/1/rosters/1", defaultContextV1p1)
                 {
-                    Member = new Person("https://example.edu/users/554433"),
-                    Organization = new Organization("https://example.edu/terms/201801/courses/7/sections/1"),
+                    Member = new Person("https://example.edu/users/554433", defaultContextV1p1),
+                    Organization = new Organization("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1),
                     Roles = new[] { Role.Learner },
                     Status = Status.Active,
                     DateCreated = Caliper11TestEntities.Instant20180801060000,
                     HideCaliperContext = true
                 },
-                Session = Caliper11TestEntities.Session6259_2018,
-                Target = new LtiLink("https://tool.com/link/123")
+                Session = Caliper11TestEntities.Session6259_2018(defaultContextV1p1),
+                Target = new LtiLink("https://tool.com/link/123", defaultContextV1p1)
                 {
                     MessageType = EntityType.LtiResourceLinkRequest,
                     HideCaliperContext = true
                 },
-                FederatedSession = new LtiSession("https://example.edu/lti/sessions/b533eb02823f31024e6b7f53436c42fb99b31241")
+                FederatedSession = new LtiSession("https://example.edu/lti/sessions/b533eb02823f31024e6b7f53436c42fb99b31241", defaultContextV1p1)
                 {
-                    User = new Person("https://example.edu/users/554433") { HideCaliperContext = true },
+                    User = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
                     MessageParameters = new Caliper11TestEntities.LtiParamsLtiSession(),
                     DateCreated = Caliper11TestEntities.Instant20181115101500,
                     StartedAt = Caliper11TestEntities.Instant20181115101500,
@@ -2007,33 +2257,33 @@ namespace ImsGlobal.Caliper.Tests {
         public void EventToolLaunchReturned_MatchesReferenceJson()
         {
             var toolLaunchEvent = new ToolLaunchEvent(
-                "urn:uuid:a2e8b214-4d4a-4456-bb4c-099945749117", Action.Returned)
+                "urn:uuid:a2e8b214-4d4a-4456-bb4c-099945749117", Action.Returned, toolLaunchProfileExtensionV1p1)
             {
-                Actor = new Person("https://example.edu/users/554433") { HideCaliperContext = true },
-                Object = new SoftwareApplication("https://example.com/lti/tool") { HideCaliperContext = true },
+                Actor = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+                Object = new SoftwareApplication("https://example.com/lti/tool", defaultContextV1p1) { HideCaliperContext = true },
                 EventTime = Caliper11TestEntities.Instant20181115101500,
-                EdApp = new SoftwareApplication("https://example.edu") { HideCaliperContext = true },
+                EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1) { HideCaliperContext = true },
                 Referrer = new Entity("https://tool.com/lti/123") { Type = EntityType.LtiLink, HideCaliperContext = true },
-                Group = new CourseSection("https://example.edu/terms/201801/courses/7/sections/1")
+                Group = new CourseSection("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1)
                 {
                     CourseNumber = "CPS 435-01",
                     AcademicSession = "Fall 2018",
                     HideCaliperContext = true
                 },
-                Membership = new Membership("https://example.edu/terms/201801/courses/7/sections/1/rosters/1")
+                Membership = new Membership("https://example.edu/terms/201801/courses/7/sections/1/rosters/1", defaultContextV1p1)
                 {
-                    Member = new Person("https://example.edu/users/554433"),
-                    Organization = new Organization("https://example.edu/terms/201801/courses/7/sections/1"),
+                    Member = new Person("https://example.edu/users/554433", defaultContextV1p1),
+                    Organization = new Organization("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1),
                     Roles = new[] { Role.Learner },
                     Status = Status.Active,
                     DateCreated = Caliper11TestEntities.Instant20180801060000,
                     HideCaliperContext = true
                 },
-                Session = Caliper11TestEntities.Session6259_2018,
-                Target = new Link("https://example.edu/terms/201801/courses/7/sections/1/pages/1") { HideCaliperContext = true },
-                FederatedSession = new LtiSession("https://example.edu/lti/sessions/b533eb02823f31024e6b7f53436c42fb99b31241")
+                Session = Caliper11TestEntities.Session6259_2018(defaultContextV1p1),
+                Target = new Link("https://example.edu/terms/201801/courses/7/sections/1/pages/1", defaultContextV1p1) { HideCaliperContext = true },
+                FederatedSession = new LtiSession("https://example.edu/lti/sessions/b533eb02823f31024e6b7f53436c42fb99b31241", defaultContextV1p1)
                 {
-                    User = new Person("https://example.edu/users/554433") { HideCaliperContext = true },
+                    User = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
                     DateCreated = Caliper11TestEntities.Instant20181115101500,
                     StartedAt = Caliper11TestEntities.Instant20181115101500,
                     HideCaliperContext = true
@@ -2048,7 +2298,7 @@ namespace ImsGlobal.Caliper.Tests {
         [Test]
         public void EntityAggregateMeasure_MatchesReferenceJson()
         {
-            var aggregateMeasure = new AggregateMeasure("urn:uuid:c3ba4c01-1f17-46e0-85dd-1e366e6ebb81")
+            var aggregateMeasure = new AggregateMeasure("urn:uuid:c3ba4c01-1f17-46e0-85dd-1e366e6ebb81", toolUseProfileExtensionV1p1)
             {
                 Metric = MetricUnitType.UnitsCompleted,
                 Name = "Units Completed",
@@ -2064,10 +2314,10 @@ namespace ImsGlobal.Caliper.Tests {
         [Test]
         public void EntityAggregateMeasureCollection_MatchesReferenceJson()
         {
-            var aggregateMeasureCollection = new AggregateMeasureCollection("urn:uuid:60b4db01-f1e5-4a7f-add9-6a8f761625b1")
+            var aggregateMeasureCollection = new AggregateMeasureCollection("urn:uuid:60b4db01-f1e5-4a7f-add9-6a8f761625b1", toolUseProfileExtensionV1p1)
             {
                 Items = new[] {
-                    new AggregateMeasure("urn:uuid:21c3f9f2-a9ef-4f65-bf9a-0699ed85e2c7")
+                    new AggregateMeasure("urn:uuid:21c3f9f2-a9ef-4f65-bf9a-0699ed85e2c7", defaultContextV1p1)
                     {
                         Metric = MetricUnitType.MinutesOnTask,
                         Name = "Minutes On Task",
@@ -2076,7 +2326,7 @@ namespace ImsGlobal.Caliper.Tests {
                         EndedAtTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00),
                         HideCaliperContext = true
                     },
-                    new AggregateMeasure("urn:uuid:c3ba4c01-1f17-46e0-85dd-1e366e6ebb81")
+                    new AggregateMeasure("urn:uuid:c3ba4c01-1f17-46e0-85dd-1e366e6ebb81", defaultContextV1p1)
                     {
                         Metric = MetricUnitType.UnitsCompleted,
                         Name = "Units Completed",
@@ -2095,7 +2345,7 @@ namespace ImsGlobal.Caliper.Tests {
         [Test]
         public void EntityLtiLink_MatchesReferenceJson()
         {
-            var ltiLink = new LtiLink("https://tool.com/link/123")
+            var ltiLink = new LtiLink("https://tool.com/link/123", toolLaunchProfileExtensionV1p1)
             {
                 MessageType = EntityType.LtiResourceLinkRequest
             };
@@ -2106,10 +2356,10 @@ namespace ImsGlobal.Caliper.Tests {
         [Test]
         public void EntityQuery_MatchesReferenceJson()
         {
-            var ltiLink = new Query("https://example.edu/users/554433/search?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29")
+            var ltiLink = new Query("https://example.edu/users/554433/search?query=IMS%20AND%20%28Caliper%20OR%20Analytics%29", searchProfileExtensionV1p1)
             {
-                Creator = new Person("https://example.edu/users/554433") { HideCaliperContext = true },
-                SearchTarget = new SoftwareApplication("https://example.edu/catalog") { HideCaliperContext = true },
+                Creator = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
+                SearchTarget = new SoftwareApplication("https://example.edu/catalog", defaultContextV1p1) { HideCaliperContext = true },
                 SearchTerms = "IMS AND (Caliper OR Analytics)",
                 DateCreated = Caliper11TestEntities.Instant20181115100500
             };

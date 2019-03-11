@@ -132,6 +132,7 @@
     <Compile Include="Events\Outcome\GradeEvent.cs" />
     <Compile Include="Events\Reading\ViewEvent.cs" />
     <Compile Include="Events\Tool\ToolLaunchEvent.cs" />
+    <Compile Include="ICaliperContext.cs" />
     <Compile Include="Properties\FriendAssemblies.cs" />
     <Compile Include="Util\IJsonId.cs" />
     <Compile Include="Util\IJsonValue.cs" />

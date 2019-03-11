@@ -8,8 +8,8 @@ namespace ImsGlobal.Caliper.Protocol {
 
 	internal class CaliperMessage<T> {
 
-		internal CaliperMessage() {
-			this.DataVersion = CaliperContext.Context.Value;
+		internal CaliperMessage(ICaliperContext caliperContext = null) {
+			this.DataVersion = (caliperContext == null ? CaliperContext.Context.Value : caliperContext.Value);
 		}	
 
 		[JsonProperty( "sensor", Order = 2 )]

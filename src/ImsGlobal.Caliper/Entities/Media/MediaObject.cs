@@ -7,13 +7,12 @@ namespace ImsGlobal.Caliper.Entities.Media {
 
 	public class MediaObject : DigitalResource, IMediaObject {
 
-		public MediaObject( string id )
-			: base( id ) {
-			this.Type = EntityType.MediaObject;
+		public MediaObject(string id, ICaliperContext caliperContext = null)
+			: this(id, EntityType.MediaObject, caliperContext) {
 		}
 
-		public MediaObject( string id, EntityType type )
-			: base( id ) {
+		public MediaObject(string id, EntityType type, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = type;
 		}
 

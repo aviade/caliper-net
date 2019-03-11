@@ -8,8 +8,8 @@ namespace ImsGlobal.Caliper.Entities.Agent {
 
 	public class Agent : Entity, IAgent {
 
-		public Agent( string id )
-			:base (id) {
+		public Agent(string id, ICaliperContext caliperContext = null)
+			:base (id, caliperContext) {
             this.Type = EntityType.Agent;
 		}
 

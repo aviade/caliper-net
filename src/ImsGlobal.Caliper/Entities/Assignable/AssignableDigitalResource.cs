@@ -6,8 +6,8 @@ namespace ImsGlobal.Caliper.Entities.Assignable {
 
 	public class AssignableDigitalResource : DigitalResource, IAssignable {
 
-		public AssignableDigitalResource( string id )
-			: base( id ) {
+		public AssignableDigitalResource(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.AssignableDigitalResource;
 		}
 

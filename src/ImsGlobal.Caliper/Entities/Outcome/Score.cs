@@ -6,8 +6,8 @@ using Newtonsoft.Json;
 namespace ImsGlobal.Caliper.Entities.Outcome {
 	public class Score : Entity {
 
-		public Score( string id ) 
-			: base( id ) {
+		public Score(string id, ICaliperContext caliperContext = null) 
+			: base(id, caliperContext) {
             this.Type = EntityType.Score;		
 		}
 

@@ -3,10 +3,9 @@
     public class SearchEvent : Event
     {
 
-        public SearchEvent(string id, Action action)
-            : base(id)
+        public SearchEvent(string id, Action action, ICaliperContext caliperContext = null)
+            : base(id, caliperContext)
         {
-            this.Context = CaliperContext.SearchProfileExtension;
             this.Type = EventType.Search;
             this.Action = action;
         }

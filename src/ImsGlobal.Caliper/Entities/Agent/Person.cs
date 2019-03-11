@@ -3,8 +3,8 @@
 
 	public class Person : Entity, IAgent {
 
-		public Person( string id )
-			: base( id ) {
+		public Person(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Person;
 		}
 

@@ -14,13 +14,13 @@ namespace ImsGlobal.Caliper.Tests {
 		/// fixtures project must be a sibling to the caliper-net project on the filesystem.
 		/// </summary>
 		/// <returns>The reference json file content as a string.</returns>
+        /// <param name="caliperVersion">Version of the Caliper spec under test.</param>
 		/// <param name="refJsonName">Reference json name, without extension.</param>
-		public static string LoadReferenceJsonFixture(string refJsonName) {
+		public static string LoadReferenceJsonFixture(string caliperVersion, string refJsonName) {
 
 			FixtureCoverageChecker.Add(refJsonName);
 
-			var stream = new FileStream(fixturesPath + Path.DirectorySeparatorChar
-				+ refJsonName + ".json", FileMode.Open);
+			var stream = new FileStream(Path.Combine(Path.DirectorySeparatorChar.ToString(), fixturesPath, caliperVersion, refJsonName + ".json"), FileMode.Open);
 
 			string content = null;
 
@@ -53,10 +53,8 @@ namespace ImsGlobal.Caliper.Tests {
 			var fixturesDirInfo = Array.Find(dirs, (DirectoryInfo obj)
 			   => obj.Name.Equals("caliper-common-fixtures"));
 
-			return Path.Combine(new string[5]
-				{ fixturesDirInfo.FullName, "src", "test", "resources", "fixtures" });
-
-		}
+            return fixturesDirInfo.FullName;
+        }
 
 	}
 
@@ -67,7 +65,7 @@ namespace ImsGlobal.Caliper.Tests {
 
 		public static void Initialize() {
 			used = new HashSet<String>();
-		}
+        }
 
 		public static void Add(string reference) {
 			String full = System.String.Concat(new[] { fixturesPath, "/", reference, ".json" });

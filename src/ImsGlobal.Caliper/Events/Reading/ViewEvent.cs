@@ -5,8 +5,8 @@
 	/// </summary>
 	public class ViewEvent : Event {
 
-		public ViewEvent(string id) 
-			:base( id ) {
+		public ViewEvent(string id, ICaliperContext caliperContext = null) 
+			:base(id, caliperContext) {
 			this.Type = EventType.View;
 			this.Action = Action.Viewed;
 		}

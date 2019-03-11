@@ -20,7 +20,7 @@ namespace ImsGlobal.Caliper.Protocol {
 		private readonly string _sensorId;
 		private readonly JsonSerializerSettings _serializerSettings;
 
-		public CaliperClient( CaliperEndpointOptions options, string sensorId ) {
+        public CaliperClient(CaliperEndpointOptions options, string sensorId) {
 			_options = options;
 			_sensorId = sensorId;
 			_serializerSettings = JsonSerializeUtils.serializerSettings;
@@ -36,7 +36,7 @@ namespace ImsGlobal.Caliper.Protocol {
 
 		public async Task<bool> SendData<T>( IEnumerable<T> data ) {
 
-			var message = new CaliperMessage<T> {
+			var message = new CaliperMessage<T>(_options.CaliperContext) {
 				SensorId = _sensorId,
 				SendTime = SystemClock.Instance.GetCurrentInstant(),
 				Data = data

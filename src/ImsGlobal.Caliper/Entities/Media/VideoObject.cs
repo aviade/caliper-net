@@ -6,8 +6,8 @@ namespace ImsGlobal.Caliper.Entities.Media {
 	/// </summary>
 	public class VideoObject : MediaObject, IVideoObject {
 
-		public VideoObject( string id )
-			: base( id, EntityType.VideoObject ) {
+		public VideoObject(string id, ICaliperContext caliperContext = null)
+			: base(id, EntityType.VideoObject, caliperContext) {
 		}
 
 	}

@@ -15,18 +15,16 @@ namespace ImsGlobal.Caliper.Entities.Lis {
 	/// </summary>
 	public class Membership : Entity, IMembership<Person> {
 
-		public Membership( string id )
-			: base( id ) {
+		public Membership(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Membership;
 			this.Roles = new List<IRole>();
 		}
 
 		[JsonProperty( "member", Order = 21 )]
-		//[JsonConverter( typeof( JsonIdConverter<Person> ) )]
 		public Person Member { get; set; }
 
 		[JsonProperty( "organization", Order = 22 )]
-		//[JsonConverter( typeof( JsonIdConverter<IOrganization> ) )]
 		public IOrganization Organization { get; set; }
 
 		[JsonProperty( "roles", Order = 23 )]

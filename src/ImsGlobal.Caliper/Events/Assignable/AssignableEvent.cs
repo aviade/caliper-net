@@ -5,8 +5,8 @@
 	/// </summary>
 	public class AssignableEvent : Event {
 
-		public AssignableEvent(string id, Action action ) 
-			:base ( id ) {
+		public AssignableEvent(string id, Action action, ICaliperContext caliperContext = null) 
+			:base (id, caliperContext) {
 			this.Type = EventType.Assignable;
 			this.Action = action;
 		}

@@ -14,8 +14,8 @@ namespace ImsGlobal.Caliper.Entities.Agent {
 	/// </summary>
 	public class Organization : Entity, IAgent, IOrganization {
 
-		public Organization( string id )
-			: base( id ) {
+		public Organization(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Organization;
 		}
 

@@ -7,8 +7,8 @@ namespace ImsGlobal.Caliper.Entities.Agent {
 
 	public class SoftwareApplication : Entity, IAgent, ISoftwareApplication {
 
-		public SoftwareApplication(string id)
-			: base(id) {
+		public SoftwareApplication(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.SoftwareApplication;
 		}
 

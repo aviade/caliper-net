@@ -12,8 +12,8 @@ namespace ImsGlobal.Caliper.Entities {
 	/// </summary>
 	public class DigitalResource : Entity, IResource, ICreativeWork {
 
-		public DigitalResource( string id ) 
-			: base(id) {
+		public DigitalResource(string id, ICaliperContext caliperContext = null) 
+			: base(id, caliperContext) {
             this.Type = EntityType.DigitalResource;
 			this.LearningObjectives = new List<LearningObjective>();
 			this.Keywords = new List<string>();

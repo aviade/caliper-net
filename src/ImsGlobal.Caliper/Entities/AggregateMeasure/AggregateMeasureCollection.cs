@@ -4,10 +4,9 @@ namespace ImsGlobal.Caliper.Entities.AggregateMeasure
 {
     public class AggregateMeasureCollection : Entity
     {
-        public AggregateMeasureCollection(string id)
-            : base(id)
+        public AggregateMeasureCollection(string id, ICaliperContext caliperContext = null)
+            : base(id, caliperContext)
         {
-            this.Context = CaliperContext.ToolUseProfileExtension.Value;
             this.Type = EntityType.AggregateMeasureCollection;
         }
 

@@ -9,8 +9,8 @@ namespace ImsGlobal.Caliper.Events.Forum {
 	/// </summary>
 	public class MessageEvent : Event {
 
-		public MessageEvent( string id, Action action ) 
-			: base( id ){
+		public MessageEvent(string id, Action action, ICaliperContext caliperContext = null) 
+			: base(id, caliperContext){
 			this.Type = EventType.Message;
 			this.Action = action;
 		}

@@ -6,10 +6,9 @@ namespace ImsGlobal.Caliper.Entities.Search
 
     public class Query : Entity
     {
-        public Query(string id)
-            : base(id)
+        public Query(string id, ICaliperContext caliperContext = null)
+            : base(id, caliperContext)
         {
-            this.Context = CaliperContext.SearchProfileExtension.Value;
             this.Type = EntityType.Query;
         }
 

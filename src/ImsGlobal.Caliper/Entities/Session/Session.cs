@@ -7,8 +7,8 @@ namespace ImsGlobal.Caliper.Entities.Session {
 
 	public class Session : Entity {
 
-		public Session( string id )
-			: base( id ) {
+		public Session(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Session;
 		}
 

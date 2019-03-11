@@ -16,8 +16,8 @@ namespace ImsGlobal.Caliper.Events.Annotation {
 			{ EntityType.Tag, Action.Tagged }
 		};
 
-		public AnnotationEvent( string id, Annotation annotation ) 
-			: base(id) {
+		public AnnotationEvent(string id, Annotation annotation, ICaliperContext caliperContext = null) 
+			: base(id, caliperContext) {
 			this.Type = EventType.Annotation;
 			this.Action = MapAnnotationEntityToAction( annotation );
 			this.Generated = annotation;

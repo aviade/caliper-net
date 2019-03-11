@@ -9,7 +9,7 @@ namespace ImsGlobal.Caliper.Entities.Forum {
 	/// </summary>
 	public class Forum : DigitalResourceCollection {
 
-        public Forum(string id) : base(id)
+        public Forum(string id, ICaliperContext caliperContext = null) : base(id, caliperContext)
         {
             this.Id = id;
             this.Type = EntityType.Forum;

@@ -9,8 +9,8 @@ namespace ImsGlobal.Caliper.Entities.Response {
 
 	public class Response : Entity {
 
-		public Response( string id )
-			: base( id ) {
+		public Response(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.Response;
 		}
 

@@ -6,8 +6,8 @@ namespace ImsGlobal.Caliper.Entities.Media {
 
 	public class MediaLocation : DigitalResource {
 
-		public MediaLocation( string id )
-			: base( id ) {
+		public MediaLocation(string id, ICaliperContext caliperContext = null)
+			: base(id, caliperContext) {
 			this.Type = EntityType.MediaLocation;
 		}
 
