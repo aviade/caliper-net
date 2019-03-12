@@ -20,46 +20,49 @@ namespace ImsGlobal.Caliper.Entities {
             this.Creators = new List<Person>();
 		}
 
-		/// <summary>
-		/// List of learning objectives aligned with this resource.
-		/// </summary>
-		[JsonProperty( "learningObjectives", Order = 12 )]
+        [JsonProperty("storageName", Order = 12)]
+        public string StorageName { get; set; }
+
+        /// <summary>
+        /// List of learning objectives aligned with this resource.
+        /// </summary>
+        [JsonProperty( "learningObjectives", Order = 13 )]
 		public IList<LearningObjective> LearningObjectives { get; set; }
 
 		/// <summary>
 		/// List of keywords that describe this resource.
 		/// </summary>
-		[JsonProperty( "keywords", Order = 13 )]
+		[JsonProperty( "keywords", Order = 14 )]
 		public IList<string> Keywords { get; set; }
 
         /// <summary>
 		/// List of creators that describe this resource.
 		/// </summary>
-		[JsonProperty("creators", Order = 14)]
+		[JsonProperty("creators", Order = 15)]
         public IList<Person> Creators { get; set; }
 
         /// <summary>
 		/// IANA media type
 		/// </summary>
-		[JsonProperty("mediaType", Order = 15)]
+		[JsonProperty("mediaType", Order = 16)]
         public string MediaType { get; set; }
 
         /// <summary>
         /// A reference to the parent resource, if any.
         /// </summary>
-        [JsonProperty( "isPartOf", Order = 61 )]
+        [JsonProperty( "isPartOf", Order = 62 )]
 		public Entity IsPartOf { get; set; }
 
 		/// <summary>
 		/// The date the digital resource was published.
 		/// </summary>
-		[JsonProperty( "datePublished", Order = 62 )]
+		[JsonProperty( "datePublished", Order = 63 )]
 		public Instant? DatePublished { get; set; }
 
 		/// <summary>
 		/// The current version of the digital resource.
 		/// </summary>
-		[JsonProperty( "version", Order = 63 )]
+		[JsonProperty( "version", Order = 64 )]
 		public string Version { get; set; }
 
 	}

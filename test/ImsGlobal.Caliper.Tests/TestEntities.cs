@@ -1,4 +1,3 @@
-using System;
 using ImsGlobal.Caliper.Entities;
 using ImsGlobal.Caliper.Entities.Agent;
 using ImsGlobal.Caliper.Entities.Assessment;
@@ -18,7 +17,7 @@ using ImsGlobal.Caliper.Entities.AggregateMeasure;
 
 namespace ImsGlobal.Caliper.Tests {
 
-    internal static class Caliper11TestEntities {
+    internal static class CaliperTestEntities {
 
         public static Instant EnvelopeDefaultSendTime = Instant.FromUtc(2016, 11, 15, 11, 05, 01);
 
@@ -303,8 +302,8 @@ namespace ImsGlobal.Caliper.Tests {
             return new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/6", caliperContext)
             {
                 IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", caliperContext),
-                DateCreated = Caliper11TestEntities.Instant20160801060000,
-                DatePublished = Caliper11TestEntities.Instant20160815093000,
+                DateCreated = Instant20160801060000,
+                DatePublished = Instant20160815093000,
                 IsTimeDependent = false,
                 MaxAttempts = 2,
                 MaxScore = 5.0,

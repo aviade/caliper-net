@@ -64,8 +64,8 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EntityAgent_MatchesReferenceJson() {
 			var entity = new Agent("https://example.edu/agents/99999", defaultContextV1p1) {
-				DateCreated = Caliper11TestEntities.Instant20160801060000,
-				DateModified = Caliper11TestEntities.Instant20160902113000
+				DateCreated = CaliperTestEntities.Instant20160801060000,
+				DateModified = CaliperTestEntities.Instant20160902113000
 			};
 
 			JsonAssertions.AssertSameObjectJson(entity, "caliperEntityAgent");
@@ -74,9 +74,9 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EntityAnnotation_MatchesReferenceJson() {
 			var entity = new Annotation("https://example.com/users/554433/texts/imscaliperimplguide/annotations/1", defaultContextV1p1) {
-				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Annotator = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Annotated = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0", defaultContextV1p1) { HideCaliperContext = true },
-				DateCreated = Caliper11TestEntities.Instant20160801060000,
+				DateCreated = CaliperTestEntities.Instant20160801060000,
 			};
 
 			JsonAssertions.AssertSameObjectJson(entity, "caliperEntityAnnotation");
@@ -232,7 +232,7 @@ namespace ImsGlobal.Caliper.Tests {
 				CourseNumber = "CPS 435",
 				AcademicSession = "Fall 2016",
 				Name = "CPS 435 Learning Analytics",
-				DateCreated = Caliper11TestEntities.Instant20160801060000,
+				DateCreated = CaliperTestEntities.Instant20160801060000,
 				DateModified = Instant.FromUtc(2016, 09, 02, 11, 30, 00)
 			};
 
@@ -252,7 +252,7 @@ namespace ImsGlobal.Caliper.Tests {
 					CourseNumber = "CPS 435",
                     HideCaliperContext = true
 				},
-				DateCreated = Caliper11TestEntities.Instant20160801060000
+				DateCreated = CaliperTestEntities.Instant20160801060000
 			};
 
 			JsonAssertions.AssertSameObjectJson(entity, "caliperEntityCourseSection");
@@ -301,7 +301,7 @@ namespace ImsGlobal.Caliper.Tests {
 					SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7", defaultContextV1p1) { HideCaliperContext = true },
                     HideCaliperContext = true
 				},
-				DateCreated = Caliper11TestEntities.Instant20160801060000,
+				DateCreated = CaliperTestEntities.Instant20160801060000,
 				DateModified = Instant.FromUtc(2016, 09, 02, 11, 30, 00)
 			};
 
@@ -319,7 +319,7 @@ namespace ImsGlobal.Caliper.Tests {
 					new Person("https://example.edu/people/12345", defaultContextV1p1) { HideCaliperContext = true },
 					new Person("https://example.com/staff/56789", defaultContextV1p1) { HideCaliperContext = true }
                 },
-				DateCreated = Caliper11TestEntities.Instant20160801060000,
+				DateCreated = CaliperTestEntities.Instant20160801060000,
 				DatePublished = Instant.FromUtc(2016, 10, 01, 06, 00, 00),
 				Version = "1.1"
 			};
@@ -405,7 +405,7 @@ namespace ImsGlobal.Caliper.Tests {
 					new Person("https://example.edu/users/667788", defaultContextV1p1) { HideCaliperContext = true },
 					new Person("https://example.edu/users/889900", defaultContextV1p1) { HideCaliperContext = true }
 				},
-				DateCreated = Caliper11TestEntities.Instant20161101060000,
+				DateCreated = CaliperTestEntities.Instant20161101060000,
 			};
 
 			JsonAssertions.AssertSameObjectJson(entity, "caliperEntityGroup");
@@ -434,14 +434,14 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var entity = new HighlightAnnotation(
 				"https://example.edu/users/554433/etexts/201/highlights/20", defaultContextV1p1) {
-				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Annotator = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Annotated = new Document("https://example.edu/etexts/201", defaultContextV1p1) { HideCaliperContext = true },
 				Selection = new TextPositionSelector() {
 					Start = 2300,
 					End = 2370
 				},
 				SelectionText = "ISO 8601 formatted date and time expressed with millisecond precision.",
-				DateCreated = Caliper11TestEntities.Instant20160801060000
+				DateCreated = CaliperTestEntities.Instant20160801060000
 			};
 
 			JsonAssertions.AssertSameObjectJson(entity, "caliperEntityHighlightAnnotation");
@@ -500,9 +500,9 @@ namespace ImsGlobal.Caliper.Tests {
             {
                 Context = defaultContextV1p1.Value,
                 User = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
-                MessageParameters = new Caliper11TestEntities.LtiParamsLtiSession(),
-                DateCreated = Caliper11TestEntities.Instant20181115101500,
-                StartedAt = Caliper11TestEntities.Instant20181115101500
+                MessageParameters = new CaliperTestEntities.LtiParamsLtiSession(),
+                DateCreated = CaliperTestEntities.Instant20181115101500,
+                StartedAt = CaliperTestEntities.Instant20181115101500
 
             };
 
@@ -678,7 +678,7 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var entity = new Person(
 				"https://example.edu/users/554433", defaultContextV1p1) {
-				DateCreated = Caliper11TestEntities.Instant20160801060000,
+				DateCreated = CaliperTestEntities.Instant20160801060000,
 				DateModified = Instant.FromUtc(2016, 09, 02, 11, 30, 00)
 			};
 
@@ -690,16 +690,16 @@ namespace ImsGlobal.Caliper.Tests {
 			var entity = new Response(
 				"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/6/users/554433/responses/1", defaultContextV1p1) {
 				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/6/users/554433/attempts/1", defaultContextV1p1) {
-					Assignee = Caliper11TestEntities.Person554433(defaultContextV1p1),
-					Assignable = Caliper11TestEntities.AssessmentItem6(defaultContextV1p1),
+					Assignee = CaliperTestEntities.Person554433(defaultContextV1p1),
+					Assignable = CaliperTestEntities.AssessmentItem6(defaultContextV1p1),
 					Count = 1,
-					StartedAtTime = Caliper11TestEntities.Instant20161115101546,
-					EndedAtTime = Caliper11TestEntities.Instant20161115101720,
+					StartedAtTime = CaliperTestEntities.Instant20161115101546,
+					EndedAtTime = CaliperTestEntities.Instant20161115101720,
                     HideCaliperContext = true
 				},
-				DateCreated = Caliper11TestEntities.Instant20161115101546,
-				StartedAtTime = Caliper11TestEntities.Instant20161115101546,
-				EndedAtTime = Caliper11TestEntities.Instant20161115101720,
+				DateCreated = CaliperTestEntities.Instant20161115101546,
+				StartedAtTime = CaliperTestEntities.Instant20161115101546,
+				EndedAtTime = CaliperTestEntities.Instant20161115101720,
 				Extensions = new { value = "A Caliper Event describes a relationship established between an actor and an object.  The relationship is formed as a result of a purposeful action undertaken by the actor in connection to the object at a particular moment. A learner starting an assessment, annotating a reading, pausing a video, or posting a message to a forum, are examples of learning activities that Caliper models as events." }
 			};
 
@@ -745,7 +745,7 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EntityScore_MatchesReferenceJson() {
 			var entity = new Score("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1/scores/1", defaultContextV1p1) {
 				Attempt = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", defaultContextV1p1) {
-					Assignee = Caliper11TestEntities.Person554433(defaultContextV1p1),
+					Assignee = CaliperTestEntities.Person554433(defaultContextV1p1),
 					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1),
 					Count = 1,
 					DateCreated = Instant.FromUtc(2016, 11, 15, 10, 05, 00),
@@ -880,7 +880,7 @@ namespace ImsGlobal.Caliper.Tests {
                     },
                     HideCaliperContext = true
                 },
-				DateCreated = Caliper11TestEntities.Instant20160801060000,
+				DateCreated = CaliperTestEntities.Instant20160801060000,
 				DateModified = Instant.FromUtc(2016, 09, 02, 11, 30, 00)
 			};
 
@@ -922,7 +922,7 @@ namespace ImsGlobal.Caliper.Tests {
 				MediaType = "video/ogg",
 				Name = "Introduction to IMS Caliper",
 				Version = "1.1",
-				DateCreated = Caliper11TestEntities.Instant20160801060000,
+				DateCreated = CaliperTestEntities.Instant20160801060000,
 				DateModified = Instant.FromUtc(2016, 09, 02, 11, 30, 00),
 				Duration = Period.FromHours(1) + Period.FromMinutes(12) + Period.FromSeconds(27)
 
@@ -951,13 +951,13 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EnvelopeEntityBatch_MatchesReferenceJson() {
 
-			var Person554433 = Caliper11TestEntities.Person554433dates(defaultContextV1p1);
+			var Person554433 = CaliperTestEntities.Person554433dates(defaultContextV1p1);
 
 			var Epub201 = new Document("https://example.edu/etexts/201.epub", defaultContextV1p1) {
 				Name = "IMS Caliper Implementation Guide",
 				Creators = new[] { new Person("https://example.edu/people/12345", defaultContextV1p1){ HideCaliperContext = true },
 					new Person("https://example.com/staff/56789", defaultContextV1p1) { HideCaliperContext = true } },
-				DateCreated = Caliper11TestEntities.Instant20161001060000,
+				DateCreated = CaliperTestEntities.Instant20161001060000,
 				Version = "1.1"
 			};
 
@@ -968,9 +968,9 @@ namespace ImsGlobal.Caliper.Tests {
 					SubOrganizationOf = new CourseOffering("https://example.edu/terms/201601/courses/7", defaultContextV1p1) { HideCaliperContext = true },
                     HideCaliperContext = true
                 },
-				Items = new[] { Caliper11TestEntities.VideoObject_1(defaultContextV1p1), Caliper11TestEntities.VideoObject_2(defaultContextV1p1) },
-				DateCreated = Caliper11TestEntities.Instant20160801060000,
-				DateModified = Caliper11TestEntities.Instant20160902113000
+				Items = new[] { CaliperTestEntities.VideoObject_1(defaultContextV1p1), CaliperTestEntities.VideoObject_2(defaultContextV1p1) },
+				DateCreated = CaliperTestEntities.Instant20160801060000,
+				DateModified = CaliperTestEntities.Instant20160902113000
 			};
 
             foreach(var item in VideoCollection.Items)
@@ -979,8 +979,8 @@ namespace ImsGlobal.Caliper.Tests {
             }
 
 			var envelope = new CaliperMessage<JObject>(defaultContextV1p1) {
-				SensorId = Caliper11TestEntities.EnvelopeDefaultSensorId,
-				SendTime = Caliper11TestEntities.EnvelopeDefaultSendTime,
+				SensorId = CaliperTestEntities.EnvelopeDefaultSensorId,
+				SendTime = CaliperTestEntities.EnvelopeDefaultSendTime,
 				Data = new[] {
 					clean(toJobject(Person554433)),
 					clean(toJobject(Epub201)),
@@ -994,15 +994,15 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EnvelopeEntitySingle_MatchesReferenceJson() {
 
-            var digitalResource = Caliper11TestEntities.DigitalResourceSyllabusPDF(defaultContextV1p1);
+            var digitalResource = CaliperTestEntities.DigitalResourceSyllabusPDF(defaultContextV1p1);
             digitalResource.Creators[0].HideCaliperContext = true;
             digitalResource.IsPartOf.HideCaliperContext = true;
             (digitalResource.IsPartOf as DigitalResourceCollection).IsPartOf.HideCaliperContext = true;
 
             var envelope = new CaliperMessage<Entity>(defaultContextV1p1)
             {
-				SensorId = Caliper11TestEntities.EnvelopeDefaultSensorId,
-				SendTime = Caliper11TestEntities.EnvelopeDefaultSendTime,
+				SensorId = CaliperTestEntities.EnvelopeDefaultSensorId,
+				SendTime = CaliperTestEntities.EnvelopeDefaultSendTime,
 				Data = new[] { digitalResource }
 			};
 
@@ -1015,19 +1015,19 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var NavigationEvent = new NavigationEvent(
 				"urn:uuid:72f66ce5-d2ec-44cc-bce5-41602e1015dc", defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Object = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/2", defaultContextV1p1) {
 					Name = "Learning Analytics Specifications",
 					Description = "Overview of Learning Analytics Specifications with particular emphasis on IMS Caliper.",
-					DateCreated = Caliper11TestEntities.Instant20160801090000,
+					DateCreated = CaliperTestEntities.Instant20160801090000,
                     HideCaliperContext = true
 				},
-				EventTime = Caliper11TestEntities.Instant20161115101500,
+				EventTime = CaliperTestEntities.Instant20161115101500,
 				Referrer = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/1", defaultContextV1p1),
-				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+				EdApp = CaliperTestEntities.EpubReader123(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259(defaultContextV1p1)
             };
             NavigationEvent.Referrer.HideCaliperContext = true;
             NavigationEvent.EdApp.HideCaliperContext = true;
@@ -1037,26 +1037,26 @@ namespace ImsGlobal.Caliper.Tests {
 
             var BookmarkAnnotation = new BookmarkAnnotation(
 				"https://example.com/users/554433/texts/imscaliperimplguide/bookmarks/1", defaultContextV1p1) {
-				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Annotator = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Annotated = new Page("https://example.com/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0", defaultContextV1p1),
 				BookmarkNotes = "Caliper profiles model discrete learning activities or supporting activities that facilitate learning.",
-				DateCreated = Caliper11TestEntities.Instant20161115102000
+				DateCreated = CaliperTestEntities.Instant20161115102000
 
 			};
 
 			var AnnotationEvent = new AnnotationEvent(
 				"urn:uuid:c0afa013-64df-453f-b0a6-50f3efbe4cc0", BookmarkAnnotation, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Object = new Document("https://example.com/#/texts/imscaliperimplguide", defaultContextV1p1) {
 					Name = "IMS Caliper Implementation Guide",
 					Version = "1.1",
                     HideCaliperContext = true
                 },
-				EventTime = Caliper11TestEntities.Instant20161115102000,
-				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+				EventTime = CaliperTestEntities.Instant20161115102000,
+				EdApp = CaliperTestEntities.EpubReader123(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259(defaultContextV1p1)
             };
             AnnotationEvent.Generated.HideCaliperContext = true;
             AnnotationEvent.EdApp.HideCaliperContext = true;
@@ -1066,13 +1066,13 @@ namespace ImsGlobal.Caliper.Tests {
 
             var ViewEvent = new ViewEvent(
 							"urn:uuid:94bad4bd-a7b1-4c3e-ade4-2253efe65172", defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.Epub201(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115102100,
-				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.Epub201(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115102100,
+				EdApp = CaliperTestEntities.EpubReader123(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259(defaultContextV1p1)
             };
             ViewEvent.Object.HideCaliperContext = true;
             ViewEvent.EdApp.HideCaliperContext = true;
@@ -1082,8 +1082,8 @@ namespace ImsGlobal.Caliper.Tests {
 
             var envelope = new CaliperMessage<JObject>(defaultContextV1p1)
             {
-				SensorId = Caliper11TestEntities.EnvelopeDefaultSensorId,
-				SendTime = Caliper11TestEntities.EnvelopeDefaultSendTime,
+				SensorId = CaliperTestEntities.EnvelopeDefaultSensorId,
+				SendTime = CaliperTestEntities.EnvelopeDefaultSendTime,
 				Data = new[] {
 					clean(toJobject(NavigationEvent)),
 					clean(toJobject(AnnotationEvent)),
@@ -1105,17 +1105,17 @@ namespace ImsGlobal.Caliper.Tests {
 			var envelope = new CaliperMessage<Event>(defaultContextV1p1)
             {
 				SensorId = "https://example.edu/sensors/1",
-				SendTime = Caliper11TestEntities.EnvelopeDefaultSendTime,
+				SendTime = CaliperTestEntities.EnvelopeDefaultSendTime,
 				Data = new[] { new AssessmentEvent(
 					"urn:uuid:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594", Action.Started, defaultContextV1p1) {
-						Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-						Object = Caliper11TestEntities.AssessmentQuizOne(defaultContextV1p1),
-						Generated = Caliper11TestEntities.Attempt1c(defaultContextV1p1),
-						EventTime = Caliper11TestEntities.Instant20161115101500,
-						EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-						Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-						Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-						Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+						Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+						Object = CaliperTestEntities.AssessmentQuizOne(defaultContextV1p1),
+						Generated = CaliperTestEntities.Attempt1c(defaultContextV1p1),
+						EventTime = CaliperTestEntities.Instant20161115101500,
+						EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+						Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+						Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+						Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
                     }
 				}
 			};
@@ -1144,13 +1144,13 @@ namespace ImsGlobal.Caliper.Tests {
 					new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/2", defaultContextV1p1) { HideCaliperContext = true },
 					new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3", defaultContextV1p1) { HideCaliperContext = true }
                 },
-				DateCreated = Caliper11TestEntities.Instant20160801060000,
-				DateToStartOn = Caliper11TestEntities.Instant20160816050000,
-				DateToSubmit = Caliper11TestEntities.Instant20160928115959,
-				DateModified = Caliper11TestEntities.Instant20160902113000,
-				DatePublished = Caliper11TestEntities.Instant20160815093000,
-				DateToActivate = Caliper11TestEntities.Instant20160816050000,
-				DateToShow = Caliper11TestEntities.Instant20160816050000,
+				DateCreated = CaliperTestEntities.Instant20160801060000,
+				DateToStartOn = CaliperTestEntities.Instant20160816050000,
+				DateToSubmit = CaliperTestEntities.Instant20160928115959,
+				DateModified = CaliperTestEntities.Instant20160902113000,
+				DatePublished = CaliperTestEntities.Instant20160815093000,
+				DateToActivate = CaliperTestEntities.Instant20160816050000,
+				DateToShow = CaliperTestEntities.Instant20160816050000,
 				MaxAttempts = 2,
 				MaxSubmits = 2,
 				MaxScore = 15.0,
@@ -1167,25 +1167,25 @@ namespace ImsGlobal.Caliper.Tests {
 					CourseNumber = "CPS 435",
                     HideCaliperContext = true
                 },
-				DateCreated = Caliper11TestEntities.Instant20160801060000
+				DateCreated = CaliperTestEntities.Instant20160801060000
 			};
 
 			var AssessmentEventStarted = new AssessmentEvent(
 				"urn:uuid:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594", Action.Started, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Object = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0", defaultContextV1p1),
 				Generated = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", defaultContextV1p1) {
-					Assignee = Caliper11TestEntities.Person554433(defaultContextV1p1),
+					Assignee = CaliperTestEntities.Person554433(defaultContextV1p1),
 					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0", defaultContextV1p1),
 					Count = 1,
-					DateCreated = Caliper11TestEntities.Instant20161115101500,
-					StartedAtTime = Caliper11TestEntities.Instant20161115101500
+					DateCreated = CaliperTestEntities.Instant20161115101500,
+					StartedAtTime = CaliperTestEntities.Instant20161115101500
 				},
-				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				EventTime = CaliperTestEntities.Instant20161115101500,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
             AssessmentEventStarted.Generated.HideCaliperContext = true;
             AssessmentEventStarted.Membership.HideCaliperContext = true;
@@ -1193,24 +1193,24 @@ namespace ImsGlobal.Caliper.Tests {
 
             var AssessmentEventSubmitted = new AssessmentEvent(
 				"urn:uuid:dad88464-0c20-4a19-a1ba-ddf2f9c3ff33", Action.Submitted, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Object = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0", defaultContextV1p1),
 				Generated = new Attempt(
 					"https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", defaultContextV1p1) {
-					Assignee = Caliper11TestEntities.Person554433(defaultContextV1p1),
+					Assignee = CaliperTestEntities.Person554433(defaultContextV1p1),
 					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0", defaultContextV1p1),
 					Count = 1,
-					DateCreated = Caliper11TestEntities.Instant20161115101500,
-					StartedAtTime = Caliper11TestEntities.Instant20161115101500,
-					EndedAtTime = Caliper11TestEntities.Instant20161115105512,
+					DateCreated = CaliperTestEntities.Instant20161115101500,
+					StartedAtTime = CaliperTestEntities.Instant20161115101500,
+					EndedAtTime = CaliperTestEntities.Instant20161115105512,
 					Duration = Period.FromMinutes(40) + Period.FromSeconds(12)
 				},
 
-				EventTime = Caliper11TestEntities.Instant20161115102530,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				EventTime = CaliperTestEntities.Instant20161115102530,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
             AssessmentEventSubmitted.Generated.HideCaliperContext = true;
             AssessmentEventSubmitted.Membership.HideCaliperContext = true;
@@ -1218,20 +1218,20 @@ namespace ImsGlobal.Caliper.Tests {
 
             var GradeEvent = new GradeEvent(
 						"urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d", Action.Graded, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.AutoGraderV2(defaultContextV1p1),
+				Actor = CaliperTestEntities.AutoGraderV2(defaultContextV1p1),
 				Object = new Attempt("https://example.edu/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1", defaultContextV1p1) {
-					Assignee = Caliper11TestEntities.Person554433(defaultContextV1p1),
+					Assignee = CaliperTestEntities.Person554433(defaultContextV1p1),
 					Assignable = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1?ver=v1p0", defaultContextV1p1),
 					Count = 1,
-					DateCreated = Caliper11TestEntities.Instant20161115101500,
-					StartedAtTime = Caliper11TestEntities.Instant20161115101500,
-					EndedAtTime = Caliper11TestEntities.Instant20161115105512,
+					DateCreated = CaliperTestEntities.Instant20161115101500,
+					StartedAtTime = CaliperTestEntities.Instant20161115101500,
+					EndedAtTime = CaliperTestEntities.Instant20161115105512,
 					Duration = Period.FromMinutes(40) + Period.FromSeconds(12)
 				},
-				Generated = Caliper11TestEntities.Score1(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115105706,
+				Generated = CaliperTestEntities.Score1(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115105706,
 				EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1)
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1)
             };
             (GradeEvent.Actor as SoftwareApplication).HideCaliperContext = true;
             GradeEvent.Object.HideCaliperContext = true;
@@ -1239,12 +1239,12 @@ namespace ImsGlobal.Caliper.Tests {
 
             var envelope = new CaliperMessage<JObject>(defaultContextV1p1)
             {
-				SensorId = Caliper11TestEntities.EnvelopeDefaultSensorId,
-				SendTime = Caliper11TestEntities.EnvelopeDefaultSendTime,
+				SensorId = CaliperTestEntities.EnvelopeDefaultSensorId,
+				SendTime = CaliperTestEntities.EnvelopeDefaultSendTime,
 				Data = new[] {
-					clean(toJobject(Caliper11TestEntities.Person554433dates(defaultContextV1p1))),
+					clean(toJobject(CaliperTestEntities.Person554433dates(defaultContextV1p1))),
 					clean(toJobject(Assessment)),
-					clean(toJobject(Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1))),
+					clean(toJobject(CaliperTestEntities.SoftwareAppV2(defaultContextV1p1))),
 					clean(toJobject(CourseSection)),
 					clean(toJobject(AssessmentEventStarted)),
 					clean(toJobject(AssessmentEventSubmitted)),
@@ -1273,21 +1273,21 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var annotation = new BookmarkAnnotation(
 				"https://example.com/users/554433/texts/imscaliperimplguide/bookmarks/1", defaultContextV1p1) {
-				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Annotator = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Annotated = page,
 				BookmarkNotes = "Caliper profiles model discrete learning activities or supporting activities"
 				+ " that facilitate learning.",
-				DateCreated = Caliper11TestEntities.Instant20161115101500
+				DateCreated = CaliperTestEntities.Instant20161115101500
 			};
 
 			var bookmarkEvent = new AnnotationEvent("urn:uuid:d4618c23-d612-4709-8d9a-478d87808067", annotation, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Object = page,
-				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+				EventTime = CaliperTestEntities.Instant20161115101500,
+				EdApp = CaliperTestEntities.EpubReader123(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259(defaultContextV1p1)
             };
 
             bookmarkEvent.Generated.HideCaliperContext = true;
@@ -1308,32 +1308,32 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var doc = new Document("https://example.com/#/texts/imscaliperimplguide", defaultContextV1p1) {
 				Name = "IMS Caliper Implementation Guide",
-				DateCreated = Caliper11TestEntities.Instant20161001060000,
+				DateCreated = CaliperTestEntities.Instant20161001060000,
 				Version = "1.1",
                 HideCaliperContext = true
 			};
 
 			var annotation = new HighlightAnnotation(
 				"https://example.com/users/554433/texts/imscaliperimplguide/highlights?start=2300&end=2370", defaultContextV1p1) {
-				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Annotator = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Annotated = doc,
 				Selection = new TextPositionSelector {
 					Start = 2300,
 					End = 2370
 				},
 				SelectionText = "ISO 8601 formatted date and time expressed with millisecond precision.",
-				DateCreated = Caliper11TestEntities.Instant20161115101500,
+				DateCreated = CaliperTestEntities.Instant20161115101500,
                 HideCaliperContext = true
             };
 
 			var highlightEvent = new AnnotationEvent("urn:uuid:0067a052-9bb4-4b49-9d1a-87cd43da488a", annotation, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Object = doc,
-				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+				EventTime = CaliperTestEntities.Instant20161115101500,
+				EdApp = CaliperTestEntities.EpubReader123(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259(defaultContextV1p1)
             };
             highlightEvent.EdApp.HideCaliperContext = true;
             (highlightEvent.Group as CourseSection).HideCaliperContext = true;
@@ -1357,7 +1357,7 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var annotation = new ShareAnnotation(
 				"https://example.com/users/554433/texts/imscaliperimplguide/shares/1", defaultContextV1p1) {
-				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Annotator = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Annotated = doc,
 				WithAgents = new[] {
 					new Person("https://example.edu/users/657585", defaultContextV1p1) {
@@ -1367,18 +1367,18 @@ namespace ImsGlobal.Caliper.Tests {
                         HideCaliperContext = true
                     }
 				},
-				DateCreated = Caliper11TestEntities.Instant20161115101500,
+				DateCreated = CaliperTestEntities.Instant20161115101500,
                 HideCaliperContext = true
             };
 
 			var shareEvent = new AnnotationEvent("urn:uuid:3bdab9e6-11cd-4a0f-9d09-8e363994176b", annotation, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Object = doc,
-				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+				EventTime = CaliperTestEntities.Instant20161115101500,
+				EdApp = CaliperTestEntities.EpubReader123(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259(defaultContextV1p1)
             };
             shareEvent.Object.HideCaliperContext = true;
             shareEvent.EdApp.HideCaliperContext = true;
@@ -1403,21 +1403,21 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var annotation = new TagAnnotation(
 				"https://example.com/users/554433/texts/imscaliperimplguide/tags/3", defaultContextV1p1) {
-				Annotator = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Annotator = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Annotated = doc,
 				Tags = new[] { "profile", "event", "entity" },
-				DateCreated = Caliper11TestEntities.Instant20161115101500,
+				DateCreated = CaliperTestEntities.Instant20161115101500,
                 HideCaliperContext = true
             };
 
 			var tagEvent = new AnnotationEvent("urn:uuid:b2009c63-2659-4cd2-b71e-6e03c498f02b", annotation, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Object = doc,
-				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.EpubReader123(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259(defaultContextV1p1)
+				EventTime = CaliperTestEntities.Instant20161115101500,
+				EdApp = CaliperTestEntities.EpubReader123(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259(defaultContextV1p1)
             };
             tagEvent.Object.HideCaliperContext = true;
             tagEvent.EdApp.HideCaliperContext = true;
@@ -1436,12 +1436,12 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var assessmentItemEvent = new AssessmentItemEvent(
 				"urn:uuid:e5891791-3d27-4df1-a272-091806a43dfb", Action.Completed, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Object = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3", defaultContextV1p1) {
 					Name = "Assessment Item 3",
 					IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1", defaultContextV1p1) { HideCaliperContext = true },
-					DateToStartOn = Caliper11TestEntities.Instant20161114050000,
-					DateToSubmit = Caliper11TestEntities.Instant20161118115959,
+					DateToStartOn = CaliperTestEntities.Instant20161114050000,
+					DateToSubmit = CaliperTestEntities.Instant20161118115959,
 					MaxAttempts = 2,
 					MaxSubmits = 2,
 					MaxScore = 1.0,
@@ -1452,19 +1452,19 @@ namespace ImsGlobal.Caliper.Tests {
 				},
 				Generated = new FillInBlankResponse(
 					"https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/responses/1", defaultContextV1p1) {
-					Attempt = Caliper11TestEntities.Attempt1(defaultContextV1p1),
-					DateCreated = Caliper11TestEntities.Instant20161115101512,
-					StartedAtTime = Caliper11TestEntities.Instant20161115101502,
-					EndedAtTime = Caliper11TestEntities.Instant20161115101512,
+					Attempt = CaliperTestEntities.Attempt1(defaultContextV1p1),
+					DateCreated = CaliperTestEntities.Instant20161115101512,
+					StartedAtTime = CaliperTestEntities.Instant20161115101502,
+					EndedAtTime = CaliperTestEntities.Instant20161115101512,
 					Values = new[] { "subject", "object", "predicate" },
                     HideCaliperContext = true
                 },
 
-				EventTime = Caliper11TestEntities.Instant20161115101512,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				EventTime = CaliperTestEntities.Instant20161115101512,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
             assessmentItemEvent.Generated.Attempt.HideCaliperContext = true;
             assessmentItemEvent.Generated.Attempt.Assignable.HideCaliperContext = true;
@@ -1485,13 +1485,13 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var assessmentItemEvent = new AssessmentItemEvent(
 				"urn:uuid:04e27704-73bf-4d3c-912c-1b2da40aef8f", Action.Skipped, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.AssessmentItem2(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101430,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.AssessmentItem2(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115101430,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
             assessmentItemEvent.Object.HideCaliperContext = true;
             assessmentItemEvent.Object.IsPartOf.HideCaliperContext = true;
@@ -1511,14 +1511,14 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var assessmentItemEvent = new AssessmentItemEvent(
 				"urn:uuid:1b557176-ba67-4624-b060-6bee670a3d8e", Action.Started, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.AssessmentItem3b(defaultContextV1p1),
-				Generated = Caliper11TestEntities.Attempt1b(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.AssessmentItem3b(defaultContextV1p1),
+				Generated = CaliperTestEntities.Attempt1b(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115101500,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
             assessmentItemEvent.Object.HideCaliperContext = true;
             assessmentItemEvent.Object.IsPartOf.HideCaliperContext = true;
@@ -1541,14 +1541,14 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var assessmentEvent = new AssessmentEvent(
 				"urn:uuid:27734504-068d-4596-861c-2315be33a2a2", Action.Started, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.AssessmentQuizOne(defaultContextV1p1),
-				Generated = Caliper11TestEntities.Attempt1c(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.AssessmentQuizOne(defaultContextV1p1),
+				Generated = CaliperTestEntities.Attempt1c(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115101500,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
             assessmentEvent.Object.HideCaliperContext = true;
             assessmentEvent.Generated.HideCaliperContext = true;
@@ -1569,14 +1569,14 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var assessmentEvent = new AssessmentEvent(
 				"urn:uuid:dad88464-0c20-4a19-a1ba-ddf2f9c3ff33", Action.Submitted, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.AssessmentQuizOne(defaultContextV1p1),
-				Generated = Caliper11TestEntities.Attempt2(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115102530,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.AssessmentQuizOne(defaultContextV1p1),
+				Generated = CaliperTestEntities.Attempt2(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115102530,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
             assessmentEvent.Object.HideCaliperContext = true;
             assessmentEvent.Generated.HideCaliperContext = true;
@@ -1596,13 +1596,13 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventAssignableActivated_MatchesReferenceJson() {
 			var assignableEvent = new AssignableEvent(
 				"urn:uuid:2635b9dd-0061-4059-ac61-2718ab366f75", Action.Activated, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person112233(defaultContextV1p1),
-				Object = Caliper11TestEntities.AssessmentQuizOneB(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161112101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership112233Instructor(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu2(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person112233(defaultContextV1p1),
+				Object = CaliperTestEntities.AssessmentQuizOneB(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161112101500,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership112233Instructor(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu2(defaultContextV1p1)
             };
             (assignableEvent.Actor as Person).HideCaliperContext = true;
             assignableEvent.Object.HideCaliperContext = true;
@@ -1621,14 +1621,14 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventBasicCreated_MatchesReferenceJson() {
 			var evnt = new Event("urn:uuid:3a648e68-f00d-4c08-aa59-8738e1884f2c", defaultContextV1p1) {
 				Action = Action.Created,
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Object = new Document("https://example.edu/terms/201601/courses/7/sections/1/resources/123", defaultContextV1p1) {
 					Name = "Course Syllabus",
-					DateCreated = Caliper11TestEntities.Instant20161112071500,
+					DateCreated = CaliperTestEntities.Instant20161112071500,
 					Version = "1",
                     HideCaliperContext = true
 				},
-				EventTime = Caliper11TestEntities.Instant20161115101500
+				EventTime = CaliperTestEntities.Instant20161115101500
 			};
 			JsonAssertions.AssertSameObjectJson(evnt, "caliperEventBasicCreated");
 		}
@@ -1637,15 +1637,15 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventBasicModifiedExtended_MatchesReferenceJson() {
 			var evnt = new Event("urn:uuid:5973dcd9-3126-4dcc-8fd8-8153a155361c", defaultContextV1p1) {
 				Action = Action.Modified,
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Object = new Document("https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=3", defaultContextV1p1) {
 					Name = "Course Syllabus",
-					DateCreated = Caliper11TestEntities.Instant20161112071500,
-					DateModified = Caliper11TestEntities.Instant20161115101500,
+					DateCreated = CaliperTestEntities.Instant20161112071500,
+					DateModified = CaliperTestEntities.Instant20161115101500,
 					Version = "3",
                     HideCaliperContext = true
                 },
-				EventTime = Caliper11TestEntities.Instant20161115101500,
+				EventTime = CaliperTestEntities.Instant20161115101500,
 				Extensions = new ExtensionObject2()
 			};
 
@@ -1663,13 +1663,13 @@ namespace ImsGlobal.Caliper.Tests {
 			public IList Archive = new[] {
 				new Document(
 				"https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=2", defaultContextV1p1) {
-					DateCreated = Caliper11TestEntities.Instant20161112071500,
-					DateModified = Caliper11TestEntities.Instant20161113110000,
+					DateCreated = CaliperTestEntities.Instant20161112071500,
+					DateModified = CaliperTestEntities.Instant20161113110000,
 					Version = "2"
 				},
 				new Document(
 				"https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=1", defaultContextV1p1) {
-					DateCreated = Caliper11TestEntities.Instant20161112071500,
+					DateCreated = CaliperTestEntities.Instant20161112071500,
 					Version = "1"
 				}
 			};
@@ -1679,13 +1679,13 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventForumSubscribed_MatchesReferenceJson() {
 			var forumEvent = new ForumEvent(
 				"urn:uuid:a2f41f9c-d57d-4400-b3fe-716b9026334e", Action.Subscribed, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.Forum1Caliper(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101600,
-				EdApp = Caliper11TestEntities.ForumAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.Forum1Caliper(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115101600,
+				EdApp = CaliperTestEntities.ForumAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
 
             forumEvent.Object.HideCaliperContext = true;
@@ -1706,17 +1706,17 @@ namespace ImsGlobal.Caliper.Tests {
 
 			var mediaEvent = new MediaEvent(
 				"urn:uuid:956b4a02-8de0-4991-b8c5-b6eebb6b4cab", Action.Paused, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.VideoObject1(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.VideoObject1(defaultContextV1p1),
 				Target = new MediaLocation("https://example.edu/UQVK-dsU7-Y?t=321", defaultContextV1p1) {
 					CurrentTime = Period.FromMinutes(5) + Period.FromSeconds(21),
                     HideCaliperContext = true
 				},
-				EventTime = Caliper11TestEntities.Instant20161115101500,
+				EventTime = CaliperTestEntities.Instant20161115101500,
 				EdApp = new SoftwareApplication("https://example.edu/player", defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
 
             (mediaEvent.Object as VideoObject).HideCaliperContext = true;
@@ -1739,13 +1739,13 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventMessagePosted_MatchesReferenceJson() {
 			var messageEvent = new MessageEvent(
 				"urn:uuid:0d015a85-abf5-49ee-abb1-46dbd57fe64e", Action.Posted, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.Message2(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.ForumAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.Message2(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115101500,
+				EdApp = CaliperTestEntities.ForumAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
 
             messageEvent.Object.HideCaliperContext = true;
@@ -1766,13 +1766,13 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventMessageReplied_MatchesReferenceJson() {
 			var messageEvent = new MessageEvent(
 				"urn:uuid:aed54386-a3fb-45ff-90f9-a35d3daaf031", Action.Posted, defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person778899(defaultContextV1p1),
-				Object = Caliper11TestEntities.Message3(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101530,
-				EdApp = Caliper11TestEntities.ForumAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership778899Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.SessionCd50(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person778899(defaultContextV1p1),
+				Object = CaliperTestEntities.Message3(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115101530,
+				EdApp = CaliperTestEntities.ForumAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership778899Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.SessionCd50(defaultContextV1p1)
             };
 
             (messageEvent.Actor as Person).HideCaliperContext = true;
@@ -1797,14 +1797,14 @@ namespace ImsGlobal.Caliper.Tests {
 			var navEvent = new NavigationEvent(
 				"urn:uuid:ff9ec22a-fc59-4ae1-ae8d-2c9463ee2f8f", defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.WebPage2(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101500,
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.WebPage2(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115101500,
 				Referrer = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/1", defaultContextV1p1),
 				EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
 
             (navEvent.Object as WebPage).HideCaliperContext = true;
@@ -1824,19 +1824,19 @@ namespace ImsGlobal.Caliper.Tests {
 			var viewEvent = new ViewEvent(
 				"urn:uuid:4be6d29d-5728-44cd-8a8f-3d3f07e46b61", defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.Epub202(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115102000,
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.Epub202(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115102000,
 				EdApp = new SoftwareApplication("https://example.com", defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16b(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session1241(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16b(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session1241(defaultContextV1p1),
 				FederatedSession = new LtiSession(
 					"urn:uuid:1c519ff7-3dfa-4764-be48-d2fb35a2925a", defaultContextV1p1) {
-					User = Caliper11TestEntities.Person554433(defaultContextV1p1),
-                    MessageParameters = new Caliper11TestEntities.LtiParamsViewViewedFedSession(),
-                    DateCreated = Caliper11TestEntities.Instant20161115101500,
-					StartedAt = Caliper11TestEntities.Instant20161115101500
+					User = CaliperTestEntities.Person554433(defaultContextV1p1),
+                    MessageParameters = new CaliperTestEntities.LtiParamsViewViewedFedSession(),
+                    DateCreated = CaliperTestEntities.Instant20161115101500,
+					StartedAt = CaliperTestEntities.Instant20161115101500
 				}
 			};
 
@@ -1858,14 +1858,14 @@ namespace ImsGlobal.Caliper.Tests {
 			var navEvent = new NavigationEvent(
 				"urn:uuid:71657137-8e6e-44f8-8499-e1c3df6810d2", defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.WebPage2(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101500,
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.WebPage2(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115101500,
 				Referrer = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/1", defaultContextV1p1),
 				EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
 
 			var coerced = JsonAssertions.coerce(navEvent,
@@ -1878,7 +1878,7 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventGradeGraded_MatchesReferenceJson() {
-			var gradeEvent = Caliper11TestEntities.GradeEvent1(defaultContextV1p1);
+			var gradeEvent = CaliperTestEntities.GradeEvent1(defaultContextV1p1);
             (gradeEvent.Actor as SoftwareApplication).HideCaliperContext = true;
             (gradeEvent.Object as Attempt).HideCaliperContext = true;
             (gradeEvent.Object as Attempt).Assignable.HideCaliperContext = true;
@@ -1897,12 +1897,12 @@ namespace ImsGlobal.Caliper.Tests {
 			var gradeEvent = new GradeEvent(
 				"urn:uuid:12c05c4e-253f-4073-9f29-5786f3ff3f36", Action.Graded, defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.AutoGraderV2(defaultContextV1p1),
-				Object = Caliper11TestEntities.Attempt1(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115105706,
+				Actor = CaliperTestEntities.AutoGraderV2(defaultContextV1p1),
+				Object = CaliperTestEntities.Attempt1(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115105706,
 				EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1),
-				Generated = Caliper11TestEntities.Score1b(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1)
+				Generated = CaliperTestEntities.Score1b(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1)
             };
 
             (gradeEvent.Actor as SoftwareApplication).HideCaliperContext = true;
@@ -1923,11 +1923,11 @@ namespace ImsGlobal.Caliper.Tests {
 			var sessionEvent = new SessionEvent(
 				"urn:uuid:fcd495d0-3740-4298-9bec-1154571dc211", Action.LoggedIn, defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259b(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115101500,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259b(defaultContextV1p1)
             };
 
             sessionEvent.Object.HideCaliperContext = true;
@@ -1945,11 +1945,11 @@ namespace ImsGlobal.Caliper.Tests {
 			var sessionEvent = new SessionEvent(
 				"urn:uuid:4ec2c31e-3ec0-4fe1-a017-b81561b075d7", Action.LoggedIn, defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115201115,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259c(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115201115,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259c(defaultContextV1p1)
             };
 
             sessionEvent.Object.HideCaliperContext = true;
@@ -1977,11 +1977,11 @@ namespace ImsGlobal.Caliper.Tests {
 			var sessionEvent = new SessionEvent(
 				"urn:uuid:a438f8ac-1da3-4d48-8c86-94a1b387e0f6", Action.LoggedOut, defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115110500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259d(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115110500,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259d(defaultContextV1p1)
             };
 
             sessionEvent.Object.HideCaliperContext = true;
@@ -2001,15 +2001,15 @@ namespace ImsGlobal.Caliper.Tests {
 				Actor = new SoftwareApplication("https://example.edu", defaultContextV1p1),
 				Object = new Session(
 					"https://example.edu/sessions/7d6b88adf746f0692e2e873308b78c60fb13a864", defaultContextV1p1) {
-					User = Caliper11TestEntities.Person112233(defaultContextV1p1),
-					DateCreated = Caliper11TestEntities.Instant20161115101500,
-					StartedAt = Caliper11TestEntities.Instant20161115101500,
-					EndedAt = Caliper11TestEntities.Instant20161115111500,
+					User = CaliperTestEntities.Person112233(defaultContextV1p1),
+					DateCreated = CaliperTestEntities.Instant20161115101500,
+					StartedAt = CaliperTestEntities.Instant20161115101500,
+					EndedAt = CaliperTestEntities.Instant20161115111500,
 					Duration = Period.FromSeconds(3600)
 
 				},
-				EventTime = Caliper11TestEntities.Instant20161115111500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1)
+				EventTime = CaliperTestEntities.Instant20161115111500,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1)
 			};
 
             (sessionEvent.Actor as SoftwareApplication).HideCaliperContext = true;
@@ -2027,13 +2027,13 @@ namespace ImsGlobal.Caliper.Tests {
 			var threadEvent = new ThreadEvent(
 				"urn:uuid:6b20c5ba-301c-4e56-85a0-2f3d9a94c249", Action.MarkedAsRead, defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.Thread1(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101600,
-				EdApp = Caliper11TestEntities.ForumAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.Thread1(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115101600,
+				EdApp = CaliperTestEntities.ForumAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
 
             threadEvent.Object.HideCaliperContext = true;
@@ -2053,13 +2053,13 @@ namespace ImsGlobal.Caliper.Tests {
 			var toolUseEvent = new ToolUseEvent(
 				"urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d916", Action.Used, defaultContextV1p1) {
 
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
 				Object = new SoftwareApplication("https://example.edu", defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				EventTime = CaliperTestEntities.Instant20161115101500,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
 
             (toolUseEvent.Object as SoftwareApplication).HideCaliperContext = true;
@@ -2085,8 +2085,8 @@ namespace ImsGlobal.Caliper.Tests {
                 Action = Action.Used,
                 Object = new SoftwareApplication("https://example.edu", defaultContextV1p1) { HideCaliperContext = true},
                 EventTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00),
-                EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-                Generated = Caliper11TestEntities.AggregateMeasureCollection2019(defaultContextV1p1),
+                EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+                Generated = CaliperTestEntities.AggregateMeasureCollection2019(defaultContextV1p1),
                 Group = new CourseSection("https://example.edu/terms/201601/courses/7/sections/1", defaultContextV1p1)
                 {
                     CourseNumber = "CPS 435-01",
@@ -2098,7 +2098,7 @@ namespace ImsGlobal.Caliper.Tests {
                         CourseNumber = "CPS 435",
                         HideCaliperContext = true
                     },
-                    DateCreated = Caliper11TestEntities.Instant20160801060000,
+                    DateCreated = CaliperTestEntities.Instant20160801060000,
                     HideCaliperContext = true
                 },
                 Membership = new Membership("https://example.edu/terms/201601/courses/7/sections/1/rosters/1/members/554433", defaultContextV1p1)
@@ -2111,7 +2111,7 @@ namespace ImsGlobal.Caliper.Tests {
                     },
                     Roles = new[] { Role.Learner },
                     Status = Status.Active,
-                    DateCreated = Caliper11TestEntities.Instant20161101060000,
+                    DateCreated = CaliperTestEntities.Instant20161101060000,
                     HideCaliperContext = true
                 },
                 Session = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259", defaultContextV1p1)
@@ -2131,13 +2131,13 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventViewViewed_MatchesReferenceJson() {
 			var viewEvent = new ViewEvent(
 				"urn:uuid:cd088ca7-c044-405c-bb41-0b2a8506f907", defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.Epub201(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1)
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.Epub201(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115101500,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1)
             };
 
             (viewEvent.Object as Document).HideCaliperContext = true;
@@ -2154,13 +2154,13 @@ namespace ImsGlobal.Caliper.Tests {
 		public void EventViewViewedExtended_MatchesReferenceJson() {
 			var viewEvent = new ViewEvent(
 				"urn:uuid:3a9bd869-addc-48b1-80f6-a14b2ff591ed", defaultContextV1p1) {
-				Actor = Caliper11TestEntities.Person554433(defaultContextV1p1),
-				Object = Caliper11TestEntities.Epub200(defaultContextV1p1),
-				EventTime = Caliper11TestEntities.Instant20161115101500,
-				EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-				Group = Caliper11TestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
-				Membership = Caliper11TestEntities.EntityMembership554433Learner(defaultContextV1p1),
-				Session = Caliper11TestEntities.Session6259edu(defaultContextV1p1),
+				Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+				Object = CaliperTestEntities.Epub200(defaultContextV1p1),
+				EventTime = CaliperTestEntities.Instant20161115101500,
+				EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+				Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1),
+				Membership = CaliperTestEntities.EntityMembership554433Learner(defaultContextV1p1),
+				Session = CaliperTestEntities.Session6259edu(defaultContextV1p1),
 				Extensions = new ViewEventExtension1()
 			};
 
@@ -2191,13 +2191,13 @@ namespace ImsGlobal.Caliper.Tests {
                 "urn:uuid:cb3878ed-8240-4c6d-9fee-77221810f5e4", Action.Searched, searchProfileExtensionV1p1)
             {
                 Actor = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
-                Object = Caliper11TestEntities.CatalogApp(defaultContextV1p1),
-                EventTime = Caliper11TestEntities.Instant20181115100500,
-                Generated = Caliper11TestEntities.SearchIMSCaliperAnalytics(defaultContextV1p1),
-                EdApp = Caliper11TestEntities.SoftwareAppV2(defaultContextV1p1),
-                Group = Caliper11TestEntities.CourseSectionCPS43501Fall18(defaultContextV1p1),
-                Membership = Caliper11TestEntities.EntityMembership554433Learner_2018(defaultContextV1p1),
-                Session = Caliper11TestEntities.Session6259_2018(defaultContextV1p1)
+                Object = CaliperTestEntities.CatalogApp(defaultContextV1p1),
+                EventTime = CaliperTestEntities.Instant20181115100500,
+                Generated = CaliperTestEntities.SearchIMSCaliperAnalytics(defaultContextV1p1),
+                EdApp = CaliperTestEntities.SoftwareAppV2(defaultContextV1p1),
+                Group = CaliperTestEntities.CourseSectionCPS43501Fall18(defaultContextV1p1),
+                Membership = CaliperTestEntities.EntityMembership554433Learner_2018(defaultContextV1p1),
+                Session = CaliperTestEntities.Session6259_2018(defaultContextV1p1)
             };
 
             var coerced = JsonAssertions.coerce(searchEvent,
@@ -2214,7 +2214,7 @@ namespace ImsGlobal.Caliper.Tests {
             {
                 Actor = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
                 Object = new SoftwareApplication("https://example.com/lti/tool", defaultContextV1p1) { HideCaliperContext = true },
-                EventTime = Caliper11TestEntities.Instant20181115101500,
+                EventTime = CaliperTestEntities.Instant20181115101500,
                 EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1) { HideCaliperContext = true },
                 Referrer = new Entity("https://example.edu/terms/201801/courses/7/sections/1/pages/1", defaultContextV1p1) { Type = EntityType.WebPage, HideCaliperContext = true },
                 Group = new CourseSection("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1)
@@ -2229,10 +2229,10 @@ namespace ImsGlobal.Caliper.Tests {
                     Organization = new Organization("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1),
                     Roles = new[] { Role.Learner },
                     Status = Status.Active,
-                    DateCreated = Caliper11TestEntities.Instant20180801060000,
+                    DateCreated = CaliperTestEntities.Instant20180801060000,
                     HideCaliperContext = true
                 },
-                Session = Caliper11TestEntities.Session6259_2018(defaultContextV1p1),
+                Session = CaliperTestEntities.Session6259_2018(defaultContextV1p1),
                 Target = new LtiLink("https://tool.com/link/123", defaultContextV1p1)
                 {
                     MessageType = EntityType.LtiResourceLinkRequest,
@@ -2241,9 +2241,9 @@ namespace ImsGlobal.Caliper.Tests {
                 FederatedSession = new LtiSession("https://example.edu/lti/sessions/b533eb02823f31024e6b7f53436c42fb99b31241", defaultContextV1p1)
                 {
                     User = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
-                    MessageParameters = new Caliper11TestEntities.LtiParamsLtiSession(),
-                    DateCreated = Caliper11TestEntities.Instant20181115101500,
-                    StartedAt = Caliper11TestEntities.Instant20181115101500,
+                    MessageParameters = new CaliperTestEntities.LtiParamsLtiSession(),
+                    DateCreated = CaliperTestEntities.Instant20181115101500,
+                    StartedAt = CaliperTestEntities.Instant20181115101500,
                     HideCaliperContext = true
                 }
             };
@@ -2261,7 +2261,7 @@ namespace ImsGlobal.Caliper.Tests {
             {
                 Actor = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
                 Object = new SoftwareApplication("https://example.com/lti/tool", defaultContextV1p1) { HideCaliperContext = true },
-                EventTime = Caliper11TestEntities.Instant20181115101500,
+                EventTime = CaliperTestEntities.Instant20181115101500,
                 EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1) { HideCaliperContext = true },
                 Referrer = new Entity("https://tool.com/lti/123") { Type = EntityType.LtiLink, HideCaliperContext = true },
                 Group = new CourseSection("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1)
@@ -2276,16 +2276,16 @@ namespace ImsGlobal.Caliper.Tests {
                     Organization = new Organization("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1),
                     Roles = new[] { Role.Learner },
                     Status = Status.Active,
-                    DateCreated = Caliper11TestEntities.Instant20180801060000,
+                    DateCreated = CaliperTestEntities.Instant20180801060000,
                     HideCaliperContext = true
                 },
-                Session = Caliper11TestEntities.Session6259_2018(defaultContextV1p1),
+                Session = CaliperTestEntities.Session6259_2018(defaultContextV1p1),
                 Target = new Link("https://example.edu/terms/201801/courses/7/sections/1/pages/1", defaultContextV1p1) { HideCaliperContext = true },
                 FederatedSession = new LtiSession("https://example.edu/lti/sessions/b533eb02823f31024e6b7f53436c42fb99b31241", defaultContextV1p1)
                 {
                     User = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
-                    DateCreated = Caliper11TestEntities.Instant20181115101500,
-                    StartedAt = Caliper11TestEntities.Instant20181115101500,
+                    DateCreated = CaliperTestEntities.Instant20181115101500,
+                    StartedAt = CaliperTestEntities.Instant20181115101500,
                     HideCaliperContext = true
                 }
             };
@@ -2361,7 +2361,7 @@ namespace ImsGlobal.Caliper.Tests {
                 Creator = new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true },
                 SearchTarget = new SoftwareApplication("https://example.edu/catalog", defaultContextV1p1) { HideCaliperContext = true },
                 SearchTerms = "IMS AND (Caliper OR Analytics)",
-                DateCreated = Caliper11TestEntities.Instant20181115100500
+                DateCreated = CaliperTestEntities.Instant20181115100500
             };
 
             JsonAssertions.AssertSameObjectJson(ltiLink, "caliperEntityQuery");
