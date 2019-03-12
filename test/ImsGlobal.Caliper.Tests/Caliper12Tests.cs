@@ -1651,6 +1651,52 @@ namespace ImsGlobal.Caliper.Tests {
             JsonAssertions.AssertSameObjectJson(envelope, "caliperEnvelopeEntitySingle", false);
         }
 
+        [Test]
+        public void EventGeneralCreated_MatchesReferenceJson()
+        {
+            var evnt = new Event("urn:uuid:3a648e68-f00d-4c08-aa59-8738e1884f2c")
+            {
+                Action = Action.Created,
+                Actor = CaliperTestEntities.Person554433(),
+                Object = new Document("https://example.edu/terms/201601/courses/7/sections/1/resources/123")
+                {
+                    Name = "Course Syllabus",
+                    DateCreated = CaliperTestEntities.Instant20161112071500,
+                    Version = "1",
+                    HideCaliperContext = true
+                },
+                EventTime = CaliperTestEntities.Instant20161115101500
+            };
+            JsonAssertions.AssertSameObjectJson(evnt, "caliperEventGeneralCreated");
+        }
+
+        [Test]
+        public void EventGeneralModifiedExtended_MatchesReferenceJson()
+        {
+            var evnt = new Event("urn:uuid:5973dcd9-3126-4dcc-8fd8-8153a155361c")
+            {
+                Action = Action.Modified,
+                Actor = CaliperTestEntities.Person554433(),
+                Object = new Document("https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=3")
+                {
+                    Name = "Course Syllabus",
+                    DateCreated = CaliperTestEntities.Instant20161112071500,
+                    DateModified = CaliperTestEntities.Instant20161115101500,
+                    Version = "3",
+                    HideCaliperContext = true
+                },
+                EventTime = CaliperTestEntities.Instant20161115101500,
+                Extensions = new ExtensionObject2()
+            };
+
+            foreach (Document archive in (evnt.Extensions as ExtensionObject2).Archive as IList)
+            {
+                archive.HideCaliperContext = true;
+            }
+
+            JsonAssertions.AssertSameObjectJson(evnt, "caliperEventGeneralModifiedExtended");
+        }
+
         public class ViewEventExtension1 {
 			[JsonProperty("job")]
 			public object Job = new {
