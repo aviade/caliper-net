@@ -860,7 +860,7 @@ namespace ImsGlobal.Caliper.Tests {
                     Metric = MetricUnitType.UnitsCompleted,
                     Name = "Units Completed",
                     MetricValue = 12.0,
-                    MetricValueMax = 25.0,
+                    MaxMetricValue = 25.0,
                     StartedAtTime = Instant.FromUtc(2019, 08, 15, 10, 15, 00),
                     EndedAtTime = Instant.FromUtc(2019, 11, 15, 10, 15, 00),
                     HideCaliperContext = true

@@ -23,8 +23,10 @@ namespace ImsGlobal.Caliper.Util {
 		/// <summary>
 		/// Convert an object to a JObject via a string roundtrip using default serializer settings
 		/// </summary>
-		public static JObject toJobject(object obj) {
-			var str = JsonConvert.SerializeObject(obj, JsonSerializeUtils.serializerSettings);
+		public static JObject toJobject(object obj, bool ignoreDefaultValues = true) {
+            serializerSettings.DefaultValueHandling = ignoreDefaultValues ? DefaultValueHandling.Ignore : DefaultValueHandling.Include;
+
+            var str = JsonConvert.SerializeObject(obj, JsonSerializeUtils.serializerSettings);
 			return JObject.Parse(str);
 		}
 
