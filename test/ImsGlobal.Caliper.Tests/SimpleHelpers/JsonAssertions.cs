@@ -15,9 +15,9 @@ namespace ImsGlobal.Caliper.Tests.SimpleHelpers {
 		static JsonAssertions() {
 		}
 
-		public static void AssertSameObjectJson(object obj, string eventReferenceFile, bool clean) {
+		public static void AssertSameObjectJson(object obj, string eventReferenceFile, bool clean=true, bool ignoreDefaultValues=true) {
 
-			var eventJObject = JsonSerializeUtils.toJobject( obj );
+			var eventJObject = JsonSerializeUtils.toJobject(obj, ignoreDefaultValues);
 			if (clean) eventJObject = JsonSerializeUtils.clean( eventJObject );
 
 			var refJsonString = TestUtils.LoadReferenceJsonFixture(CaliperVersion, eventReferenceFile);
@@ -39,10 +39,6 @@ namespace ImsGlobal.Caliper.Tests.SimpleHelpers {
 
 			Assert.True(equals);
 
-		}
-
-		public static void AssertSameObjectJson( object obj, string eventReferenceFile ) {
-			AssertSameObjectJson( obj, eventReferenceFile, true );
 		}
 
         /// <summary>

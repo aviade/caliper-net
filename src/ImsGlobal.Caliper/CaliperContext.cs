@@ -7,6 +7,7 @@ namespace ImsGlobal.Caliper {
 	public class CaliperContext : IJsonValue, ICaliperContext
     {
 		public static CaliperContext Context = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p2");
+        public static CaliperContext FeedbackProfileExtensionV1p1 = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1/FeedbackProfile-extension");
 
         public CaliperContext() {}
 

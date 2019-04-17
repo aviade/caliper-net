@@ -14,8 +14,8 @@ namespace ImsGlobal.Caliper.Entities.AggregateMeasure
         [JsonProperty("metricValue", Order = 5)]
         public double MetricValue { get; set; }
 
-        [JsonProperty("metricValueMax", Order = 6)]
-        public double MetricValueMax { get; set; }
+        [JsonProperty("maxMetricValue", Order = 6)]
+        public double MaxMetricValue { get; set; }
 
         [JsonProperty("metric", Order = 7)]
         public MetricUnitType Metric { get; set; }

@@ -61,6 +61,15 @@
     <Compile Include="Entities\Collection\DigitalResourceCollection.cs" />
     <Compile Include="Entities\Collection\ICollection.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\Feedback\Feedback.cs" />
+    <Compile Include="Entities\Feedback\NumericScale.cs" />
+    <Compile Include="Entities\Feedback\MultiSelectScale.cs" />
+    <Compile Include="Entities\Feedback\RatingScaleQuestion.cs" />
+    <Compile Include="Entities\Feedback\Question.cs" />
+    <Compile Include="Entities\Feedback\FeedbackComment.cs" />
+    <Compile Include="Entities\Feedback\LikertScale.cs" />
+    <Compile Include="Entities\Feedback\Scale.cs" />
+    <Compile Include="Entities\Feedback\FeedbackRating.cs" />
     <Compile Include="Entities\MetricUnitType.cs" />
     <Compile Include="Entities\EntityType.cs" />
     <Compile Include="Entities\Forum\Forum.cs" />
@@ -123,6 +132,7 @@
     <Compile Include="Events\Assignable\AssignableEvent.cs" />
     <Compile Include="CaliperContext.cs" />
     <Compile Include="Events\EventType.cs" />
+    <Compile Include="Events\Feedback\FeedbackEvent.cs" />
     <Compile Include="Events\Forum\ForumEvent.cs" />
     <Compile Include="Events\Forum\ThreadEvent.cs" />
     <Compile Include="Events\Forum\MessageEvent.cs" />

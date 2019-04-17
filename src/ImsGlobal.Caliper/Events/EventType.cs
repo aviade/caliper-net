@@ -11,6 +11,7 @@ namespace ImsGlobal.Caliper.Events {
 		public static readonly EventType AssessmentItem = new EventType( "AssessmentItemEvent" );
 		public static readonly EventType Assignable = new EventType( "AssignableEvent" );
 		public static readonly EventType Event = new EventType( "Event" );
+        public static readonly EventType Feedback = new EventType("FeedbackEvent");
         public static readonly EventType Forum = new EventType("ForumEvent");
         public static readonly EventType Media = new EventType( "MediaEvent" );
         public static readonly EventType Message = new EventType("MessageEvent");
