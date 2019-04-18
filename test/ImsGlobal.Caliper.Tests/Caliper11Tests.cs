@@ -2681,5 +2681,151 @@ namespace ImsGlobal.Caliper.Tests {
 
             JsonAssertions.AssertSameObjectJson(rating, "caliperEntityRating");
         }
+
+        [Test]
+        public void EventResourceManagementPrinted_MatchesReferenceJson()
+        {
+            var resourceManagement = new ResourceManagementEvent("urn:uuid:d3543a73-e307-4190-a755-5ce7b3187bc5", Action.Printed)
+            {
+                Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+                Object = new DigitalResource("https://example.edu/terms/201801/courses/7/sections/1/resources/1/syllabus.pdf")
+                {
+                    Name = "Course Syllabus",
+                    MediaType = "application/pdf",
+                    Creators = new[] { new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true } },
+                    IsPartOf = new DigitalResourceCollection("https://example.edu/terms/201801/courses/7/sections/1/resources/1", defaultContextV1p1)
+                    {
+                        Name = "Course Assets",
+                        IsPartOf = new CourseSection("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1) { HideCaliperContext = true },
+                        HideCaliperContext = true
+                    },
+                    DateCreated = Instant.FromUtc(2018, 08, 02, 11, 32, 00),
+                    HideCaliperContext = true
+                },
+                EventTime = CaliperTestEntities.Instant20181115100500,
+                EdApp = CaliperTestEntities.SoftwareAppV2(),
+                Group = CaliperTestEntities.CourseSectionCPS43501Fall18(defaultContextV1p1),
+                Membership = new Membership("https://example.edu/terms/201801/courses/7/sections/1/rosters/1", defaultContextV1p1)
+                {
+                    Member = new Person("https://example.edu/users/554433", defaultContextV1p1),
+                    Organization = new Organization("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1),
+                    Roles = new[] { Role.Instructor },
+                    Status = Status.Active,
+                    DateCreated = CaliperTestEntities.Instant20180801060000,
+                    HideCaliperContext = true
+                },
+                Session = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259", defaultContextV1p1)
+                {
+                    StartedAt = CaliperTestEntities.Instant20181115100000,
+                    HideCaliperContext = true
+                }
+            };
+
+            var coerced = JsonAssertions.coerce(resourceManagement, new[] { "..membership.member", "..membership.organization", "..edApp" });
+
+            JsonAssertions.AssertSameObjectJson(coerced, "caliperEventResourceManagementPrinted");
+        }
+
+        [Test]
+        public void EventResourceManagementCreated_MatchesReferenceJson()
+        {
+            var resourceManagement = new ResourceManagementEvent("urn:uuid:0c81f804-62ee-4953-81c5-62d9579c4369", Action.Created)
+            {
+                Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+                Object = new DigitalResource("https://example.edu/terms/201801/courses/7/sections/1/resources/1/syllabus.pdf")
+                {
+                    Name = "Course Syllabus",
+                    MediaType = "application/pdf",
+                    Creators = new[] { new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true } },
+                    IsPartOf = new DigitalResourceCollection("https://example.edu/terms/201801/courses/7/sections/1/resources/1", defaultContextV1p1)
+                    {
+                        Name = "Course Assets",
+                        IsPartOf = new CourseSection("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1) { HideCaliperContext = true },
+                        HideCaliperContext = true
+                    },
+                    DateCreated = Instant.FromUtc(2018, 08, 02, 11, 32, 00),
+                    HideCaliperContext = true
+                },
+                EventTime = CaliperTestEntities.Instant20181115100500,
+                EdApp = CaliperTestEntities.SoftwareAppV2(),
+                Group = CaliperTestEntities.CourseSectionCPS43501Fall18(defaultContextV1p1),
+                Membership = new Membership("https://example.edu/terms/201801/courses/7/sections/1/rosters/1", defaultContextV1p1)
+                {
+                    Member = new Person("https://example.edu/users/554433", defaultContextV1p1),
+                    Organization = new Organization("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1),
+                    Roles = new[] { Role.Instructor },
+                    Status = Status.Active,
+                    DateCreated = CaliperTestEntities.Instant20180801060000,
+                    HideCaliperContext = true
+                },
+                Session = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259", defaultContextV1p1)
+                {
+                    StartedAt = CaliperTestEntities.Instant20181115100000,
+                    HideCaliperContext = true
+                }
+            };
+
+            var coerced = JsonAssertions.coerce(resourceManagement, new[] { "..membership.member", "..membership.organization", "..edApp" });
+
+            JsonAssertions.AssertSameObjectJson(coerced, "caliperEventResourceManagementCreated");
+        }
+
+        [Test]
+        public void EventResourceManagementCopied_MatchesReferenceJson()
+        {
+            var resourceManagement = new ResourceManagementEvent("urn:uuid:d3543a73-e307-4190-a755-5ce7b3187bc5", Action.Copied)
+            {
+                Actor = CaliperTestEntities.Person554433(defaultContextV1p1),
+                Object = new DigitalResource("https://example.edu/terms/201801/courses/7/sections/1/resources/1/syllabus.pdf")
+                {
+                    Name = "Course Syllabus",
+                    MediaType = "application/pdf",
+                    Creators = new[] { new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true } },
+                    IsPartOf = new DigitalResourceCollection("https://example.edu/terms/201801/courses/7/sections/1/resources/1", defaultContextV1p1)
+                    {
+                        Name = "Course Assets",
+                        IsPartOf = new CourseSection("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1) { HideCaliperContext = true },
+                        HideCaliperContext = true
+                    },
+                    DateCreated = Instant.FromUtc(2018, 08, 02, 11, 32, 00),
+                    HideCaliperContext = true
+                },
+                Generated = new DigitalResource("https://example.edu/terms/201801/courses/7/sections/1/resources/1/syllabus_copy.pdf")
+                {
+                    Name = "Course Syllabus (copy)",
+                    MediaType = "application/pdf",
+                    Creators = new[] { new Person("https://example.edu/users/554433", defaultContextV1p1) { HideCaliperContext = true } },
+                    IsPartOf = new DigitalResourceCollection("https://example.edu/terms/201801/courses/7/sections/1/resources/1", defaultContextV1p1)
+                    {
+                        Name = "Course Assets",
+                        IsPartOf = new CourseSection("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1) { HideCaliperContext = true },
+                        HideCaliperContext = true
+                    },
+                    DateCreated = CaliperTestEntities.Instant20181115100500,
+                    HideCaliperContext = true
+                },
+                EventTime = CaliperTestEntities.Instant20181115100500,
+                EdApp = CaliperTestEntities.SoftwareAppV2(),
+                Group = CaliperTestEntities.CourseSectionCPS43501Fall18(defaultContextV1p1),
+                Membership = new Membership("https://example.edu/terms/201801/courses/7/sections/1/rosters/1", defaultContextV1p1)
+                {
+                    Member = new Person("https://example.edu/users/554433", defaultContextV1p1),
+                    Organization = new Organization("https://example.edu/terms/201801/courses/7/sections/1", defaultContextV1p1),
+                    Roles = new[] { Role.Instructor },
+                    Status = Status.Active,
+                    DateCreated = CaliperTestEntities.Instant20180801060000,
+                    HideCaliperContext = true
+                },
+                Session = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259", defaultContextV1p1)
+                {
+                    StartedAt = CaliperTestEntities.Instant20181115100000,
+                    HideCaliperContext = true
+                }
+            };
+
+            var coerced = JsonAssertions.coerce(resourceManagement, new[] { "..membership.member", "..membership.organization", "..edApp" });
+
+            JsonAssertions.AssertSameObjectJson(coerced, "caliperEventResourceManagementCopied");
+        }
     }
 }

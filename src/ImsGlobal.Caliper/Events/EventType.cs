@@ -17,6 +17,7 @@ namespace ImsGlobal.Caliper.Events {
         public static readonly EventType Message = new EventType("MessageEvent");
         public static readonly EventType Navigation = new EventType( "NavigationEvent" );
 		public static readonly EventType Outcome = new EventType( "GradeEvent" );
+        public static readonly EventType ResourceManagement = new EventType("ResourceManagementEvent");
         public static readonly EventType Search = new EventType("SearchEvent");
         public static readonly EventType Session = new EventType( "SessionEvent" );
         public static readonly EventType Thread = new EventType("ThreadEvent");

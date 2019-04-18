@@ -8,6 +8,7 @@ namespace ImsGlobal.Caliper {
     {
 		public static CaliperContext Context = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p2");
         public static CaliperContext FeedbackProfileExtensionV1p1 = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1/FeedbackProfile-extension");
+        public static CaliperContext ResourceManagementProfileExtensionV1p1 = new CaliperContext("http://purl.imsglobal.org/ctx/caliper/v1p1/ResourceManagementProfile-extension");
 
         public CaliperContext() {}
 
