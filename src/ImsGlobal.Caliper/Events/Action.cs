@@ -10,7 +10,8 @@ namespace ImsGlobal.Caliper.Events {
 		public static readonly Action Abandoned = new Action( "Abandoned");
 		public static readonly Action Activated = new Action( "Activated");
 		public static readonly Action Added = new Action( "Added");
-		public static readonly Action Attached = new Action( "Attached");
+        public static readonly Action Archived = new Action("Archived");
+        public static readonly Action Attached = new Action( "Attached");
 		public static readonly Action Bookmarked = new Action( "Bookmarked");
 		public static readonly Action ChangedResolution = new Action( "ChangedResolution");
 		public static readonly Action ChangedSize = new Action( "ChangedSize");
@@ -20,13 +21,15 @@ namespace ImsGlobal.Caliper.Events {
 		public static readonly Action ClosedPopout = new Action( "ClosedPopout");
 		public static readonly Action Commented = new Action( "Commented");
 		public static readonly Action Completed = new Action( "Completed");
-		public static readonly Action Created = new Action( "Created");
+        public static readonly Action Copied = new Action("Copied");
+        public static readonly Action Created = new Action( "Created");
 		public static readonly Action Deactivated = new Action( "Deactivated");
 		public static readonly Action Deleted = new Action( "Deleted");
 		public static readonly Action Described = new Action( "Described");
 		public static readonly Action DisabledCloseCaptioning = new Action( "DisabledCloseCaptioning");
 		public static readonly Action Disliked = new Action( "Disliked");
-		public static readonly Action EnabledCloseCaptioning = new Action( "EnabledCloseCaptioning");
+        public static readonly Action Downloaded = new Action("Downloaded");
+        public static readonly Action EnabledCloseCaptioning = new Action( "EnabledCloseCaptioning");
 		public static readonly Action Ended = new Action( "Ended");
 		public static readonly Action EnteredFullScreen = new Action( "EnteredFullScreen");
 		public static readonly Action ExitedFullScreen = new Action( "ExitedFullScreen");
@@ -49,18 +52,22 @@ namespace ImsGlobal.Caliper.Events {
 		public static readonly Action OpenedPopout = new Action( "OpenedPopout");
 		public static readonly Action Paused = new Action( "Paused");
 		public static readonly Action Posted = new Action( "Posted");
-		public static readonly Action Questioned = new Action( "Questioned");
+        public static readonly Action Printed = new Action("Printed");
+        public static readonly Action Published = new Action("Published");
+        public static readonly Action Questioned = new Action( "Questioned");
 		public static readonly Action Ranked = new Action( "Ranked");
 		public static readonly Action Recommended = new Action( "Recommended");
 		public static readonly Action Removed = new Action( "Removed");
 		public static readonly Action Reset = new Action( "Reset");
 		public static readonly Action Restarted = new Action( "Restarted");
-		public static readonly Action Resumed = new Action( "Resumed");
+        public static readonly Action Restored = new Action("Restored");
+        public static readonly Action Resumed = new Action( "Resumed");
 		public static readonly Action Retrieved = new Action( "Retrieved");
         public static readonly Action Returned = new Action("Returned");
         public static readonly Action Reviewed = new Action("Reviewed");
         public static readonly Action Rewound = new Action( "Rewound");
-		public static readonly Action Searched = new Action( "Searched");
+        public static readonly Action Saved = new Action("Saved");
+        public static readonly Action Searched = new Action( "Searched");
 		public static readonly Action Shared = new Action( "Shared" );
 		public static readonly Action Showed = new Action( "Showed" );
 		public static readonly Action Skipped = new Action( "Skipped" );
@@ -70,8 +77,10 @@ namespace ImsGlobal.Caliper.Events {
 		public static readonly Action Tagged = new Action( "Tagged" );
 		public static readonly Action TimedOut = new Action( "TimedOut" );
 		public static readonly Action Unmuted = new Action( "Unmuted" );
-		public static readonly Action Unsubscribed = new Action( "Unsubscribed" );
-		public static readonly Action Used = new Action( "Used" );
+        public static readonly Action Unpublished = new Action("Unpublished");
+        public static readonly Action Unsubscribed = new Action( "Unsubscribed" );
+        public static readonly Action Uploaded = new Action("Uploaded");
+        public static readonly Action Used = new Action( "Used" );
 		public static readonly Action Viewed = new Action( "Viewed" );
 
 

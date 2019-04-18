@@ -136,6 +136,7 @@
     <Compile Include="Events\Forum\ForumEvent.cs" />
     <Compile Include="Events\Forum\ThreadEvent.cs" />
     <Compile Include="Events\Forum\MessageEvent.cs" />
+    <Compile Include="Events\ResourceManagement\ResourceManagementEvent.cs" />
     <Compile Include="Events\Search\SearchEvent.cs" />
     <Compile Include="Events\Session\SessionEvent.cs" />
     <Compile Include="Events\Media\MediaEvent.cs" />
