@@ -2,7 +2,7 @@
 
 namespace ImsGlobal.Caliper.Entities.ToolLaunch
 {
-    public class LtiLink : Entity
+    public class LtiLink : DigitalResource
     {
         public LtiLink(string id, ICaliperContext caliperContext = null)
             : base(id, caliperContext)

@@ -1,5 +1,6 @@
 ﻿namespace ImsGlobal.Caliper.Events.Reading {
-	using ImsGlobal.Caliper.Events;
+    using ImsGlobal.Caliper.Entities;
+    using ImsGlobal.Caliper.Events;
 
 	/// <summary>
 	/// Event raised when an actor navigates from one resource to another.
@@ -11,7 +12,8 @@
 			this.Type = EventType.Navigation;
 			this.Action = Action.NavigatedTo;
 		}
-        
-	}
+
+        public new DigitalResource Target { get; set; }
+    }
 
 }
