@@ -1878,7 +1878,16 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventGradeGraded_MatchesReferenceJson() {
-			var gradeEvent = CaliperTestEntities.GradeEvent1(defaultContextV1p1);
+			var gradeEvent = new GradeEvent("urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d", Action.Graded, defaultContextV1p1)
+            {
+                Actor = CaliperTestEntities.AutoGraderV2(defaultContextV1p1),
+                Object = CaliperTestEntities.Attempt1d(defaultContextV1p1),
+                Generated = CaliperTestEntities.Score1(defaultContextV1p1),
+                EventTime = CaliperTestEntities.Instant20161115105706,
+                EdApp = new SoftwareApplication("https://example.edu", defaultContextV1p1),
+                Group = CaliperTestEntities.CourseSectionCPS43501Fall16(defaultContextV1p1)
+            };
+
             (gradeEvent.Actor as SoftwareApplication).HideCaliperContext = true;
             (gradeEvent.Object as Attempt).HideCaliperContext = true;
             (gradeEvent.Object as Attempt).Assignable.HideCaliperContext = true;

@@ -15,15 +15,17 @@ namespace ImsGlobal.Caliper.Entities.Session {
 		[JsonProperty( "user", Order = 11 )]
 		public Person User { get; set; }
 
-		[JsonProperty( "startedAtTime", Order = 12 )]
+        [JsonProperty("client", Order = 12)]
+        public dynamic Client { get; set; }
+
+        [JsonProperty( "startedAtTime", Order = 13 )]
 		public Instant? StartedAt { get; set; }
 
-		[JsonProperty( "endedAtTime", Order = 13 )]
+		[JsonProperty( "endedAtTime", Order = 14 )]
 		public Instant? EndedAt { get; set; }
 
-		[JsonProperty( "duration", Order = 14 )]
+		[JsonProperty( "duration", Order = 15 )]
 		public Period Duration { get; set; }
-
 	}
 
 }
