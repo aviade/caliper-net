@@ -700,9 +700,22 @@ namespace ImsGlobal.Caliper.Tests {
 			};
 
 			JsonAssertions.AssertSameObjectJson(entity, "caliperEntitySoftwareApplication");
-		}
+        }
 
-		[Test]
+        [Test]
+        public void EntitySoftwareApplicationUserAgent_MatchesReferenceJson()
+        {
+            var entity = new SoftwareApplication("urn:uuid:d71016dc-ed2f-46f9-ac2c-b93f15f38fdc")
+            {
+                Host = "https://example.edu",
+                UserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+                IpAddress = "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
+            };
+
+            JsonAssertions.AssertSameObjectJson(entity, "caliperEntitySoftwareApplicationUserAgent");
+        }
+
+        [Test]
 		public void EntityTagAnnotation_MatchesReferenceJson() {
 
 			var entity = new TagAnnotation(
@@ -803,13 +816,12 @@ namespace ImsGlobal.Caliper.Tests {
 			JsonAssertions.AssertSameObjectJson(entity, "caliperEntityWebPage");
 		}
 
-
 		[Test]
 		public void EnvelopeEventBatch_MatchesReferenceJson() {
 
-			var NavigationEvent = new NavigationEvent(
-				"urn:uuid:72f66ce5-d2ec-44cc-bce5-41602e1015dc") {
-				Actor = CaliperTestEntities.Person554433(),
+			var NavigationEvent = new NavigationEvent("urn:uuid:72f66ce5-d2ec-44cc-bce5-41602e1015dc") {
+                Profile = ProfileType.General,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = new WebPage("https://example.edu/terms/201601/courses/7/sections/1/pages/2") {
 					Name = "Learning Analytics Specifications",
 					Description = "Overview of Learning Analytics Specifications with particular emphasis on IMS Caliper.",
@@ -832,8 +844,8 @@ namespace ImsGlobal.Caliper.Tests {
 
 			};
 
-			var AnnotationEvent = new AnnotationEvent(
-				"urn:uuid:c0afa013-64df-453f-b0a6-50f3efbe4cc0", BookmarkAnnotation) {
+			var AnnotationEvent = new AnnotationEvent("urn:uuid:c0afa013-64df-453f-b0a6-50f3efbe4cc0", BookmarkAnnotation) {
+                Profile = ProfileType.Annotation,
 				Actor = CaliperTestEntities.Person554433(),
 				Object = new Document("https://example.com/#/texts/imscaliperimplguide") {
 					Name = "IMS Caliper Implementation Guide",
@@ -847,8 +859,8 @@ namespace ImsGlobal.Caliper.Tests {
 
             };
 
-			var ViewEvent = new ViewEvent(
-							"urn:uuid:94bad4bd-a7b1-4c3e-ade4-2253efe65172") {
+			var ViewEvent = new ViewEvent("urn:uuid:94bad4bd-a7b1-4c3e-ade4-2253efe65172") {
+                Profile = ProfileType.Reading,
 				Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.Epub201(),
 				EventTime = CaliperTestEntities.Instant20161115102100,
@@ -882,8 +894,8 @@ namespace ImsGlobal.Caliper.Tests {
 			var envelope = new CaliperMessage<Event> {
 				SensorId = "https://example.edu/sensors/1",
 				SendTime = CaliperTestEntities.EnvelopeDefaultSendTime,
-				Data = new[] { new AssessmentEvent(
-					"urn:uuid:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594", Action.Started) {
+				Data = new[] { new AssessmentEvent("urn:uuid:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594", Action.Started) {
+                        Profile = ProfileType.Assessment,
 						Actor = CaliperTestEntities.Person554433(),
 						Object = CaliperTestEntities.AssessmentQuizOne(),
 						Generated = CaliperTestEntities.Attempt1c(),
@@ -921,7 +933,8 @@ namespace ImsGlobal.Caliper.Tests {
 			};
 
 			var bookmarkEvent = new AnnotationEvent("urn:uuid:d4618c23-d612-4709-8d9a-478d87808067", annotation) {
-				Actor = CaliperTestEntities.Person554433(),
+                Profile = ProfileType.Annotation,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = page,
 				EventTime = CaliperTestEntities.Instant20161115101500,
 				EdApp = CaliperTestEntities.EpubReader123(),
@@ -959,7 +972,8 @@ namespace ImsGlobal.Caliper.Tests {
 			};
 
 			var highlightEvent = new AnnotationEvent("urn:uuid:0067a052-9bb4-4b49-9d1a-87cd43da488a", annotation) {
-				Actor = CaliperTestEntities.Person554433(),
+                Profile = ProfileType.Annotation,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = doc,
 				EventTime = CaliperTestEntities.Instant20161115101500,
 				EdApp = CaliperTestEntities.EpubReader123(),
@@ -996,7 +1010,8 @@ namespace ImsGlobal.Caliper.Tests {
 			};
 
 			var shareEvent = new AnnotationEvent("urn:uuid:3bdab9e6-11cd-4a0f-9d09-8e363994176b", annotation) {
-				Actor = CaliperTestEntities.Person554433(),
+                Profile = ProfileType.Annotation,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = doc,
 				EventTime = CaliperTestEntities.Instant20161115101500,
 				EdApp = CaliperTestEntities.EpubReader123(),
@@ -1028,7 +1043,8 @@ namespace ImsGlobal.Caliper.Tests {
 			};
 
 			var tagEvent = new AnnotationEvent("urn:uuid:b2009c63-2659-4cd2-b71e-6e03c498f02b", annotation) {
-				Actor = CaliperTestEntities.Person554433(),
+                Profile = ProfileType.Annotation,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = doc,
 				EventTime = CaliperTestEntities.Instant20161115101500,
 				EdApp = CaliperTestEntities.EpubReader123(),
@@ -1045,10 +1061,9 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventAssessmentItemCompleted_MatchesReferenceJson() {
-
-			var assessmentItemEvent = new AssessmentItemEvent(
-				"urn:uuid:e5891791-3d27-4df1-a272-091806a43dfb", Action.Completed) {
-				Actor = CaliperTestEntities.Person554433(),
+			var assessmentItemEvent = new AssessmentItemEvent("urn:uuid:e5891791-3d27-4df1-a272-091806a43dfb", Action.Completed) {
+                Profile = ProfileType.Assessment,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = new AssessmentItem("https://example.edu/terms/201601/courses/7/sections/1/assess/1/items/3") {
 					Name = "Assessment Item 3",
 					IsPartOf = new Assessment("https://example.edu/terms/201601/courses/7/sections/1/assess/1"),
@@ -1085,10 +1100,9 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventAssessmentItemSkipped_MatchesReferenceJson() {
-
-			var assessmentItemEvent = new AssessmentItemEvent(
-				"urn:uuid:04e27704-73bf-4d3c-912c-1b2da40aef8f", Action.Skipped) {
-				Actor = CaliperTestEntities.Person554433(),
+			var assessmentItemEvent = new AssessmentItemEvent("urn:uuid:04e27704-73bf-4d3c-912c-1b2da40aef8f", Action.Skipped) {
+                Profile = ProfileType.Assessment,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.AssessmentItem2(),
 				EventTime = CaliperTestEntities.Instant20161115101430,
 				EdApp = CaliperTestEntities.SoftwareAppV2(),
@@ -1105,10 +1119,9 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventAssessmentItemStarted_MatchesReferenceJson() {
-
-			var assessmentItemEvent = new AssessmentItemEvent(
-				"urn:uuid:1b557176-ba67-4624-b060-6bee670a3d8e", Action.Started) {
-				Actor = CaliperTestEntities.Person554433(),
+			var assessmentItemEvent = new AssessmentItemEvent("urn:uuid:1b557176-ba67-4624-b060-6bee670a3d8e", Action.Started) {
+                Profile = ProfileType.Assessment,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.AssessmentItem3b(),
 				Generated = CaliperTestEntities.Attempt1b(),
 				EventTime = CaliperTestEntities.Instant20161115101500,
@@ -1127,10 +1140,9 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventAssessmentStarted_MatchesReferenceJson() {
-
-			var assessmentEvent = new AssessmentEvent(
-				"urn:uuid:27734504-068d-4596-861c-2315be33a2a2", Action.Started) {
-				Actor = CaliperTestEntities.Person554433(),
+            var assessmentEvent = new AssessmentEvent("urn:uuid:27734504-068d-4596-861c-2315be33a2a2", Action.Started) {
+                Profile = ProfileType.Assessment,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.AssessmentQuizOne(),
 				Generated = CaliperTestEntities.Attempt1c(),
 				EventTime = CaliperTestEntities.Instant20161115101500,
@@ -1151,9 +1163,9 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventAssessmentSubmitted_MatchesReferenceJson() {
 
-			var assessmentEvent = new AssessmentEvent(
-				"urn:uuid:dad88464-0c20-4a19-a1ba-ddf2f9c3ff33", Action.Submitted) {
-				Actor = CaliperTestEntities.Person554433(),
+			var assessmentEvent = new AssessmentEvent("urn:uuid:dad88464-0c20-4a19-a1ba-ddf2f9c3ff33", Action.Submitted) {
+                Profile = ProfileType.Assessment,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.AssessmentQuizOne(),
 				Generated = CaliperTestEntities.Attempt2(),
 				EventTime = CaliperTestEntities.Instant20161115102530,
@@ -1172,9 +1184,9 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventAssignableActivated_MatchesReferenceJson() {
-			var assignableEvent = new AssignableEvent(
-				"urn:uuid:2635b9dd-0061-4059-ac61-2718ab366f75", Action.Activated) {
-				Actor = CaliperTestEntities.Person112233(),
+			var assignableEvent = new AssignableEvent("urn:uuid:2635b9dd-0061-4059-ac61-2718ab366f75", Action.Activated) {
+                Profile = ProfileType.Assignable,
+                Actor = CaliperTestEntities.Person112233(),
 				Object = CaliperTestEntities.AssessmentQuizOneB(),
 				EventTime = CaliperTestEntities.Instant20161112101500,
 				EdApp = CaliperTestEntities.SoftwareAppV2(),
@@ -1209,8 +1221,8 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventForumSubscribed_MatchesReferenceJson() {
-			var forumEvent = new ForumEvent(
-				"urn:uuid:a2f41f9c-d57d-4400-b3fe-716b9026334e", Action.Subscribed) {
+			var forumEvent = new ForumEvent("urn:uuid:a2f41f9c-d57d-4400-b3fe-716b9026334e", Action.Subscribed) {
+                Profile = ProfileType.Forum,
 				Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.Forum1Caliper(),
 				EventTime = CaliperTestEntities.Instant20161115101600,
@@ -1229,9 +1241,9 @@ namespace ImsGlobal.Caliper.Tests {
 		[Test]
 		public void EventMediaPausedVideo_MatchesReferenceJson() {
 
-			var mediaEvent = new MediaEvent(
-				"urn:uuid:956b4a02-8de0-4991-b8c5-b6eebb6b4cab", Action.Paused) {
-				Actor = CaliperTestEntities.Person554433(),
+			var mediaEvent = new MediaEvent("urn:uuid:956b4a02-8de0-4991-b8c5-b6eebb6b4cab", Action.Paused) {
+                Profile = ProfileType.Media,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.VideoObject1(),
 				Target = new MediaLocation("https://example.edu/UQVK-dsU7-Y?t=321") {
 					CurrentTime = Period.FromMinutes(5) + Period.FromSeconds(21)                 
@@ -1256,9 +1268,9 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventMessagePosted_MatchesReferenceJson() {
-			var messageEvent = new MessageEvent(
-				"urn:uuid:0d015a85-abf5-49ee-abb1-46dbd57fe64e", Action.Posted) {
-				Actor = CaliperTestEntities.Person554433(),
+			var messageEvent = new MessageEvent("urn:uuid:0d015a85-abf5-49ee-abb1-46dbd57fe64e", Action.Posted) {
+                Profile = ProfileType.Forum,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.Message2(),
 				EventTime = CaliperTestEntities.Instant20161115101500,
 				EdApp = CaliperTestEntities.ForumAppV2(),
@@ -1275,8 +1287,8 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventMessageReplied_MatchesReferenceJson() {
-			var messageEvent = new MessageEvent(
-				"urn:uuid:aed54386-a3fb-45ff-90f9-a35d3daaf031", Action.Posted) {
+			var messageEvent = new MessageEvent("urn:uuid:aed54386-a3fb-45ff-90f9-a35d3daaf031", Action.Posted) {
+                Profile = ProfileType.Forum,
 				Actor = CaliperTestEntities.Person778899(),
 				Object = CaliperTestEntities.Message3(),
 				EventTime = CaliperTestEntities.Instant20161115101530,
@@ -1315,9 +1327,7 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventViewViewedFedSession_MatchesReferenceJson() {
-			var viewEvent = new ViewEvent(
-				"urn:uuid:4be6d29d-5728-44cd-8a8f-3d3f07e46b61") {
-
+			var viewEvent = new ViewEvent("urn:uuid:4be6d29d-5728-44cd-8a8f-3d3f07e46b61") {
 				Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.Epub202(),
 				EventTime = CaliperTestEntities.Instant20161115102000,
@@ -1326,26 +1336,25 @@ namespace ImsGlobal.Caliper.Tests {
 				Membership = CaliperTestEntities.EntityMembership554433Learner(),
 				Session = CaliperTestEntities.Session1241(),
 				FederatedSession = new LtiSession(
-					"urn:uuid:1c519ff7-3dfa-4764-be48-d2fb35a2925a") {
+                    "https://example.edu/lti/sessions/b533eb02823f31024e6b7f53436c42fb99b31241") {
 					User = CaliperTestEntities.Person554433(),
-                    MessageParameters = new CaliperTestEntities.LtiParamsViewViewedFedSession(),
-                    DateCreated = CaliperTestEntities.Instant20161115101500,
-					StartedAt = CaliperTestEntities.Instant20161115101500
-				}
+                    MessageParameters = new CaliperTestEntities.LtiParamsLtiSession(),
+                    DateCreated = CaliperTestEntities.Instant20181115101500,
+					StartedAt = CaliperTestEntities.Instant20181115101500
+				},
+                Profile = ProfileType.Reading
 			};
 
 			var coerced = JsonAssertions.coerce(viewEvent,
-				new string[] { "..membership.member", "..membership.organization",
-							"..edApp", "..federatedSession.user" });
+				new string[] { "..membership.member", "..membership.organization", "..edApp" });
 
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventViewViewedFedSession");
 		}
 
 		[Test]
 		public void EventNavigationNavigatedToThinned_MatchesReferenceJson() {
-			var navEvent = new NavigationEvent(
-				"urn:uuid:71657137-8e6e-44f8-8499-e1c3df6810d2") {
-
+			var navEvent = new NavigationEvent("urn:uuid:71657137-8e6e-44f8-8499-e1c3df6810d2") {
+                Profile = ProfileType.General,
 				Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.WebPage2(),
 				EventTime = CaliperTestEntities.Instant20161115101500,
@@ -1366,7 +1375,16 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventGradeGraded_MatchesReferenceJson() {
-			var gradeEvent = CaliperTestEntities.GradeEvent1();
+			var gradeEvent = new GradeEvent("urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d", Action.Graded)
+            {
+                Profile = ProfileType.Grading,
+                Actor = CaliperTestEntities.AutoGraderV2(),
+                Object = CaliperTestEntities.Attempt1d(),
+                Generated = CaliperTestEntities.Score1(),
+                EventTime = CaliperTestEntities.Instant20161115105706,
+                EdApp = new SoftwareApplication("https://example.edu"),
+                Group = CaliperTestEntities.CourseSectionCPS43501Fall16()
+            };
 
 			var coerced = JsonAssertions.coerce(gradeEvent,
 				new string[] { "..edApp", "..scoredBy", "..generated.attempt" });
@@ -1377,10 +1395,9 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventGradeGradedItem_MatchesReferenceJson() {
-			var gradeEvent = new GradeEvent(
-				"urn:uuid:12c05c4e-253f-4073-9f29-5786f3ff3f36", Action.Graded) {
-
-				Actor = CaliperTestEntities.AutoGraderV2(),
+			var gradeEvent = new GradeEvent("urn:uuid:12c05c4e-253f-4073-9f29-5786f3ff3f36", Action.Graded) {
+                Profile = ProfileType.Grading,
+                Actor = CaliperTestEntities.AutoGraderV2(),
 				Object = CaliperTestEntities.Attempt1(),
 				EventTime = CaliperTestEntities.Instant20161115105706,
 				EdApp = new SoftwareApplication("https://example.edu"),
@@ -1392,24 +1409,54 @@ namespace ImsGlobal.Caliper.Tests {
 				new string[] { "..edApp", "..scoredBy", "..generated.attempt",
 							"..object.isPartOf" });
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventGradeGradedItem");
-		}
+        }
 
-		[Test]
-		public void EventSessionLoggedIn_MatchesReferenceJson() {
-			var sessionEvent = new SessionEvent(
-				"urn:uuid:fcd495d0-3740-4298-9bec-1154571dc211", Action.LoggedIn) {
+        [Test]
+        public void EventSessionLoggedIn_MatchesReferenceJson()
+        {
+            var sessionEvent = new SessionEvent("urn:uuid:fcd495d0-3740-4298-9bec-1154571dc211", Action.LoggedIn)
+            {
+                Profile = ProfileType.Session,
+                Actor = CaliperTestEntities.Person554433(),
+                Object = CaliperTestEntities.SoftwareAppV2(),
+                EventTime = CaliperTestEntities.Instant20161115101500,
+                EdApp = CaliperTestEntities.SoftwareAppV2(),
+                Session = CaliperTestEntities.Session6259b()
+            };
 
-				Actor = CaliperTestEntities.Person554433(),
-				Object = CaliperTestEntities.SoftwareAppV2(),
-				EventTime = CaliperTestEntities.Instant20161115101500,
-				EdApp = CaliperTestEntities.SoftwareAppV2(),
-				Session = CaliperTestEntities.Session6259b()
+            var coerced = JsonAssertions.coerce(sessionEvent,
+                new string[] { "..edApp", "..session.user" });
+
+            JsonAssertions.AssertSameObjectJson(coerced, "caliperEventSessionLoggedIn");
+        }
+
+        [Test]
+		public void EventSessionLoggedInExtended_MatchesReferenceJson() {
+			var sessionEvent = new SessionEvent("urn:uuid:4ec2c31e-3ec0-4fe1-a017-b81561b075d7", Action.LoggedIn)
+            {
+                Profile = ProfileType.Session,
+                Actor = CaliperTestEntities.Person554433(),
+                Object = CaliperTestEntities.SoftwareAppV2(),
+                EventTime = CaliperTestEntities.Instant20161115201115,
+                EdApp = CaliperTestEntities.SoftwareAppV2(),
+                Session = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259")
+                {
+                    User = CaliperTestEntities.Person554433(),
+                    Client = new SoftwareApplication("urn:uuid:d71016dc-ed2f-46f9-ac2c-b93f15f38fdc")
+                    {
+                        Host = "https://example.edu",
+                        UserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+                        IpAddress = "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
+                    },
+                    DateCreated = CaliperTestEntities.Instant20161115201115,
+                    StartedAt = CaliperTestEntities.Instant20161115201115
+                }
             };
 
 			var coerced = JsonAssertions.coerce(sessionEvent,
 				new string[] { "..edApp", "..session.user" });
 
-			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventSessionLoggedIn");
+			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventSessionLoggedInExtended");
 		}
 
 		class RequestExtension {
@@ -1423,10 +1470,9 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventSessionLoggedOut_MatchesReferenceJson() {
-			var sessionEvent = new SessionEvent(
-				"urn:uuid:a438f8ac-1da3-4d48-8c86-94a1b387e0f6", Action.LoggedOut) {
-
-				Actor = CaliperTestEntities.Person554433(),
+			var sessionEvent = new SessionEvent("urn:uuid:a438f8ac-1da3-4d48-8c86-94a1b387e0f6", Action.LoggedOut) {
+                Profile = ProfileType.Session,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.SoftwareAppV2(),
 				EventTime = CaliperTestEntities.Instant20161115110500,
 				EdApp = CaliperTestEntities.SoftwareAppV2(),
@@ -1441,9 +1487,8 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventSessionTimedOut_MatchesReferenceJson() {
-			var sessionEvent = new SessionEvent(
-				"urn:uuid:4e61cf6c-ffbe-45bc-893f-afe7ad4079dc", Action.TimedOut) {
-
+			var sessionEvent = new SessionEvent("urn:uuid:4e61cf6c-ffbe-45bc-893f-afe7ad4079dc", Action.TimedOut) {
+                Profile = ProfileType.Session,
 				Actor = new SoftwareApplication("https://example.edu"),
 				Object = new Session(
 					"https://example.edu/sessions/7d6b88adf746f0692e2e873308b78c60fb13a864") {
@@ -1467,9 +1512,8 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventThreadMarkedAsRead_MatchesReferenceJson() {
-			var threadEvent = new ThreadEvent(
-				"urn:uuid:6b20c5ba-301c-4e56-85a0-2f3d9a94c249", Action.MarkedAsRead) {
-
+			var threadEvent = new ThreadEvent("urn:uuid:6b20c5ba-301c-4e56-85a0-2f3d9a94c249", Action.MarkedAsRead) {
+                Profile = ProfileType.Forum,
 				Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.Thread1(),
 				EventTime = CaliperTestEntities.Instant20161115101600,
@@ -1486,10 +1530,9 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventToolUseUsed_MatchesReferenceJson() {
-			var toolUseEvent = new ToolUseEvent(
-				"urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d916", Action.Used) {
-
-				Actor = CaliperTestEntities.Person554433(),
+			var toolUseEvent = new ToolUseEvent("urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d916", Action.Used) {
+                Profile = ProfileType.ToolUse,
+                Actor = CaliperTestEntities.Person554433(),
 				Object = new SoftwareApplication("https://example.edu"),
 				EventTime = CaliperTestEntities.Instant20161115101500,
 				EdApp = CaliperTestEntities.SoftwareAppV2(),
@@ -1506,8 +1549,8 @@ namespace ImsGlobal.Caliper.Tests {
 
         [Test]
 		public void EventViewViewed_MatchesReferenceJson() {
-			var viewEvent = new ViewEvent(
-				"urn:uuid:cd088ca7-c044-405c-bb41-0b2a8506f907") {
+			var viewEvent = new ViewEvent("urn:uuid:cd088ca7-c044-405c-bb41-0b2a8506f907") {
+                Profile = ProfileType.Reading,
 				Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.Epub201(),
 				EventTime = CaliperTestEntities.Instant20161115101500,
@@ -1524,8 +1567,8 @@ namespace ImsGlobal.Caliper.Tests {
 
 		[Test]
 		public void EventViewViewedExtended_MatchesReferenceJson() {
-			var viewEvent = new ViewEvent(
-				"urn:uuid:3a9bd869-addc-48b1-80f6-a14b2ff591ed") {
+			var viewEvent = new ViewEvent("urn:uuid:3a9bd869-addc-48b1-80f6-a14b2ff591ed") {
+                Profile = ProfileType.Reading,
 				Actor = CaliperTestEntities.Person554433(),
 				Object = CaliperTestEntities.Epub200(),
 				EventTime = CaliperTestEntities.Instant20161115101500,
@@ -1657,6 +1700,7 @@ namespace ImsGlobal.Caliper.Tests {
             var evnt = new Event("urn:uuid:3a648e68-f00d-4c08-aa59-8738e1884f2c")
             {
                 Action = Action.Created,
+                Profile = ProfileType.General,
                 Actor = CaliperTestEntities.Person554433(),
                 Object = new Document("https://example.edu/terms/201601/courses/7/sections/1/resources/123")
                 {
@@ -1675,6 +1719,7 @@ namespace ImsGlobal.Caliper.Tests {
         {
             var evnt = new Event("urn:uuid:5973dcd9-3126-4dcc-8fd8-8153a155361c")
             {
+                Profile = ProfileType.General,
                 Action = Action.Modified,
                 Actor = CaliperTestEntities.Person554433(),
                 Object = new Document("https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=3")

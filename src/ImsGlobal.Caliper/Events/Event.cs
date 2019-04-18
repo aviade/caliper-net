@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Newtonsoft.Json;
 using NodaTime;
 
@@ -40,78 +38,81 @@ namespace ImsGlobal.Caliper.Events {
         [JsonProperty("type", Order = 3)]
         public EventType Type { get; set; }
 
+        [JsonProperty("profile", Order = 4)]
+        public ProfileType Profile { get; set; }
+
         /// <summary>
         /// Required - Agent (User, System) that performed the action
         /// </summary>
-        [JsonProperty("actor", Order = 4)]
+        [JsonProperty("actor", Order = 5)]
         public IAgent Actor { get; set; }
 
         /// <summary>
         /// Required - Action performed by the agent - from Metric Profile
         /// </summary>
-        [JsonProperty("action", Order = 5)]
+        [JsonProperty("action", Order = 6)]
         public Action Action { get; set; }
 
         /// <summary>
         /// Required - "Activity Context" - from Metric Profile
         /// </summary>
-        [JsonProperty("object", Order = 6)]
+        [JsonProperty("object", Order = 7)]
         public dynamic Object { get; set; }
 
         /// <summary>
         /// Optional - "target" - from Metric Profile
         /// </summary>
-        [JsonProperty( "target", Order = 7 )]
+        [JsonProperty( "target", Order = 8 )]
 		public dynamic Target { get; set; }
 
 		/// <summary>
 		/// Optional - entity "generated" as result of action - from Metric Profile
 		/// </summary>
-		[JsonProperty( "generated", Order = 8 )]
+		[JsonProperty( "generated", Order = 9 )]
 		public dynamic Generated { get; set; }
 
         /// <summary>
 		/// Required - time that the event was started at
 		/// </summary>
-		[JsonProperty("eventTime", Order = 9)]
+		[JsonProperty("eventTime", Order = 10)]
         public Instant? EventTime { get; set; }
 
         /// <summary>
         /// EdApp context
         /// </summary>
-        [JsonProperty( "edApp", Order = 10 )]
+        [JsonProperty( "edApp", Order = 11 )]
 		public SoftwareApplication EdApp { get; set; }
 
 		/// <summary>
 		/// Group context
 		/// </summary>
-		[JsonProperty( "group", Order = 11 )]
+		[JsonProperty( "group", Order = 12 )]
 		public IOrganization Group { get; set; }
 
 		/// <summary>
 		/// Group context
 		/// </summary>
-		[JsonProperty( "membership", Order = 12 )]
+		[JsonProperty( "membership", Order = 13 )]
 		public Membership Membership { get; set; }
 
 		/// <summary>
 		/// Group context
 		/// </summary>
-		[JsonProperty( "federatedSession", Order = 13 )]
+		[JsonProperty( "federatedSession", Order = 14 )]
 		//[JsonConverter( typeof( JsonIdConverter<Entities.Session.LtiSession> ) )]
 		public Entities.Session.LtiSession FederatedSession { get; set; }
 
         /// <summary>
 		/// Group context
 		/// </summary>
-		[JsonProperty("session", Order = 14)]
+		[JsonProperty("session", Order = 15)]
         //[JsonConverter(typeof(JsonIdConverter<Entities.Session.Session>))]
         public Entities.Session.Session Session { get; set; }
 
-        [JsonProperty("extensions", Order = 15)]
+        [JsonProperty("extensions", Order = 16)]
         public Object Extensions { get; set; }
 
-        [JsonProperty("referrer", Order = 16)]
+        [JsonProperty("referrer", Order = 17)]
         public Entity Referrer { get; set; }
     }
 

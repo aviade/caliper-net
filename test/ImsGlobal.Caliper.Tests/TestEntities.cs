@@ -469,20 +469,6 @@ namespace ImsGlobal.Caliper.Tests {
             };
         }
 
-        public static GradeEvent GradeEvent1(ICaliperContext caliperContext = null)
-        {
-            return new GradeEvent(
-                        "urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d", Events.Action.Graded, caliperContext)
-            {
-                Actor = AutoGraderV2(caliperContext),
-                Object = Attempt1d(caliperContext),
-                Generated = Score1(caliperContext),
-                EventTime = Instant20161115105706,
-                EdApp = new SoftwareApplication("https://example.edu", caliperContext),
-                Group = CourseSectionCPS43501Fall16(caliperContext)
-            };
-        }
-
         public static Forum Forum1Caliper(ICaliperContext caliperContext = null)
         {
             return new Forum("https://example.edu/terms/201601/courses/7/sections/1/forums/1", caliperContext)
@@ -671,35 +657,6 @@ namespace ImsGlobal.Caliper.Tests {
             };
 
 
-        };
-
-        public class LtiParamsViewViewedFedSession
-        {
-            public string lti_message_type = "basic-lti-launch-request";
-
-            public string lti_version = "LTI-1p0";
-
-            public string context_id = "4f1a161f-59c3-43e5-be37-445ad09e3f76";
-
-            public string context_type = "urn:lti:context-type:ims/lis/CourseSection";
-
-            public string context_label = "SI182";
-
-            public string context_title = "Design of Personal Environments";
-
-            public string resource_link_id = "6b37a950-42c9-4117-8f4f-03e6e5c88d24";
-
-            public string[] roles = new[] { "urn:lti:role:ims/lis/Learner" };
-
-            public string tool_consumer_instance_guid = "SomeLMS.example.edu";
-
-            public string tool_consumer_instance_description = "Sample University (SomeLMS)";
-
-            public string user_id = "0ae836b9-7fc9-4060-006f-27b2066ac545";
-
-            public Instant custom_xstart = Instant.FromUtc(2016, 08, 21, 01, 00, 00);
-
-            public string ext_com_somelms_example_course_section_instructor = "https://example.edu/faculty/1234";
         };
 
         public class LtiParamsLtiSession
