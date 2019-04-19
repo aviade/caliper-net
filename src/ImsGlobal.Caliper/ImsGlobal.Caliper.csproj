@@ -61,6 +61,7 @@
     <Compile Include="Entities\Collection\DigitalResourceCollection.cs" />
     <Compile Include="Entities\Collection\ICollection.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\Collection\Collection.cs" />
     <Compile Include="Entities\ProfileType.cs" />
     <Compile Include="Entities\Feedback\Feedback.cs" />
     <Compile Include="Entities\Feedback\NumericScale.cs" />
