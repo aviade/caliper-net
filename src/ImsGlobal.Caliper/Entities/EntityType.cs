@@ -19,6 +19,7 @@ namespace ImsGlobal.Caliper.Entities
 		public static readonly EntityType AudioObject = new EntityType("AudioObject");
 		public static readonly EntityType Bookmark = new EntityType("BookmarkAnnotation");
 		public static readonly EntityType Chapter = new EntityType("Chapter");
+        public static readonly EntityType Collection = new EntityType("Collection");
         public static readonly EntityType Comment = new EntityType("Comment");
         public static readonly EntityType CourseOffering = new EntityType("CourseOffering");
 		public static readonly EntityType CourseSection = new EntityType("CourseSection");

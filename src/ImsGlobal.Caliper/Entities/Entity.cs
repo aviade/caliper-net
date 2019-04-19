@@ -40,6 +40,9 @@ namespace ImsGlobal.Caliper.Entities {
 		[JsonProperty( "dateModified", Order = 53 )]
 		public Instant? DateModified { get; set; }
 
+        [JsonProperty("otherIdentifiers", Order = 54)]
+        public dynamic OtherIdentifiers { get; set; }
+
         [JsonIgnore]
         public bool HideCaliperContext { get; set; }
 
