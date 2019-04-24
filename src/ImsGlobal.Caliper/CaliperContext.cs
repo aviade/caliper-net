@@ -16,6 +16,10 @@ namespace ImsGlobal.Caliper {
 			this.Value = value;
 		}
 
+        public CaliperContext( dynamic value ) {
+            this.Value = JsonConvert.SerializeObject(value);
+        }
+
 		public string Value { get; set; }
 	}
 

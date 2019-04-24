@@ -2089,7 +2089,6 @@ namespace ImsGlobal.Caliper.Tests {
 
             var toolUseEvent = new ToolUseEvent("urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d916", Action.Used, toolUseProfileExtensionV1p1)
             {
-                Context = toolUseProfileExtensionV1p1,
                 Actor = person,
                 Action = Action.Used,
                 Object = new SoftwareApplication("https://example.edu", defaultContextV1p1) { HideCaliperContext = true},

@@ -15,6 +15,7 @@ namespace ImsGlobal.Caliper.Entities
         public static readonly ProfileType Grading = new ProfileType("GradingProfile");
         public static readonly ProfileType Media = new ProfileType("MediaProfile");
         public static readonly ProfileType Reading = new ProfileType("ReadingProfile");
+        public static readonly ProfileType ToolLaunch = new ProfileType("ToolLaunchProfile");
         public static readonly ProfileType ToolUse = new ProfileType("ToolUseProfile");
         public static readonly ProfileType Session = new ProfileType("SessionProfile");
 
