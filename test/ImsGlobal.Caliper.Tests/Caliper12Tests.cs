@@ -32,6 +32,7 @@ namespace ImsGlobal.Caliper.Tests {
 	using NodaTime;
 	using static JsonSerializeUtils;
 	using System.Collections;
+    using ImsGlobal.Caliper.Events.Search;
 
     [TestFixture]
 	public class Caliper12Tests
@@ -1912,6 +1913,44 @@ namespace ImsGlobal.Caliper.Tests {
         }
 
         [Test]
+        public void EventToolLaunchLaunched_MatchesReferenceJson()
+        {
+            var viewEvent = new ToolLaunchEvent("urn:uuid:a2e8b214-4d4a-4456-bb4c-099945749117", Action.Launched)
+            {
+                Profile = ProfileType.ToolLaunch,
+                Actor = CaliperTestEntities.Person554433(),
+                Object = new SoftwareApplication("https://example.com/lti/tool"),
+                EventTime = CaliperTestEntities.Instant20181115101500,
+                EdApp = new SoftwareApplication("https://example.edu"),
+                Referrer = new WebPage("https://example.edu/terms/201801/courses/7/sections/1/pages/1"),
+                Group = CaliperTestEntities.CourseSectionCPS43501Fall18(),
+                Membership = new Membership("https://example.edu/terms/201801/courses/7/sections/1/rosters/1") {
+                    Member = new Person("https://example.edu/users/554433"),
+                    Organization = new Organization("https://example.edu/terms/201801/courses/7/sections/1"),
+                    Roles = new[] { Role.Learner },
+                    Status = Status.Active,
+                    DateCreated = CaliperTestEntities.Instant20180801060000
+                },
+                Session = new Session("https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259")
+                {
+                    StartedAt = CaliperTestEntities.Instant20181115100000
+                },
+                FederatedSession = new LtiSession("https://example.edu/lti/sessions/b533eb02823f31024e6b7f53436c42fb99b31241")
+                {
+                    User = CaliperTestEntities.Person554433(),
+                    MessageParameters = new CaliperTestEntities.LtiParamsLtiSession(),
+                    DateCreated = CaliperTestEntities.Instant20181115101500,
+                    StartedAt = CaliperTestEntities.Instant20181115101500
+                }
+            };
+
+            var coerced = JsonAssertions.coerce(viewEvent,
+                new string[] { "..membership.member", "..membership.organization" });
+
+            JsonAssertions.AssertSameObjectJson(coerced, "caliperEventToolLaunchLaunched");
+        }
+
+        [Test]
 		public void EventViewViewed_MatchesReferenceJson() {
 			var viewEvent = new ViewEvent("urn:uuid:cd088ca7-c044-405c-bb41-0b2a8506f907") {
                 Profile = ProfileType.Reading,
@@ -2056,6 +2095,35 @@ namespace ImsGlobal.Caliper.Tests {
             };
 
             JsonAssertions.AssertSameObjectJson(envelope, "caliperEnvelopeEntitySingle", false);
+        }
+
+        [Test]
+        public void EnvelopeEventContextArray_MatchesReferenceJson()
+        {
+            var caliperEvent = new Event("urn:uuid:3a648e68-f00d-4c08-aa59-8738e1884f2c")
+            {
+                Actor = CaliperTestEntities.Person554433(),
+                Action = Action.Searched,
+                Object = new Document("https://example.edu/terms/201601/courses/7/sections/1/resources/123") { HideCaliperContext = true },
+                EventTime = Instant.FromUtc(2017, 11, 15, 10, 15, 00),
+                Extensions = new { query = "Event or Entity" }
+            };
+
+            caliperEvent.Context = new CaliperContextCollection(new CaliperContext(new { query = "http://schema.org/query" }));
+            caliperEvent.Context.Add(CaliperContext.Context);
+
+            var envelope = new CaliperMessage<Event>
+            {
+                SensorId = "https://example.edu/sensors/1",
+                SendTime = Instant.FromUtc(2017, 11, 15, 10, 15, 01),
+                Data = new[] { caliperEvent }
+            };
+
+            var coerced = JsonAssertions.coerce(envelope,
+                new string[] { "..referrer", "..membership.member",
+                    "..edApp", "..group", "..membership", "..session" });
+
+            JsonAssertions.AssertSameObjectJson(coerced, "caliperEnvelopeEventContextArray");
         }
 
         [Test]

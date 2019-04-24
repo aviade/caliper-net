@@ -9,7 +9,7 @@
 			: base(id, caliperContext) {
 
             if (caliperContext == null)
-                this.Context = CaliperContext.ResourceManagementProfileExtensionV1p1;
+                this.Context = new CaliperContextCollection(CaliperContext.ResourceManagementProfileExtensionV1p1);
 
             this.Type = EventType.ResourceManagement;
 			this.Action = action;

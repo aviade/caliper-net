@@ -9,14 +9,13 @@ namespace ImsGlobal.Caliper.Events {
 	using ImsGlobal.Caliper.Entities.Lis;
 	using ImsGlobal.Caliper.Entities.W3c;
 
-	/// <summary>
-	/// Default base class for Caliper events.
-	/// </summary>
-	public class Event {
-
+    /// <summary>
+    /// Default base class for Caliper events.
+    /// </summary>
+    public class Event {
         public Event(string id, ICaliperContext caliperContext = null) {
 			this.Id = id;
-            this.Context = caliperContext ?? CaliperContext.Context;
+            this.Context = new CaliperContextCollection(caliperContext ?? CaliperContext.Context);
             this.Type = EventType.Event;
         }
 
@@ -24,7 +23,7 @@ namespace ImsGlobal.Caliper.Events {
 		/// Required - JSON-LD context for the CaliperEvent
 		/// </summary>
 		[JsonProperty("@context", Order = 1)]
-        public ICaliperContext Context { get; set; }
+        public CaliperContextCollection Context { get; set; }
 
 		/// <summary>
 		/// Required - id of the CaliperEvent

@@ -18,7 +18,7 @@ namespace ImsGlobal.Caliper.Events.Annotation {
 			: base(id, caliperContext) {
 
             if (caliperContext == null)
-                this.Context = CaliperContext.FeedbackProfileExtensionV1p1;
+                this.Context = new CaliperContextCollection(CaliperContext.FeedbackProfileExtensionV1p1);
 
             this.Type = EventType.Feedback;
             this.Action = MapEntityToAction(entity);

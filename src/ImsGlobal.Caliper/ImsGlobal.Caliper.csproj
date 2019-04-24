@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CaliperContextCollection.cs" />
     <Compile Include="Entities\Agent\Agent.cs" />
     <Compile Include="Entities\AggregateMeasure\AggregateMeasure.cs" />
     <Compile Include="Entities\AggregateMeasure\AggregateMeasureCollection.cs" />
@@ -148,8 +149,10 @@
     <Compile Include="ICaliperContext.cs" />
     <Compile Include="Properties\FriendAssemblies.cs" />
     <Compile Include="Util\IJsonId.cs" />
+    <Compile Include="Util\ICaliperContextCollectionJsonValue.cs" />
     <Compile Include="Util\IJsonValue.cs" />
     <Compile Include="Util\JsonIdConverter.cs" />
+    <Compile Include="Util\CaliperContextJsonConverter.cs" />
     <Compile Include="Util\JsonValueConverter.cs" />
     <Compile Include="Protocol\CaliperClient.cs" />
     <Compile Include="CaliperEndpointOptions.cs" />
