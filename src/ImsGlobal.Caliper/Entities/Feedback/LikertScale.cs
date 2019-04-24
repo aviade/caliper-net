@@ -26,6 +26,6 @@ namespace ImsGlobal.Caliper.Entities.Feedback
         /// The ordered list of values for each point on the Likert scale
         /// </summary>
         [JsonProperty("itemValues", Order = 14)]
-        public int[] ItemValues { get; set; }
+        public string[] ItemValues { get; set; }
     }
 }

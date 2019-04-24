@@ -95,7 +95,7 @@ namespace ImsGlobal.Caliper.Tests {
 				DateToStartOn = Instant.FromUtc(2016, 8, 16, 5, 0, 0),
 				DateToSubmit = Instant.FromUtc(2016, 9, 28, 11, 59, 59),
 				MaxAttempts = 2,
-				MaxScore = 15.0, //TODO is set as int in spec
+				MaxScore = 15.0,
 				MaxSubmits = 2,
 				Version = "1.0"
 			};
@@ -1737,7 +1737,6 @@ namespace ImsGlobal.Caliper.Tests {
 			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventNavigationNavigatedToThinned");
 		}
 
-
 		[Test]
 		public void EventGradeGraded_MatchesReferenceJson() {
 			var gradeEvent = new GradeEvent("urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d", Action.Graded)
@@ -2119,11 +2118,7 @@ namespace ImsGlobal.Caliper.Tests {
                 Data = new[] { caliperEvent }
             };
 
-            var coerced = JsonAssertions.coerce(envelope,
-                new string[] { "..referrer", "..membership.member",
-                    "..edApp", "..group", "..membership", "..session" });
-
-            JsonAssertions.AssertSameObjectJson(coerced, "caliperEnvelopeEventContextArray");
+            JsonAssertions.AssertSameObjectJson(envelope, "caliperEnvelopeEventContextArray");
         }
 
         [Test]
