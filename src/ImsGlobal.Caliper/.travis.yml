@@ -1,0 +1,8 @@
+﻿language: csharp
+solution: ImsGlobal.Caliper.sln
+install:
+  - nuget restore ImsGlobal.Caliper.sln
+  - nuget install NUnit.Console -Version 3.11.0 -OutputDirectory testrunner
+script:
+  - msbuild /p:Configuration=Release ImsGlobal.Caliper.sln
+  - mono ./testrunner/NUnit.ConsoleRunner.3.11.0/tools/nunit3-console.exe ./ImsGlobal.Caliper.Tests/bin/Release/ImsGlobal.Caliper.Tests.dll
