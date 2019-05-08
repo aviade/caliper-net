@@ -8,5 +8,5 @@ script:
   - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./test/ImsGlobal.Caliper.Tests/bin/Release/ImsGlobal.Caliper.Tests.dll
 before_script:
   - wget https://github.com/IMSGlobal/caliper-common-fixtures/archive/develop.zip
-  - unzip develop.zip
-  - mv caliper-common-fixtures-develop caliper-common-fixtures
+  - unzip develop.zip -d ..
+  - mv ../caliper-common-fixtures-develop ../caliper-common-fixtures
