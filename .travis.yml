@@ -6,3 +6,7 @@ install:
 script:
   - msbuild /p:Configuration=Release ImsGlobal.Caliper.sln
   - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./test/ImsGlobal.Caliper.Tests/bin/Release/ImsGlobal.Caliper.Tests.dll
+before_script:
+  - wget https://github.com/IMSGlobal/caliper-common-fixtures/archive/develop.zip
+  - unzip develop.zip
+  - mv caliper-common-fixtures-develop caliper-common-fixtures
