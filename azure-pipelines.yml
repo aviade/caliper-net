@@ -38,4 +38,4 @@ steps:
   inputs:
     command: 'pack'
     packagesToPack: '**/ImsGlobal.Caliper.csproj'
-    versioningScheme: 'byBuildNumber'
+    versioningScheme: 'off'
