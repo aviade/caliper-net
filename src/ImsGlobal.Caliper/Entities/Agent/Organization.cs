@@ -1,8 +1,6 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace ImsGlobal.Caliper.Entities.Agent {
-	using ImsGlobal.Caliper.Entities.Foaf;
 	using ImsGlobal.Caliper.Entities.W3c;
 
 	/// <summary>
@@ -12,7 +10,7 @@ namespace ImsGlobal.Caliper.Entities.Agent {
 	/// belonging to it and can act as an Agent. Organizations are often
 	/// decomposable into hierarchical structures.
 	/// </summary>
-	public class Organization : Entity, IAgent, IOrganization {
+	public class Organization : Agent, IOrganization {
 
 		public Organization( string id )
 			: base( id ) {

@@ -44,7 +44,7 @@ namespace ImsGlobal.Caliper.Events {
         /// Required - Agent (User, System) that performed the action
         /// </summary>
         [JsonProperty("actor", Order = 4)]
-        public IAgent Actor { get; set; }
+        public Agent Actor { get; set; }
 
         /// <summary>
         /// Required - Action performed by the agent - from Metric Profile

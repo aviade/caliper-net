@@ -2,10 +2,9 @@
 using Newtonsoft.Json;
 
 namespace ImsGlobal.Caliper.Entities.Agent {
-	using ImsGlobal.Caliper.Entities.Foaf;
 	using ImsGlobal.Caliper.Entities.SchemaDotOrg;
 
-	public class SoftwareApplication : Entity, IAgent, ISoftwareApplication {
+	public class SoftwareApplication : Agent, ISoftwareApplication {
 
 		public SoftwareApplication(string id)
 			: base(id) {
