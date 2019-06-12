@@ -4,8 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace ImsGlobal.Caliper.Util {
-
-	internal sealed class JsonIdConverter<T> : JsonConverter
+    internal sealed class JsonIdConverter<T> : JsonConverter
 		where T : IJsonId {
 
 		public override bool CanRead {
@@ -39,5 +38,4 @@ namespace ImsGlobal.Caliper.Util {
 		}
 
 	}
-
 }

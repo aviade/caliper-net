@@ -41,7 +41,7 @@ namespace ImsGlobal.Caliper.Tests {
 			//where we are, so iterate upwards
 			while (startDir.Parent != null) {
 				startDir = startDir.Parent;
-				if (startDir.Name.Equals("caliper-net")) {
+				if (startDir.Name.Equals("caliper-net", StringComparison.InvariantCultureIgnoreCase)) {
 					startDir = startDir.Parent;
 					break;
 				}

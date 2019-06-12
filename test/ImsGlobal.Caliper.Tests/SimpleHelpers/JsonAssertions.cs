@@ -7,13 +7,20 @@ using NUnit.Framework;
 
 
 namespace ImsGlobal.Caliper.Tests.SimpleHelpers {
+    using Newtonsoft.Json;
 
-	internal static class JsonAssertions {
+    internal static class JsonAssertions {
 
 		static JsonAssertions() {
 		}
 
-		public static void AssertSameObjectJson(object obj, string eventReferenceFile, bool clean) {
+	    public static void AssertCanDeserialize<T>(string eventReferenceFile)
+	    {
+	        var refJsonString = TestUtils.LoadReferenceJsonFixture(eventReferenceFile);
+	        JsonConvert.DeserializeObject<T>(refJsonString, JsonSerializeUtils.serializerSettings);
+	    }
+
+        public static void AssertSameObjectJson(object obj, string eventReferenceFile, bool clean) {
 
 			var eventJObject = JsonSerializeUtils.toJobject( obj );
 			if (clean) eventJObject = JsonSerializeUtils.clean( eventJObject );

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Newtonsoft.Json;
 using NodaTime;
@@ -7,11 +6,10 @@ using NodaTime;
 namespace ImsGlobal.Caliper.Events {
 	using ImsGlobal.Caliper.Entities;
 	using ImsGlobal.Caliper.Entities.Agent;
-	using ImsGlobal.Caliper.Entities.Foaf;
 	using ImsGlobal.Caliper.Entities.Lis;
-	using ImsGlobal.Caliper.Entities.W3c;
+	using ImsGlobal.Caliper.Util;
 
-	/// <summary>
+    /// <summary>
 	/// Default base class for Caliper events.
 	/// </summary>
 	public class Event {
@@ -80,13 +78,14 @@ namespace ImsGlobal.Caliper.Events {
         /// EdApp context
         /// </summary>
         [JsonProperty( "edApp", Order = 10 )]
+        [JsonConverter(typeof(JsonSoftwareApplicationFromIdConverter))]
 		public SoftwareApplication EdApp { get; set; }
 
 		/// <summary>
 		/// Group context
 		/// </summary>
 		[JsonProperty( "group", Order = 11 )]
-		public IOrganization Group { get; set; }
+		public dynamic Group { get; set; }
 
 		/// <summary>
 		/// Group context
@@ -114,5 +113,4 @@ namespace ImsGlobal.Caliper.Events {
         [JsonProperty("referrer", Order = 16)]
         public Entity Referrer { get; set; }
     }
-
 }

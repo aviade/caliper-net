@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ImsGlobal.Caliper.Util;
+﻿using ImsGlobal.Caliper.Util;
 using NodaTime;
 
 namespace ImsGlobal.Caliper.Entities {
@@ -10,8 +9,8 @@ namespace ImsGlobal.Caliper.Entities {
 	public interface IEntity : IJsonId {
         
         string Context { get; set; }
-       
-        IType Type { get; set; }
+
+	    EntityType Type { get; set; }
 
         string Name { get; set; }
 

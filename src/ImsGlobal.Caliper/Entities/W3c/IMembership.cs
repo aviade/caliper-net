@@ -2,8 +2,9 @@
 
 namespace ImsGlobal.Caliper.Entities.W3c {
 	using ImsGlobal.Caliper.Entities.Foaf;
+	using ImsGlobal.Caliper.Entities.Lis;
 
-	/// <summary>
+    /// <summary>
 	/// Indicates the nature of an Agent's membership in an organization.
 	/// A W3C Membership represents an n-ary relationship between an
 	/// Agent, an Organization and a Role. A Caliper Membership varies
@@ -24,19 +25,19 @@ namespace ImsGlobal.Caliper.Entities.W3c {
 		/// <summary>
 		/// The Organization in which the Agent is a member.
 		/// </summary>
-		IOrganization Organization { get; }
+		dynamic Organization { get; }
 
 		/// <summary>
 		/// The set of roles that the agent plays in a membership
 		/// relationship with an organization. Each string is expected
 		/// to be in the form of a dereferenceable URI.
 		/// </summary>
-		IList<IRole> Roles { get; }
+		IList<Role> Roles { get; }
 
 		/// <summary>
 		/// The current status of a membership which applies to all roles.
 		/// </summary>
-		IStatus Status { get; }
+		Status Status { get; }
 	}
 
 }

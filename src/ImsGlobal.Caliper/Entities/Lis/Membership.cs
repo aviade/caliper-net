@@ -5,8 +5,9 @@ using Newtonsoft.Json;
 namespace ImsGlobal.Caliper.Entities.Lis {
 	using ImsGlobal.Caliper.Entities.Agent;
 	using ImsGlobal.Caliper.Entities.W3c;
+	using ImsGlobal.Caliper.Util;
 
-	/// <summary>
+    /// <summary>
 	/// A Caliper Membership is used to define the relationship between
 	/// objects that can have members and objects that can be members.
 	/// Objects recognized as having members are CourseOffering,
@@ -18,22 +19,22 @@ namespace ImsGlobal.Caliper.Entities.Lis {
 		public Membership( string id )
 			: base( id ) {
 			this.Type = EntityType.Membership;
-			this.Roles = new List<IRole>();
+			this.Roles = new List<Role>();
 		}
 
 		[JsonProperty( "member", Order = 21 )]
-		//[JsonConverter( typeof( JsonIdConverter<Person> ) )]
-		public Person Member { get; set; }
+		[JsonConverter( typeof(JsonPersonFromIdConverter) )]
+		public Person Member
+        { get; set; }
 
 		[JsonProperty( "organization", Order = 22 )]
-		//[JsonConverter( typeof( JsonIdConverter<IOrganization> ) )]
-		public IOrganization Organization { get; set; }
+		public dynamic Organization { get; set; }
 
 		[JsonProperty( "roles", Order = 23 )]
-		public IList<IRole> Roles { get; set; }
+		public IList<Role> Roles { get; set; }
 
 		[JsonProperty( "status", Order = 24 )]
-		public IStatus Status { get; set; }
+		public Status Status { get; set; }
 
 	}
 

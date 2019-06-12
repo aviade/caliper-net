@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NodaTime;
 
 namespace ImsGlobal.Caliper.Entities {
@@ -10,7 +8,7 @@ namespace ImsGlobal.Caliper.Entities {
 	/// </summary>
 	public class Entity : IEntity {
 
-		public Entity( string id )
+	    public Entity( string id )
 		{
             this.Id = id;
             this.Type = EntityType.Entity;
@@ -24,7 +22,7 @@ namespace ImsGlobal.Caliper.Entities {
         public string Id { get; set; }
 
         [JsonProperty("type", Order = 2)]
-        public IType Type { get; set; }
+        public EntityType Type { get; set; }
 
         [JsonProperty( "name", Order = 3 )]
 		public string Name { get; set; }

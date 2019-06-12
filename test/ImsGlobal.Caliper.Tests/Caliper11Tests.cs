@@ -1,5 +1,4 @@
-﻿using System;
-using ImsGlobal.Caliper.Util;
+﻿using ImsGlobal.Caliper.Util;
 using NUnit.Framework;
 
 namespace ImsGlobal.Caliper.Tests {
@@ -33,9 +32,9 @@ namespace ImsGlobal.Caliper.Tests {
 	using NodaTime;
 	using static JsonSerializeUtils;
 	using System.Collections;
-	using NodaTime.Text;
+	using System.Diagnostics;
 
-	[TestFixture]
+    [TestFixture]
 	public class Caliper11Tests {
 
 		[OneTimeSetUp]
@@ -1415,10 +1414,13 @@ namespace ImsGlobal.Caliper.Tests {
 				new string[] { "..membership.member", "..membership.organization",
 							"..generated.assignee", "..generated.assignable" });
 
-			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventAssessmentStarted");
+		    var eventReferenceFile = "caliperEventAssessmentStarted";
+		    JsonAssertions.AssertSameObjectJson(coerced, eventReferenceFile);
+
+		    JsonAssertions.AssertCanDeserialize<AssessmentEvent>(eventReferenceFile);
 		}
 
-		[Test]
+        [Test]
 		public void EventAssessmentSubmitted_MatchesReferenceJson() {
 
 			var assessmentEvent = new AssessmentEvent(
@@ -1437,10 +1439,14 @@ namespace ImsGlobal.Caliper.Tests {
 				new string[] { "..generated.assignable", "..generated.assignee", "..membership.member", "..membership.organization",
 							"..object.assignee" });
 
-			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventAssessmentSubmitted");
+		    var eventReferenceFile = "caliperEventAssessmentSubmitted";
+		    JsonAssertions.AssertSameObjectJson(coerced, eventReferenceFile);
+
+		    var refJsonString = TestUtils.LoadReferenceJsonFixture(eventReferenceFile);
+            JsonConvert.DeserializeObject<AssessmentEvent>(refJsonString, serializerSettings);
 		}
 
-		[Test]
+        [Test]
 		public void EventAssignableActivated_MatchesReferenceJson() {
 			var assignableEvent = new AssignableEvent(
 				"urn:uuid:2635b9dd-0061-4059-ac61-2718ab366f75", Action.Activated) {
@@ -1456,10 +1462,12 @@ namespace ImsGlobal.Caliper.Tests {
 			var coerced = JsonAssertions.coerce(assignableEvent,
 				new string[] { "..membership.member", "..membership.organization" });
 
-			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventAssignableActivated");
+            var eventReferenceFile = "caliperEventAssignableActivated";
+            JsonAssertions.AssertSameObjectJson(coerced, eventReferenceFile);
+            JsonAssertions.AssertCanDeserialize<AssignableEvent>(eventReferenceFile);
 		}
 
-		[Test]
+        [Test]
 		public void EventBasicCreated_MatchesReferenceJson() {
 			var evnt = new Event("urn:uuid:3a648e68-f00d-4c08-aa59-8738e1884f2c") {
 				Action = Action.Created,
@@ -1554,10 +1562,12 @@ namespace ImsGlobal.Caliper.Tests {
 			JToken tok = coerced.SelectToken("..currentTime");
 			tok.Replace(JProperty.FromObject("PT05M21S"));
 
-			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventMediaPausedVideo");
+		    var eventReferenceFile = "caliperEventMediaPausedVideo";
+		    JsonAssertions.AssertSameObjectJson(coerced, eventReferenceFile);
+		    JsonAssertions.AssertCanDeserialize<MediaEvent>(eventReferenceFile);
 		}
 
-		[Test]
+        [Test]
 		public void EventMessagePosted_MatchesReferenceJson() {
 			var messageEvent = new MessageEvent(
 				"urn:uuid:0d015a85-abf5-49ee-abb1-46dbd57fe64e", Action.Posted) {
@@ -1694,10 +1704,13 @@ namespace ImsGlobal.Caliper.Tests {
 			var coerced = JsonAssertions.coerce(gradeEvent,
 				new string[] { "..edApp", "..scoredBy", "..generated.attempt",
 							"..object.isPartOf" });
-			JsonAssertions.AssertSameObjectJson(coerced, "caliperEventGradeGradedItem");
+
+            var eventReferenceFile = "caliperEventGradeGradedItem";
+		    JsonAssertions.AssertSameObjectJson(coerced, eventReferenceFile);
+		    JsonAssertions.AssertCanDeserialize<GradeEvent>(eventReferenceFile);
 		}
 
-		[Test]
+        [Test]
 		public void EventSessionLoggedIn_MatchesReferenceJson() {
 			var sessionEvent = new SessionEvent(
 				"urn:uuid:fcd495d0-3740-4298-9bec-1154571dc211", Action.LoggedIn) {

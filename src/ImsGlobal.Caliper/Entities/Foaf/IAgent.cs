@@ -8,7 +8,7 @@
 	/// </summary>
 	public interface IAgent : IJsonId {
 
-		IType Type { get; set; }
+	    EntityType Type { get; set; }
 
 	}
 
